@@ -1,24 +1,18 @@
 package com.kangwang.video.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.view.TextureView;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.kangwang.video.R;
+import com.kangwang.video.adapter.PlayerListAdapter;
 import com.kangwang.video.ui.fragment.BaseFragment;
 import com.kangwang.video.ui.fragment.Mp3Fragment;
 import com.kangwang.video.ui.fragment.VideoFragment;
 
-import java.net.FileNameMap;
 import java.util.ArrayList;
 import java.util.List;
 

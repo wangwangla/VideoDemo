@@ -1,4 +1,4 @@
-package com.kangwang.video.ui.activity;
+package com.kangwang.video.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
