@@ -1,10 +1,13 @@
 package com.kangwang.video.ui.fragment;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.RequiresApi;
@@ -45,10 +48,22 @@ public class Mp3Fragment extends BaseFragment{
                 null,
                 null,
                 null);
-        while (query.moveToNext()){
-            VideoBean bean = VideoBean.getInstance(query);
-            LogUtils.e("xxxx",bean.toString());
-        }
+//        listView.setAdapter(new CursorAdapter() {
+//            @Override
+//            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+//                return null;
+//            }
+//
+//            @Override
+//            public void bindView(View view, Context context, Cursor cursor) {
+//
+//            }
+//        });
+//
+//        while (query.moveToNext()){
+//            VideoBean bean = VideoBean.getInstance(query);
+//            LogUtils.e("xxxx",bean.toString());
+//        }
     }
 }
 
