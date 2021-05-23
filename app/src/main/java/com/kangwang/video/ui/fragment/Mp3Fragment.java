@@ -13,6 +13,7 @@ import android.widget.ListView;
 import androidx.annotation.RequiresApi;
 
 import com.kangwang.video.R;
+import com.kangwang.video.adapter.AudioListAdapter;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.utils.LogUtils;
 
@@ -40,14 +41,15 @@ public class Mp3Fragment extends BaseFragment{
         Cursor query = contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
-                        MediaStore.Audio.Media._ID,
-                        MediaStore.Audio.Media.DATA,
-                        MediaStore.Audio.Media.DURATION,
-                        MediaStore.Audio.Media.SIZE,
-                        MediaStore.Audio.Media.TITLE},
+                        MediaStore.Video.Media._ID,
+                        MediaStore.Video.Media.DATA,
+                        MediaStore.Video.Media.DURATION,
+                        MediaStore.Video.Media.SIZE,
+                        MediaStore.Video.Media.TITLE},
                 null,
                 null,
                 null);
+        listView.setAdapter(new AudioListAdapter(getActivity(),query));
 //        listView.setAdapter(new CursorAdapter() {
 //            @Override
 //            public View newView(Context context, Cursor cursor, ViewGroup parent) {
