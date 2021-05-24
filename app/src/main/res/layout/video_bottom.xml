@@ -4,40 +4,57 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp">
         <TextView
+            android:layout_weight="1"
+            android:id="@+id/time_already"
             android:text="已经播放的时间："
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
         </TextView>
         <SeekBar
-            android:layout_width="match_parent"
+            android:layout_weight="5"
+            android:id="@+id/pro_bar"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_height="wrap_content"></SeekBar>
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/all_time"
+            android:text="zongshijian"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        </TextView>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <Button
-            android:background="@drawable/video_back_selector"
+            android:layout_margin="3dp"
+            android:text="BACK"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
         </Button>
         <Button
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@drawable/video_back_selector"
+            android:text="pre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
         </Button>
         <Button
+            android:layout_margin="0dp"
             android:id="@+id/play_pause"
-            android:background="@drawable/video_back_selector"
+            android:text="start"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -45,14 +62,16 @@
         </Button>
 
         <Button
-            android:background="@drawable/video_back_selector"
+            android:layout_margin="3dp"
+            android:text="next"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
         </Button>
         <Button
-            android:background="@drawable/video_back_selector"
+            android:layout_margin="3dp"
+            android:text="FULL"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">

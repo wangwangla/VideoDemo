@@ -10,7 +10,6 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         int level = intent.getIntExtra("level", -1);
-
         LogUtils.e("电池电量",level+"");
         //根据level在值來設置
     }

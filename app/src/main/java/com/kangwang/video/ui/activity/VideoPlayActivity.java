@@ -1,13 +1,19 @@
 package com.kangwang.video.ui.activity;
 
 import android.content.ContentQueryMap;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.VideoView;
 
 import com.kangwang.video.R;
@@ -20,6 +26,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private static final int MSG_UPDATE = 1;
     private VideoView videoView;
     private Button btnPlayer;
+    private SeekBar sb_volum;
+    BatteryBroadcastReceiver receiver;
+    private ImageView mute;
 
     @Override
     public int getLayout() {
@@ -31,19 +40,59 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         videoView = findViewById(R.id.vv);
         btnPlayer = findViewById(R.id.play_pause);
         btnPlayer.setOnClickListener(this);
+        sb_volum = findViewById(R.id.sb_volum);
+        mute = findViewById(R.id.mute);
     }
 
-    BatteryBroadcastReceiver receiver;
+    private float screenHight;
 
     @Override
     public void initData() {
+        WindowManager wm =(WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        screenHight = wm.getDefaultDisplay().getHeight();
         updateSystemTime();
         receiver = new BatteryBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(receiver,filter); //注册
 
-        unregisterReceiver(receiver);
+//        unregisterReceiver(receiver);
+        AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //得到最大的音量
+        int streamMaxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        sb_volum.setMax(streamMaxVolume);
+        int streamVolume = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        sb_volum.setProgress(streamVolume);
+        sb_volum.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //第三个参数就是是不是用户在波动进度条 1.显示系统的   0，不显示
+                manager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        mute.setOnClickListener(this);
+    }
+    AudioManager manager;
+    private int getCurrentVolumn(){
+        manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int streamVolume = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        return streamVolume;
+    }
+
+    private int getMaxVolumn(){
+        int streamMaxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        return streamMaxVolume;
     }
 
     @Override
@@ -54,6 +103,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         videoView.setVideoURI(Uri.parse(bean.getData()));
         videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
     }
+
+    int currentVolumn = 0;
 
     @Override
     public void onClick(View v) {
@@ -66,16 +117,54 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 }
                 updateButtonStatus();
                 break;
+            case R.id.mute:
+                int current = getCurrentVolumn();
+                if(current == 0){
+                    setSystemVolumn(currentVolumn);
+                }else {
+                    currentVolumn = getCurrentVolumn();
+                    setSystemVolumn(0);
+                }
+                break;
             default:
                 break;
         }
     }
 
+    float startVolumn = 0;
+    float startY = 0;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                startY = event.getY();
+                startVolumn = getCurrentVolumn();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //屏幕划过的距离
+                float offsetY = event.getY() - startY;
+                //屏幕划过的百分比
+                float percent = offsetY / screenHight;
+                float changVolumn = -(percent * getMaxVolumn());
+                int finalVolumn =(int) (startVolumn + changVolumn);
+                setSystemVolumn(finalVolumn);
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private void setSystemVolumn(int volumn){
+        manager.setStreamVolume(AudioManager.STREAM_MUSIC,volumn,0);
+        sb_volum.setProgress(volumn );
+    }
+
     private void updateButtonStatus() {
         if (videoView.isPlaying()){
-            btnPlayer.setBackgroundResource(R.drawable.ic_launcher_background);
+
+            btnPlayer.setText("暂停");
         }else {
 
+            btnPlayer.setText("播放");
         }
     }
 
