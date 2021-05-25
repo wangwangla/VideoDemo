@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.kangwang.video.R;
@@ -24,11 +26,16 @@ import java.io.Serializable;
 
 public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
+    private static final int MSG_UPDATE_TIME = 2;
     private VideoView videoView;
     private Button btnPlayer;
     private SeekBar sb_volum;
     BatteryBroadcastReceiver receiver;
     private ImageView mute;
+
+    private TextView all_time;
+    private TextView ready_play_time;
+    private SeekBar seekBar;
 
     @Override
     public int getLayout() {
@@ -42,6 +49,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btnPlayer.setOnClickListener(this);
         sb_volum = findViewById(R.id.sb_volum);
         mute = findViewById(R.id.mute);
+
+        all_time = findViewById(R.id.all_time);
+        ready_play_time = findViewById(R.id.time_already);
+        seekBar = findViewById(R.id.pro_bar);
     }
 
     private float screenHight;
@@ -51,10 +62,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         WindowManager wm =(WindowManager) getSystemService(Context.WINDOW_SERVICE);
         screenHight = wm.getDefaultDisplay().getHeight();
         updateSystemTime();
-        receiver = new BatteryBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(receiver,filter); //注册
+//        receiver = new BatteryBroadcastReceiver();
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+//        registerReceiver(receiver,filter); //注册
 
 //        unregisterReceiver(receiver);
         AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -177,7 +188,34 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             switch (msg.what){
                 case MSG_UPDATE:
                     break;
+                case MSG_UPDATE_TIME:
+                    startUpdateVideoPosition();
+                    break;
             }
         };
     };
+
+    class VideoPreparedListener implements MediaPlayer.OnPreparedListener {
+        private VideoView videoView;
+        public VideoPreparedListener(VideoView videoView){
+            this.videoView = videoView;
+        }
+
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            all_time.setText(mp.getDuration());
+
+            seekBar.setMax(mp.getDuration());
+            startUpdateVideoPosition();
+
+//            videoView.start();
+            //初始化亿播放时间
+        }
+    }
+
+    private void startUpdateVideoPosition() {
+        ready_play_time.setText(videoView.getCurrentPosition());
+        mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
+        seekBar.setProgress(videoView.getCurrentPosition());
+    }
 }
