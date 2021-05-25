@@ -91,6 +91,25 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (!fromUser)return;
+                videoView.seekTo(progress);
+                seekBar.setProgress(progress);
+                ready_play_time.setText(progress+"");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         mute.setOnClickListener(this);
     }
@@ -203,18 +222,18 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onPrepared(MediaPlayer mp) {
-            all_time.setText(mp.getDuration());
-
+            all_time.setText(mp.getDuration()+"");
+//
             seekBar.setMax(mp.getDuration());
             startUpdateVideoPosition();
 
-//            videoView.start();
+            videoView.start();
             //初始化亿播放时间
         }
     }
 
     private void startUpdateVideoPosition() {
-        ready_play_time.setText(videoView.getCurrentPosition());
+        ready_play_time.setText(videoView.getCurrentPosition()+"");
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
         seekBar.setProgress(videoView.getCurrentPosition());
     }
