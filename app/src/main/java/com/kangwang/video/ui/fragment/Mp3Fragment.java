@@ -2,11 +2,13 @@ package com.kangwang.video.ui.fragment;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 
@@ -14,8 +16,12 @@ import androidx.annotation.RequiresApi;
 
 import com.kangwang.video.R;
 import com.kangwang.video.adapter.AudioListAdapter;
+import com.kangwang.video.bean.Mp3Bean;
 import com.kangwang.video.bean.VideoBean;
+import com.kangwang.video.ui.activity.AudioPlayActivity;
 import com.kangwang.video.utils.LogUtils;
+
+import java.util.ArrayList;
 
 public class Mp3Fragment extends BaseFragment{
     private ListView listView;
@@ -45,27 +51,21 @@ public class Mp3Fragment extends BaseFragment{
                         MediaStore.Video.Media.DATA,
                         MediaStore.Video.Media.DURATION,
                         MediaStore.Video.Media.SIZE,
-                        MediaStore.Video.Media.TITLE},
+                        MediaStore.Video.Media.DISPLAY_NAME},
                 null,
                 null,
                 null);
         listView.setAdapter(new AudioListAdapter(getActivity(),query));
-//        listView.setAdapter(new CursorAdapter() {
-//            @Override
-//            public View newView(Context context, Cursor cursor, ViewGroup parent) {
-//                return null;
-//            }
-//
-//            @Override
-//            public void bindView(View view, Context context, Cursor cursor) {
-//
-//            }
-//        });
-//
-//        while (query.moveToNext()){
-//            VideoBean bean = VideoBean.getInstance(query);
-//            LogUtils.e("xxxx",bean.toString());
-//        }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), AudioPlayActivity.class);
+                ArrayList<Mp3Bean> mp3List = Mp3Bean.getMp3List(query);
+                intent.putExtra("bean",mp3List);
+                intent.putExtra("position",position);
+                startActivity(intent);
+            }
+        });
     }
 }
 

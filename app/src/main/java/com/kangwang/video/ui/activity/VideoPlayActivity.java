@@ -1,4 +1,4 @@
-package com.kangwang.video.ui.activity;
+ package com.kangwang.video.ui.activity;
 
 import android.content.ContentQueryMap;
 import android.content.Context;
@@ -148,9 +148,15 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void initListener() {
         Intent intent = getIntent();
-        beanList = (ArrayList<VideoBean>) intent.getSerializableExtra("bean");
-        position = intent.getIntExtra("position", -1);
-        playPointVideo(position);
+        Uri data = intent.getData();
+        if (data == null){
+            beanList = (ArrayList<VideoBean>) intent.getSerializableExtra("bean");
+            position = intent.getIntExtra("position", -1);
+            playPointVideo(position);
+        }else {
+            videoView.setVideoURI(data);
+
+        }
         videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
