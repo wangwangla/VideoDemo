@@ -2,8 +2,10 @@ package com.kangwang.video.bean;
 
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.widget.ListView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class VideoBean implements Serializable {
     private String title;
@@ -64,5 +66,15 @@ public class VideoBean implements Serializable {
         bean.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
 
         return bean;
+    }
+
+    public static ArrayList<VideoBean> getVideoBean(Cursor cursor){
+        cursor.moveToPosition(-1);
+        ArrayList<VideoBean> arrayList = new ArrayList<>();
+        while (cursor.moveToNext()){
+            VideoBean bean = getInstance(cursor);
+            arrayList.add(bean);
+        }
+        return arrayList;
     }
 }

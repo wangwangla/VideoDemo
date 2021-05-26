@@ -14,6 +14,8 @@ import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.ui.activity.VideoPlayActivity;
 import com.kangwang.video.utils.LogUtils;
 
+import java.util.ArrayList;
+
 public class VideoFragment extends BaseFragment{
     private ListView listView;
     @Override
@@ -50,8 +52,11 @@ public class VideoFragment extends BaseFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
-                VideoBean instance = VideoBean.getInstance(query);
-                intent.putExtra("bean",instance);
+//                VideoBean instance = VideoBean.getInstance(query);
+//                intent.putExtra("bean",instance);
+                ArrayList<VideoBean> videoBean = VideoBean.getVideoBean(query);
+                intent.putExtra("bean",videoBean);//接收端需要变化
+                intent.putExtra("position",position);
                 startActivity(intent);
             }
         });
