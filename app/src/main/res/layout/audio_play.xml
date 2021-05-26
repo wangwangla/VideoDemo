@@ -51,30 +51,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:text="循环"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </Button>
             <Button
+                android:text="上一曲"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </Button>
             <Button
+                android:id="@+id/zanting"
+                android:text="暂停"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </Button>
             <Button
+                android:text="下一曲"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </Button>
             <Button
+                android:text="下一曲"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
