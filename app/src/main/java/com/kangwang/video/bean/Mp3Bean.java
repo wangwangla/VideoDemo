@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Mp3Bean implements Serializable {
     private String data;
@@ -11,13 +12,22 @@ public class Mp3Bean implements Serializable {
     private int time;
     private long size;
 
+    public static ArrayList<Mp3Bean> getMp3List(Cursor cursor){
+        ArrayList<Mp3Bean> arrayList = new ArrayList<>();
+        cursor.moveToPosition(-1);
+        while (cursor.moveToNext()) {
+            arrayList.add(getInstance(cursor));
+        }
+        return arrayList;
+    }
+
     public static Mp3Bean getInstance(Cursor cursor){
         Mp3Bean bean = new Mp3Bean();
         if (cursor == null || cursor.getCount() == 0){
             return bean;
         }
         bean.data = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-        bean.title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+        bean.title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
         bean.time =cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
         bean.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
         return bean;

@@ -36,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <Button
+            android:id="@+id/btn_back"
             android:layout_margin="3dp"
             android:text="BACK"
             android:layout_weight="1"
@@ -44,6 +45,7 @@
 
         </Button>
         <Button
+            android:id="@+id/btn_pre"
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:text="pre"
@@ -62,6 +64,7 @@
         </Button>
 
         <Button
+            android:id="@+id/btn_next"
             android:layout_margin="3dp"
             android:text="next"
             android:layout_weight="1"
@@ -70,6 +73,7 @@
 
         </Button>
         <Button
+            android:id="@+id/full_screen"
             android:layout_margin="3dp"
             android:text="FULL"
             android:layout_weight="1"

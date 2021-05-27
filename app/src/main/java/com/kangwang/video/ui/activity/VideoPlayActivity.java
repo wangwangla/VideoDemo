@@ -1,4 +1,4 @@
-package com.kangwang.video.ui.activity;
+ package com.kangwang.video.ui.activity;
 
 import android.content.ContentQueryMap;
 import android.content.Context;
@@ -23,6 +23,8 @@ import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.utils.LogUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Queue;
 
 public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
@@ -36,6 +38,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private TextView all_time;
     private TextView ready_play_time;
     private SeekBar seekBar;
+    private Button btn_back;
+    private Button btn_pre;
+    private Button btn_next;
+    private Button btn_full;
 
     @Override
     public int getLayout() {
@@ -53,6 +59,12 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         all_time = findViewById(R.id.all_time);
         ready_play_time = findViewById(R.id.time_already);
         seekBar = findViewById(R.id.pro_bar);
+
+        btn_back = findViewById(R.id.btn_back);
+        btn_pre = findViewById(R.id.btn_pre);
+        btn_next = findViewById(R.id.btn_next);
+        btn_full = findViewById(R.id.full_screen);
+
     }
 
     private float screenHight;
@@ -91,8 +103,32 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (!fromUser)return;
+                videoView.seekTo(progress);
+                seekBar.setProgress(progress);
+                ready_play_time.setText(progress+"");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         mute.setOnClickListener(this);
+
+        btn_next.setOnClickListener(this);
+        btn_full.setOnClickListener(this);
+        btn_back.setOnClickListener(this);
+        btn_pre.setOnClickListener(this);
     }
     AudioManager manager;
     private int getCurrentVolumn(){
@@ -106,15 +142,44 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         return streamMaxVolume;
     }
 
+    private ArrayList<VideoBean> beanList;
+    private int position;
+
     @Override
     public void initListener() {
         Intent intent = getIntent();
-        VideoBean bean = (VideoBean) intent.getSerializableExtra("bean");
-        LogUtils.v("xxx",bean.toString());
-        videoView.setVideoURI(Uri.parse(bean.getData()));
+        Uri data = intent.getData();
+        if (data == null){
+            beanList = (ArrayList<VideoBean>) intent.getSerializableExtra("bean");
+            position = intent.getIntExtra("position", -1);
+            playPointVideo(position);
+        }else {
+            videoView.setVideoURI(data);
+
+        }
         videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //移除更新播放消息
+                mHandler.removeMessages(MSG_UPDATE_TIME);
+                //修改按钮状态
+                //暂停的时候移除消息，   播放 的时候发送消息
+                //更新时间为最大值
+                startUpdateVideoPosition();
+            }
+        });
     }
 
+    private void playPointVideo(int position){
+        btn_pre.setEnabled(position!=0);
+        btn_next.setEnabled(position!=beanList.size()-1);
+        VideoBean bean = beanList.get(position);
+        LogUtils.v("xxx",bean.toString());
+
+        videoView.setVideoURI(Uri.parse(bean.getData()));
+
+    }
     int currentVolumn = 0;
 
     @Override
@@ -137,6 +202,25 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                     setSystemVolumn(0);
                 }
                 break;
+            case R.id.btn_back:
+                finish();
+                break;
+            case R.id.btn_pre:
+                if (position!=0){
+                    position--;
+                }
+                playPointVideo(position);
+                break;
+            case R.id.btn_next:
+                if (position!=beanList.size()-1){
+                    position++;
+                }
+                playPointVideo(position);
+                break;
+            case R.id.full_screen:
+                finish();
+                break;
+
             default:
                 break;
         }
@@ -203,18 +287,18 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onPrepared(MediaPlayer mp) {
-            all_time.setText(mp.getDuration());
-
+            all_time.setText(mp.getDuration()+"");
+//
             seekBar.setMax(mp.getDuration());
             startUpdateVideoPosition();
 
-//            videoView.start();
+            videoView.start();
             //初始化亿播放时间
         }
     }
 
     private void startUpdateVideoPosition() {
-        ready_play_time.setText(videoView.getCurrentPosition());
+        ready_play_time.setText(videoView.getCurrentPosition()+"");
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
         seekBar.setProgress(videoView.getCurrentPosition());
     }
