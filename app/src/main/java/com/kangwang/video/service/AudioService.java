@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * 上一曲  下一曲  播放模式  模板进度  通知栏
  */
 public class AudioService extends Service {
+    public static String ACTION_PRE = "ACTION_PRE";
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -41,20 +42,44 @@ public class AudioService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if(mediaPlayer!=null){
+            mediaPlayer.reset();
+        }else {
+            mediaPlayer = new MediaPlayer();
+        }
         ArrayList<Mp3Bean> bean = (ArrayList<Mp3Bean>)intent.getSerializableExtra("bean");
         int position = intent.getIntExtra("position", -1);
         System.out.println("======================");
         try {
-
             Mp3Bean bean1 = bean.get(position);
-            mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(bean1.getData());
             mediaPlayer.prepare();
             mediaPlayer.start();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    //发送广播
+                    Intent intent1 = new Intent(ACTION_PRE);
+                    intent1.putExtra("bean",bean1);
+                    sendBroadcast(intent1);
+
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
         return super.onStartCommand(intent, flags, startId);
     }
     private MediaPlayer mediaPlayer;
+
+
+    public int getCurrentTime(){
+        if (mediaPlayer == null)return 0;
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    public int getDuring(){
+        if (mediaPlayer==null)return 0;
+        return mediaPlayer.getDuration();
+    }
 }
