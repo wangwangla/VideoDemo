@@ -11,10 +11,13 @@
         android:layout_height="match_parent">
 
     </VideoView>
+
     <include layout="@layout/video_top"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></include>
+        android:layout_height="wrap_content">
+
+    </include>
     <include layout="@layout/video_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

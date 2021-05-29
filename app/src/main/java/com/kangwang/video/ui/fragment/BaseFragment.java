@@ -18,8 +18,8 @@ public abstract class BaseFragment extends Fragment implements UIInterface {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(getLayout(),null);
         initView();
-        initListener();
         initData();
+        initListener();
         return view;
     }
 

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class VideoFragment extends BaseFragment{
     private ListView listView;
+    private Cursor query;
+
     @Override
     public int getLayout() {
         return R.layout.video_list_fragment;
@@ -30,13 +32,8 @@ public class VideoFragment extends BaseFragment{
 
     @Override
     public void initData() {
-
-    }
-
-    @Override
-    public void initListener() {
         ContentResolver contentResolver = getActivity().getContentResolver();
-        Cursor query = contentResolver.query(
+        query = contentResolver.query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
                         MediaStore.Video.Media._ID,
@@ -47,22 +44,20 @@ public class VideoFragment extends BaseFragment{
                 null,
                 null,
                 null);
+    }
+
+    @Override
+    public void initListener() {
         listView.setAdapter(new VideoListAdapter(getActivity(),query));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
-//                VideoBean instance = VideoBean.getInstance(query);
-//                intent.putExtra("bean",instance);
                 ArrayList<VideoBean> videoBean = VideoBean.getVideoBean(query);
                 intent.putExtra("bean",videoBean);//接收端需要变化
                 intent.putExtra("position",position);
                 startActivity(intent);
             }
         });
-//        while (query.moveToNext()){
-//            VideoBean bean = VideoBean.getInstance(query);
-//            LogUtils.e("xxxx",bean.toString());
-//        }
     }
 }

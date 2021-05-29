@@ -82,7 +82,6 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
                 int during = auidoService.getDuring();
                 String xx = currentTime+"/"+during;
                 showTime.setText(xx);
-
             }
         };
         registerReceiver(broadcastReceiver,filter);

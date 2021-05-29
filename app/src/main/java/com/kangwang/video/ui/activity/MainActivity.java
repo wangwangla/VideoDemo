@@ -2,6 +2,7 @@ package com.kangwang.video.ui.activity;
 
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,11 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-
     private ViewPager viewPager;
     private TextView audioView;
     private TextView videoView;
-    private View indictor;
     private final int TAB_VIDEO = 0;
     private final int TAB_AUDIO = 1;
 
@@ -35,17 +34,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         viewPager = findViewById(R.id.vp);
         audioView = findViewById(R.id.audio_id);
         videoView = findViewById(R.id.video_id);
-        indictor = findViewById(R.id.view_indictor);
     }
 
     @Override
     public void initData() {
         updataTextColor(0);
-        //获取手机屏幕的宽度
-        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        int width = wm.getDefaultDisplay().getWidth();
-
-        indictor.getLayoutParams().width = width / 2;
     }
 
     @Override
@@ -55,7 +48,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         list.add(new Mp3Fragment());
         viewPager.setAdapter(new PlayerListAdapter(getSupportFragmentManager(),list));
         viewPager.addOnPageChangeListener(new MyPageChangeListener());
-
         audioView.setOnClickListener(this);
         videoView.setOnClickListener(this);
     }
@@ -104,12 +96,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private void updataTextColor(int position) {
         if (position == TAB_AUDIO){
+            audioView.setBackgroundColor(R.color.bgBhui);
             audioView.setTextColor(Color.RED);
+            videoView.setBackgroundColor(Color.WHITE);
             videoView.setTextColor(Color.GREEN);
         }else {
+            audioView.setBackgroundColor(Color.WHITE);
             videoView.setTextColor(Color.RED);
+            videoView.setBackgroundColor(R.color.bgBhui);
             audioView.setTextColor(Color.GREEN);
         }
     }

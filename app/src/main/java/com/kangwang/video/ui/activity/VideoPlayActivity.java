@@ -32,16 +32,13 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private VideoView videoView;
     private ImageView btnPlayer;
     private SeekBar sb_volum;
-    BatteryBroadcastReceiver receiver;
     private ImageView mute;
-
-//    private TextView all_time;
-//    private TextView ready_play_time;
     private SeekBar seekBar;
     private ImageView btn_back;
     private ImageView btn_pre;
     private ImageView btn_next;
-//    private Button btn_full;
+    private TextView title;
+    private TextView zongshijian;
 
     @Override
     public int getLayout() {
@@ -60,7 +57,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_back = findViewById(R.id.btn_back);
         btn_pre = findViewById(R.id.btn_pre);
         btn_next = findViewById(R.id.btn_next);
-//        btn_full = findViewById(R.id.full_screen);
+
+        title = findViewById(R.id.v_title);
+        zongshijian = findViewById(R.id.zongshijian);
 
     }
 
@@ -71,12 +70,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         WindowManager wm =(WindowManager) getSystemService(Context.WINDOW_SERVICE);
         screenHight = wm.getDefaultDisplay().getHeight();
         updateSystemTime();
-//        receiver = new BatteryBroadcastReceiver();
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-//        registerReceiver(receiver,filter); //注册
-
-//        unregisterReceiver(receiver);
         AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //得到最大的音量
         int streamMaxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -106,7 +99,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 if (!fromUser)return;
                 videoView.seekTo(progress);
                 seekBar.setProgress(progress);
-//                ready_play_time.setText(progress+"");
             }
 
             @Override
@@ -123,7 +115,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         mute.setOnClickListener(this);
 
         btn_next.setOnClickListener(this);
-//        btn_full.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
     }
@@ -152,7 +143,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             playPointVideo(position);
         }else {
             videoView.setVideoURI(data);
-
         }
         videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -173,7 +163,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_next.setEnabled(position!=beanList.size()-1);
         VideoBean bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
-
+        title.setText(bean.getTitle());
         videoView.setVideoURI(Uri.parse(bean.getData()));
 
     }
@@ -252,11 +242,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
     private void updateButtonStatus() {
         if (videoView.isPlaying()){
-            btnPlayer.setImageResource(R.drawable.ic_play_btn_play);
+            btnPlayer.setImageResource(R.drawable.ic_play_btn_pause);
 
         }else {
 
-            btnPlayer.setImageResource(R.drawable.ic_play_btn_pause);
+            btnPlayer.setImageResource(R.drawable.ic_play_btn_play);
         }
     }
 
@@ -284,11 +274,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onPrepared(MediaPlayer mp) {
-//            all_time.setText(mp.getDuration()+"");
-//
             seekBar.setMax(mp.getDuration());
             startUpdateVideoPosition();
-
             videoView.start();
             //初始化亿播放时间
         }
@@ -298,5 +285,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //        ready_play_time.setText(videoView.getCurrentPosition()+"");
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
         seekBar.setProgress(videoView.getCurrentPosition());
+        zongshijian.setText(videoView.getCurrentPosition() +" /" + videoView.getDuration());
+
     }
 }
