@@ -110,4 +110,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             audioView.setTextColor(Color.GREEN);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

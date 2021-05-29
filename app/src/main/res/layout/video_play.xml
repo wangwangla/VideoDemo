@@ -13,12 +13,14 @@
     </VideoView>
 
     <include layout="@layout/video_top"
+        android:id="@+id/video_top"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </include>
     <include layout="@layout/video_bottom"
+        android:id="@+id/video_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"></include>

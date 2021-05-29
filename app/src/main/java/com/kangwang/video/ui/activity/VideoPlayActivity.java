@@ -9,11 +9,14 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -39,6 +42,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private ImageView btn_next;
     private TextView title;
     private TextView zongshijian;
+    private GestureDetector detector;
+    private LinearLayout topLinear;
+    private LinearLayout bottomLinear;
 
     @Override
     public int getLayout() {
@@ -60,6 +66,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
         title = findViewById(R.id.v_title);
         zongshijian = findViewById(R.id.zongshijian);
+
+        topLinear = findViewById(R.id.video_top);
+        bottomLinear = findViewById(R.id.video_bottom);
 
     }
 
@@ -117,6 +126,39 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_next.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
+
+//        topLinear.setOnClickListener(this);
+//        bottomLinear.setOnClickListener(this::onClick);
+//
+
+
+        //设置手势的监听
+        detector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                topAndBottomCtrl();
+                return super.onSingleTapConfirmed(e);
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                super.onLongPress(e);
+                //快进
+
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (videoView.isPlaying()){
+                    pausePoaition = videoView.getCurrentPosition();
+                    videoView.pause();
+                }else {
+                    videoView.resume();
+                    videoView.seekTo(pausePoaition);
+                }
+                return super.onDoubleTap(e);
+            }
+        });
     }
     AudioManager manager;
     private int getCurrentVolumn(){
@@ -142,7 +184,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             position = intent.getIntExtra("position", -1);
             playPointVideo(position);
         }else {
-            videoView.setVideoURI(data);
+//            videoView.setVideoURI();
         }
         videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -164,13 +206,18 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         VideoBean bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getTitle());
-        videoView.setVideoURI(Uri.parse(bean.getData()));
-
+//        videoView.setVideoURI(Uri.parse(bean.getData()));
+//        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
+//        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
+        videoView.setVideoPath(
+                "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"
+        );
     }
     int currentVolumn = 0;
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.play_pause:
                 if (videoView.isPlaying()){
@@ -217,6 +264,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     float startY = 0;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        detector.onTouchEvent(event);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 startY = event.getY();
@@ -287,5 +335,45 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         seekBar.setProgress(videoView.getCurrentPosition());
         zongshijian.setText(videoView.getCurrentPosition() +" /" + videoView.getDuration());
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("resume====");
+        if (videoView!=null){
+            videoView.resume();
+            videoView.seekTo(pausePoaition);
+        }
+    }
+
+    private int pausePoaition = 0;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("============pause");
+        if (videoView!=null){
+            videoView.pause();
+            pausePoaition = videoView.getCurrentPosition();
+        }
+    }
+
+    private boolean isShowBottomAndTop = true;
+    private void topAndBottomCtrl(){
+        if (isShowBottomAndTop) {
+            System.out.println("不显示");
+            System.out.println();
+            //隐藏
+            isShowBottomAndTop = false;
+            topLinear.animate().translationY(-topLinear.getHeight()).start();
+            bottomLinear.animate().translationY(bottomLinear.getHeight()).start();
+        }else {
+            System.out.println("xianshi");
+            isShowBottomAndTop = true;
+            //出现
+            topLinear.animate().translationY(0).start();
+            bottomLinear.animate().translationY(0).start();
+        }
     }
 }
