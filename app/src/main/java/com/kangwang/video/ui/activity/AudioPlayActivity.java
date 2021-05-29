@@ -8,8 +8,10 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kangwang.video.R;
@@ -24,7 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class AudioPlayActivity extends BaseActivity implements View.OnClickListener{
-    private Button zanting ;
+    private ImageView zanting ;
     private BroadcastReceiver broadcastReceiver;
     private View back;
     private TextView title;
@@ -75,12 +77,12 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
                 System.out.println("------broad cast");
                 //更新  按钮
                 Mp3Bean bean = (Mp3Bean) intent.getSerializableExtra("bean");
-                title.setText("xxxxxxxxx");
-
+                title.setText(bean.getTitle());
                 int currentTime = auidoService.getCurrentTime();
                 int during = auidoService.getDuring();
                 String xx = currentTime+"/"+during;
                 showTime.setText(xx);
+
             }
         };
         registerReceiver(broadcastReceiver,filter);

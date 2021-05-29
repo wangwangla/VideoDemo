@@ -62,7 +62,6 @@ public class AudioService extends Service {
                     Intent intent1 = new Intent(ACTION_PRE);
                     intent1.putExtra("bean",bean1);
                     sendBroadcast(intent1);
-
                 }
             });
         } catch (IOException e) {

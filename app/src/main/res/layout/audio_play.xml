@@ -2,30 +2,47 @@
 <LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bgBhui">
     <RelativeLayout
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/back"
-            android:src="@drawable/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:src="@drawable/goback_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp">
 
         </ImageView>
         <TextView
             android:id="@+id/title"
             android:layout_centerInParent="true"
             android:text="标题"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true">
 
         </TextView>
     </RelativeLayout>
     <LinearLayout
+        android:gravity="center"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/p6c"
+            android:layout_width="300dp"
+            android:layout_height="300dp">
+
+        </ImageView>
 
     </LinearLayout>
     <RelativeLayout
@@ -47,47 +64,53 @@
         </SeekBar>
 
         <LinearLayout
-            android:layout_centerVertical="true"
+            android:paddingTop="10dp"
             android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
+            android:layout_height="70dp">
+            <ImageView
+                android:src="@drawable/c5"
                 android:text="循环"
                 android:layout_weight="3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="30dp"
+                android:layout_height="30dp">
 
-            </Button>
-            <Button
+            </ImageView>
+            <ImageView
+                android:src="@drawable/c12"
                 android:text="上一曲"
                 android:layout_weight="3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="30dp"
+                android:layout_height="30dp">
 
-            </Button>
-            <Button
+            </ImageView>
+            <ImageView
+                android:src="@drawable/c9"
                 android:id="@+id/zanting"
                 android:text="暂停"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="50dp"
+                android:layout_height="50dp">
 
-            </Button>
-            <Button
+            </ImageView>
+            <ImageView
+                android:src="@drawable/c11"
                 android:text="下一曲"
                 android:layout_weight="3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="30dp"
+                android:layout_height="30dp">
 
-            </Button>
-            <Button
+            </ImageView>
+            <ImageView
+                android:src="@drawable/c13"
                 android:text="下一曲"
                 android:layout_weight="3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="30dp"
+                android:layout_height="30dp">
 
-            </Button>
+            </ImageView>
 
         </LinearLayout>
     </RelativeLayout>

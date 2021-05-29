@@ -25,13 +25,13 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="rtsp"></data>
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="video/*"/>
-                <data android:mimeType="application/sdp"/>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW"/>-->
+<!--                <category android:name="android.intent.category.DEFAULT"/>-->
+<!--                <data android:mimeType="video/*"/>-->
+<!--                <data android:mimeType="application/sdp"/>-->
 
-            </intent-filter>
+<!--            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>

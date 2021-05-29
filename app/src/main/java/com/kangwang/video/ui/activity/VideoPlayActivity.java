@@ -30,18 +30,18 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private static final int MSG_UPDATE = 1;
     private static final int MSG_UPDATE_TIME = 2;
     private VideoView videoView;
-    private Button btnPlayer;
+    private ImageView btnPlayer;
     private SeekBar sb_volum;
     BatteryBroadcastReceiver receiver;
     private ImageView mute;
 
-    private TextView all_time;
-    private TextView ready_play_time;
+//    private TextView all_time;
+//    private TextView ready_play_time;
     private SeekBar seekBar;
-    private Button btn_back;
-    private Button btn_pre;
-    private Button btn_next;
-    private Button btn_full;
+    private ImageView btn_back;
+    private ImageView btn_pre;
+    private ImageView btn_next;
+//    private Button btn_full;
 
     @Override
     public int getLayout() {
@@ -55,15 +55,12 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btnPlayer.setOnClickListener(this);
         sb_volum = findViewById(R.id.sb_volum);
         mute = findViewById(R.id.mute);
-
-        all_time = findViewById(R.id.all_time);
-        ready_play_time = findViewById(R.id.time_already);
         seekBar = findViewById(R.id.pro_bar);
 
         btn_back = findViewById(R.id.btn_back);
         btn_pre = findViewById(R.id.btn_pre);
         btn_next = findViewById(R.id.btn_next);
-        btn_full = findViewById(R.id.full_screen);
+//        btn_full = findViewById(R.id.full_screen);
 
     }
 
@@ -109,7 +106,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 if (!fromUser)return;
                 videoView.seekTo(progress);
                 seekBar.setProgress(progress);
-                ready_play_time.setText(progress+"");
+//                ready_play_time.setText(progress+"");
             }
 
             @Override
@@ -126,7 +123,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         mute.setOnClickListener(this);
 
         btn_next.setOnClickListener(this);
-        btn_full.setOnClickListener(this);
+//        btn_full.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
     }
@@ -217,9 +214,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 }
                 playPointVideo(position);
                 break;
-            case R.id.full_screen:
-                finish();
-                break;
+//            case R.id.full_screen:
+//                finish();
+//                break;
 
             default:
                 break;
@@ -255,11 +252,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
     private void updateButtonStatus() {
         if (videoView.isPlaying()){
+            btnPlayer.setImageResource(R.drawable.ic_play_btn_play);
 
-            btnPlayer.setText("暂停");
         }else {
 
-            btnPlayer.setText("播放");
+            btnPlayer.setImageResource(R.drawable.ic_play_btn_pause);
         }
     }
 
@@ -287,7 +284,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onPrepared(MediaPlayer mp) {
-            all_time.setText(mp.getDuration()+"");
+//            all_time.setText(mp.getDuration()+"");
 //
             seekBar.setMax(mp.getDuration());
             startUpdateVideoPosition();
@@ -298,7 +295,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void startUpdateVideoPosition() {
-        ready_play_time.setText(videoView.getCurrentPosition()+"");
+//        ready_play_time.setText(videoView.getCurrentPosition()+"");
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
         seekBar.setProgress(videoView.getCurrentPosition());
     }
