@@ -52,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="130dp">
         <TextView
+            android:textColor="@color/white"
             android:id="@+id/show_time"
             android:text="xxxxxxxxxx"
             android:layout_alignParentRight="true"
@@ -60,6 +61,7 @@
 
         </TextView>
         <SeekBar
+            android:id="@+id/jindutao"
             android:layout_below="@id/show_time"
             android:layout_width="match_parent"
             android:layout_height="10dp">
@@ -74,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp">
             <ImageView
+                android:id="@+id/play_model"
                 android:src="@drawable/c5"
                 android:text="循环"
                 android:layout_weight="3"
@@ -82,6 +85,7 @@
 
             </ImageView>
             <ImageView
+                android:id="@+id/pre_song"
                 android:src="@drawable/c12"
                 android:text="上一曲"
                 android:layout_weight="3"
@@ -99,6 +103,7 @@
 
             </ImageView>
             <ImageView
+                android:id="@+id/next"
                 android:src="@drawable/c11"
                 android:text="下一曲"
                 android:layout_weight="3"
@@ -107,8 +112,8 @@
 
             </ImageView>
             <ImageView
+                android:id="@+id/song_list"
                 android:src="@drawable/c13"
-                android:text="下一曲"
                 android:layout_weight="3"
                 android:layout_width="30dp"
                 android:layout_height="30dp">

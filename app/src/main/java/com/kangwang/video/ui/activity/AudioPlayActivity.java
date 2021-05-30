@@ -7,12 +7,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.kangwang.video.R;
 import com.kangwang.video.bean.Mp3Bean;
@@ -24,13 +29,20 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.jar.JarInputStream;
 
 public class AudioPlayActivity extends BaseActivity implements View.OnClickListener{
     private ImageView zanting ;
+    private ImageView pre;
+    private ImageView next;
+    private ImageView model;
+    private ImageView songList;
     private BroadcastReceiver broadcastReceiver;
     private View back;
     private TextView title;
     private TextView showTime;
+    private final int UPDATE_TIME_PRO = 1;
+    private SeekBar seekBar;
 
     @Override
     public int getLayout() {
@@ -39,10 +51,15 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void initView() {
-         zanting = findViewById(R.id.zanting);
+        zanting = findViewById(R.id.zanting);
         title = findViewById(R.id.title);
         back = findViewById(R.id.back);
         showTime = findViewById(R.id.show_time);
+        seekBar = findViewById(R.id.jindutao);
+        pre = findViewById(R.id.pre_song);
+        next = findViewById(R.id.next);
+        model = findViewById(R.id.play_model);
+        songList = findViewById(R.id.song_list);
     }
 
     ServiceConnection serviceConnection;
@@ -59,6 +76,7 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
             public void onServiceConnected(ComponentName name, IBinder service) {
                 IAudioService music = (IAudioService)service;
                 auidoService = music.getAuidoService();
+                seekBar.setMax(auidoService.getDuring());
             }
 
             @Override
@@ -76,15 +94,36 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
             public void onReceive(Context context, Intent intent) {
                 System.out.println("------broad cast");
                 //更新  按钮
+                updatePlayButton();
                 Mp3Bean bean = (Mp3Bean) intent.getSerializableExtra("bean");
                 title.setText(bean.getTitle());
                 int currentTime = auidoService.getCurrentTime();
                 int during = auidoService.getDuring();
                 String xx = currentTime+"/"+during;
                 showTime.setText(xx);
+                //更新时间
+                updateTime();
+
+                //
             }
         };
         registerReceiver(broadcastReceiver,filter);
+
+    }
+
+    private void updateTime() {
+        String s = auidoService.getCurrentTime() + "/" + auidoService.getDuring();
+        showTime.setText(s);
+        seekBar.setProgress(auidoService.getCurrentTime());
+        mhandller.sendEmptyMessageDelayed(UPDATE_TIME_PRO,500);
+    }
+
+    private void updatePlayButton() {
+        if (!auidoService.isPlaying()) {
+            zanting.setImageResource(R.drawable.ic_play_btn_play);
+        }else {
+            zanting.setImageResource(R.drawable.ic_play_btn_pause);
+        }
     }
 
     private AudioService auidoService;
@@ -92,6 +131,29 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
     public void initListener() {
         zanting.setOnClickListener(this);
         back.setOnClickListener(this::onClick);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (!fromUser)return;
+                auidoService.seekTo(progress);
+                showTime.setText(auidoService.getCurrentTime()+"/"+auidoService.getDuring());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        pre.setOnClickListener(this::onClick);
+        next.setOnClickListener(this::onClick);
+        model.setOnClickListener(this::onClick);
+        songList.setOnClickListener(this::onClick);
+
     }
 
     @Override
@@ -100,6 +162,7 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
         //不解绑就会同生共死
         unbindService(serviceConnection);
         unregisterReceiver(broadcastReceiver);
+        mhandller.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -107,10 +170,34 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.zanting:
                 auidoService.stop();
+                updatePlayButton();
                 break;
             case R.id.back:
                 finish();
                 break;
+            case R.id.song_list:
+
+                break;
+            case R.id.pre_song:
+                auidoService.pre();
+                break;
+            case R.id.next:
+                auidoService.next();
+                break;
+            case R.id.play_model:
+                break;
         }
     }
+
+    Handler mhandller = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case UPDATE_TIME_PRO:
+                    updateTime();
+                    break;
+            }
+        }
+    };
 }

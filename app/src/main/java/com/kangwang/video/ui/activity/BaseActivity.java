@@ -19,7 +19,7 @@ public abstract class BaseActivity extends FragmentActivity implements UIInterfa
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         initView();
-        initListener();
         initData();
+        initListener();
     }
 }

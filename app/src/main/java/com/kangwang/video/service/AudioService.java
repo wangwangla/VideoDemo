@@ -18,6 +18,10 @@ import java.util.ArrayList;
  */
 public class AudioService extends Service {
     public static String ACTION_PRE = "ACTION_PRE";
+    private int position;
+    private ArrayList<Mp3Bean> beanlIst;
+
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,11 +51,21 @@ public class AudioService extends Service {
         }else {
             mediaPlayer = new MediaPlayer();
         }
-        ArrayList<Mp3Bean> bean = (ArrayList<Mp3Bean>)intent.getSerializableExtra("bean");
-        int position = intent.getIntExtra("position", -1);
-        System.out.println("======================");
+        beanlIst = (ArrayList<Mp3Bean>)intent.getSerializableExtra("bean");
+        position = intent.getIntExtra("position", -1);
+
+        playItem();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void playItem() {
+        if(mediaPlayer!=null){
+            mediaPlayer.reset();
+        }else {
+            mediaPlayer = new MediaPlayer();
+        }
         try {
-            Mp3Bean bean1 = bean.get(position);
+            Mp3Bean bean1 = beanlIst.get(position);
             mediaPlayer.setDataSource(bean1.getData());
             mediaPlayer.prepare();
             mediaPlayer.start();
@@ -64,13 +78,19 @@ public class AudioService extends Service {
                     sendBroadcast(intent1);
                 }
             });
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        }catch (Exception e){
+
         }
-        return super.onStartCommand(intent, flags, startId);
     }
+
     private MediaPlayer mediaPlayer;
 
+    public boolean isPlaying(){
+        if (mediaPlayer!=null)
+        return mediaPlayer.isPlaying();
+        return false;
+    }
 
     public int getCurrentTime(){
         if (mediaPlayer == null)return 0;
@@ -80,5 +100,42 @@ public class AudioService extends Service {
     public int getDuring(){
         if (mediaPlayer==null)return 0;
         return mediaPlayer.getDuration();
+    }
+
+    private int getMaxDuring(){
+        if (mediaPlayer != null){
+            return mediaPlayer.getDuration();
+        }
+        return 0;
+    }
+
+    private int getCurrent(){
+        if (mediaPlayer != null){
+            return mediaPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
+
+    public void seekTo(int position){
+        if (mediaPlayer!=null)
+        mediaPlayer.seekTo(position);
+    }
+
+    public void next(){
+        if (position!=beanlIst.size()-1) {
+            position++;
+        }else {
+            position = 0;
+        }
+        playItem();
+    }
+
+    public void pre(){
+        if (position != 0){
+            position -- ;
+        }else {
+            position = beanlIst.size() - 1;
+        }
+        playItem();
     }
 }

@@ -237,12 +237,12 @@ import java.util.TimerTask;
         VideoBean bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getTitle());
-//        videoView.setVideoURI(Uri.parse(bean.getData()));
+        videoView.setVideoURI(Uri.parse(bean.getData()));
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
 //        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
-        videoView.setVideoPath(
-                "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"
-        );
+//        videoView.setVideoPath(
+//                "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"
+//        );
     }
     int currentVolumn = 0;
 
