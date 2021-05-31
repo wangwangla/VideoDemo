@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 
 import com.kangwang.video.R;
 import com.kangwang.video.bean.Mp3Bean;
+import com.kangwang.video.lyirc.LyricView;
 import com.kangwang.video.service.AudioService;
 import com.kangwang.video.service.IAudioService;
 
@@ -43,6 +44,8 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
     private TextView showTime;
     private final int UPDATE_TIME_PRO = 1;
     private SeekBar seekBar;
+    private LyricView lyricView;
+    private static final int MEG_ROLL = 2;
 
     @Override
     public int getLayout() {
@@ -60,6 +63,7 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
         next = findViewById(R.id.next);
         model = findViewById(R.id.play_model);
         songList = findViewById(R.id.song_list);
+        lyricView = findViewById(R.id.lyric);
     }
 
     ServiceConnection serviceConnection;
@@ -105,10 +109,16 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
                 updateTime();
 
                 //
+                roll(currentTime, during);
             }
         };
         registerReceiver(broadcastReceiver,filter);
 
+    }
+
+    private void roll(int currentTime, int during) {
+        lyricView.roll(currentTime,during);
+        mhandller.sendEmptyMessage(MEG_ROLL);
     }
 
     private void updateTime() {
@@ -214,6 +224,9 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
             switch (msg.what){
                 case UPDATE_TIME_PRO:
                     updateTime();
+                    break;
+                case MEG_ROLL:
+                    roll(auidoService.getCurrentTime(),auidoService.getDuring());
                     break;
             }
         }

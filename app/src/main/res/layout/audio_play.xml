@@ -40,12 +40,18 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:src="@drawable/p6c"
-            android:layout_width="300dp"
-            android:layout_height="300dp">
+<!--        <ImageView-->
+<!--            android:src="@drawable/p6c"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="300dp">-->
 
-        </ImageView>
+<!--        </ImageView>-->
+        <com.kangwang.video.lyirc.LyricView
+            android:id="@+id/lyric"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.kangwang.video.lyirc.LyricView>
 
     </LinearLayout>
     <RelativeLayout

@@ -3,9 +3,14 @@ package com.kangwang.video.ui.activity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.kangwang.video.R;
@@ -34,7 +39,74 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         viewPager = findViewById(R.id.vp);
         audioView = findViewById(R.id.audio_id);
         videoView = findViewById(R.id.video_id);
+//        notifacation2();
     }
+
+
+    private void notifacation1(){
+
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setTicker("正在xxxx");
+        builder.setSmallIcon(R.drawable.video_default_icon);
+        builder.setContentTitle("xxxxxxxxxxx");
+        builder.setContentText("xxxxxxxx");
+        builder.setWhen(System.currentTimeMillis());
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0,builder.build());
+    }
+
+
+    private NotificationManager manager;
+    private void notifacation2(){
+
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setTicker("正在xxxx");
+        builder.setSmallIcon(R.drawable.video_default_icon);
+        builder.setContentTitle("xxxxxxxxxxx");
+        builder.setContent(getContentView());
+        builder.setContentText("xxxxxxxx");
+        builder.setWhen(System.currentTimeMillis());
+
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0,builder.build());
+    }
+
+
+    /**
+     * 点击通知栏
+     */
+    private void notifacation3(){
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setTicker("正在xxxx");
+        builder.setSmallIcon(R.drawable.video_default_icon);
+        builder.setContentTitle("xxxxxxxxxxx");
+        builder.setContent(getContentView());
+        builder.setContentIntent(getPendingIntent());
+        builder.setContentText("xxxxxxxx");
+        builder.setWhen(System.currentTimeMillis());
+
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0,builder.build());
+    }
+
+    private PendingIntent getPendingIntent() {
+//        PendingIntent
+        return null;
+    }
+
+
+    public void quxiao(){
+        manager.cancel(0);
+    }
+
+
+    private RemoteViews getContentView() {
+        RemoteViews remoteViews = new RemoteViews(getPackageName(),R.layout.notify_audio);
+
+        return remoteViews;
+    }
+
 
     @Override
     public void initData() {
