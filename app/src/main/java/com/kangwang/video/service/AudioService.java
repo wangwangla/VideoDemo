@@ -12,11 +12,19 @@ import com.kangwang.video.bean.Mp3Bean;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * 上一曲  下一曲  播放模式  模板进度  通知栏
  */
 public class AudioService extends Service {
+    public static final int PLAY_ALL = 1;
+    public static final int PLAY_SINGLE = 2;
+    public static final int PLAY_RANDOM = 3;
+
+    private int currentMode = PLAY_ALL;
+
+
     public static String ACTION_PRE = "ACTION_PRE";
     private int position;
     private ArrayList<Mp3Bean> beanlIst;
@@ -69,6 +77,12 @@ public class AudioService extends Service {
             mediaPlayer.setDataSource(bean1.getData());
             mediaPlayer.prepare();
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    autoPlay();
+                }
+            });
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -137,5 +151,47 @@ public class AudioService extends Service {
             position = beanlIst.size() - 1;
         }
         playItem();
+    }
+
+    /**
+     * 切换标志位
+     */
+    public void switchMode(){
+        switch (currentMode){
+            case PLAY_ALL:
+                currentMode = PLAY_ALL;
+                break;
+            case PLAY_RANDOM:
+                currentMode = PLAY_RANDOM;
+                break;
+            case PLAY_SINGLE:
+                currentMode = PLAY_SINGLE;
+                break;
+        }
+    }
+
+    public void autoPlay(){
+        switch (currentMode){
+            case PLAY_ALL:
+                if(currentMode == beanlIst.size()-1){
+                    position = 0;
+                }else {
+                    position ++;
+                }
+                break;
+            case PLAY_RANDOM:
+
+                break;
+            case PLAY_SINGLE:
+                Random random = new Random();
+                int i = random.nextInt(beanlIst.size());
+                position = i;
+                break;
+        }
+    }
+
+
+    public int getCurrentMode() {
+        return currentMode;
     }
 }

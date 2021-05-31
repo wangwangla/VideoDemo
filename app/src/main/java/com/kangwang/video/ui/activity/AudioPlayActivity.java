@@ -185,6 +185,24 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
                 auidoService.next();
                 break;
             case R.id.play_model:
+                switchMode();
+                auidoService.switchMode();
+                break;
+        }
+    }
+
+    private void switchMode() {
+        auidoService.switchMode();
+        updatePlayStatus();
+    }
+
+    private void updatePlayStatus() {
+        switch(auidoService.getCurrentMode()){
+            case AudioService.PLAY_ALL:
+                break;
+            case AudioService.PLAY_RANDOM:
+                break;
+            case AudioService.PLAY_SINGLE:
                 break;
         }
     }
