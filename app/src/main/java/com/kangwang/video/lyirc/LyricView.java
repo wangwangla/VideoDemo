@@ -14,7 +14,6 @@ import com.kangwang.video.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class LyricView extends TextView{
 
     private Paint paint;

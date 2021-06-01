@@ -14,6 +14,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/ffmpeglibrary" />
+            <option value="$PROJECT_DIR$/players" />
+            <option value="$PROJECT_DIR$/players/exo" />
+            <option value="$PROJECT_DIR$/players/ijk" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

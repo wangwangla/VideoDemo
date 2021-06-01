@@ -1,2 +1,5 @@
+include ':players'
+include ':ffmpeglibrary'
 include ':app'
-rootProject.name = "Video"
+include 'players:ijk'
+include 'players:exo'
