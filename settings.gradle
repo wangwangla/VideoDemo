@@ -1,3 +1,4 @@
+include ':players:androidMediaPlayer'
 include ':players'
 include ':ffmpeglibrary'
 include ':app'
