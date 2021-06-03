@@ -34,7 +34,7 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
- public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
+public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
     private static final int MSG_UPDATE_TIME = 2;
     private VideoView videoView;
