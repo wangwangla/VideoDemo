@@ -3,7 +3,6 @@ package com.kangwang.androidmediaplayer;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -12,25 +11,20 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.widget.VideoView;
-
-import androidx.annotation.NonNull;
 
 import com.kangwang.androidmediaplayer.base.AbstractPlayer;
 import com.kangwang.androidmediaplayer.base.UIContoller;
 
 import java.util.Map;
 
-public class AndroidVideoView
+public class AndroidVideo
         extends AbstractPlayer
         implements MediaPlayer.OnPreparedListener,
         MediaPlayer.OnVideoSizeChangedListener,
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnInfoListener,
-        MediaPlayer.OnBufferingUpdateListener,
-        UIContoller {
+        MediaPlayer.OnBufferingUpdateListener{
 
     private MediaPlayer mMediaPlayer;
     private Map<String, String> mHeaders;
@@ -40,16 +34,9 @@ public class AndroidVideoView
     private MediaPlayer.OnInfoListener infoListener;
     private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener;
     private int currentVideoPercent = 0;
-    private int mVideoWidth;
-    private int mVideoHeight;
 
-
-    public AndroidVideoView(Context context) {
+    public AndroidVideo(Context context) {
         super(context);
-    }
-
-    public AndroidVideoView(Context context, AttributeSet attrs) {
-        super(context, attrs);
     }
 
     /**
@@ -132,7 +119,7 @@ public class AndroidVideoView
         if (!mMediaPlayer.isPlaying()) {
             mMediaPlayer.start();
         }
-        if (currentVideoPercent != 0){
+        if (currentVideoPercent != 0) {
             mMediaPlayer.seekTo(currentVideoPercent);
         }
     }
@@ -147,98 +134,40 @@ public class AndroidVideoView
         }
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
-        int height = getDefaultSize(mVideoHeight, heightMeasureSpec);
-        if (mVideoWidth > 0 && mVideoHeight > 0) {
-            int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
-            int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
-            int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-            int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-            if (widthSpecMode == MeasureSpec.EXACTLY && heightSpecMode == MeasureSpec.EXACTLY) {
-                // the size is fixed
-                width = widthSpecSize;
-                height = heightSpecSize;
-
-                // for compatibility, we adjust size based on aspect ratio
-                if ( mVideoWidth * height  < width * mVideoHeight ) {
-                    //Log.i("@@@", "image too wide, correcting");
-                    width = height * mVideoWidth / mVideoHeight;
-                } else if ( mVideoWidth * height  > width * mVideoHeight ) {
-                    //Log.i("@@@", "image too tall, correcting");
-                    height = width * mVideoHeight / mVideoWidth;
-                }
-            } else if (widthSpecMode == MeasureSpec.EXACTLY) {
-                // only the width is fixed, adjust the height to match aspect ratio if possible
-                width = widthSpecSize;
-                height = width * mVideoHeight / mVideoWidth;
-                if (heightSpecMode == MeasureSpec.AT_MOST && height > heightSpecSize) {
-                    // couldn't match aspect ratio within the constraints
-                    height = heightSpecSize;
-                }
-            } else if (heightSpecMode == MeasureSpec.EXACTLY) {
-                // only the height is fixed, adjust the width to match aspect ratio if possible
-                height = heightSpecSize;
-                width = height * mVideoWidth / mVideoHeight;
-                if (widthSpecMode == MeasureSpec.AT_MOST && width > widthSpecSize) {
-                    // couldn't match aspect ratio within the constraints
-                    width = widthSpecSize;
-                }
-            } else {
-                // neither the width nor the height are fixed, try to use actual video size
-                width = mVideoWidth;
-                height = mVideoHeight;
-                if (heightSpecMode == MeasureSpec.AT_MOST && height > heightSpecSize) {
-                    // too tall, decrease both width and height
-                    height = heightSpecSize;
-                    width = height * mVideoWidth / mVideoHeight;
-                }
-                if (widthSpecMode == MeasureSpec.AT_MOST && width > widthSpecSize) {
-                    // too wide, decrease both width and height
-                    width = widthSpecSize;
-                    height = width * mVideoHeight / mVideoWidth;
-                }
-            }
-        } else {
-            // no size yet, just adopt the given spec sizes
-        }
-        setMeasuredDimension(width, height);
-    }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (completionListener!=null){
+        if (completionListener != null) {
             completionListener.onCompletion(mp);
         }
-        Log.i(TAG,"play complete");
+        Log.i(TAG, "play complete");
     }
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        if (errorListener!=null){
-            errorListener.onError(mp,what,extra);
+        if (errorListener != null) {
+            errorListener.onError(mp, what, extra);
         }
-        Log.i(TAG,"video error");
+        Log.i(TAG, "video error");
         return false;
     }
 
     @Override
     public boolean onInfo(MediaPlayer mp, int what, int extra) {
-        if (infoListener!=null){
-            infoListener.onInfo(mp,what,extra);
+        if (infoListener != null) {
+            infoListener.onInfo(mp, what, extra);
         }
         return false;
     }
 
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
-        if (bufferingUpdateListener!=null){
-            bufferingUpdateListener.onBufferingUpdate(mp,percent);
+        if (bufferingUpdateListener != null) {
+            bufferingUpdateListener.onBufferingUpdate(mp, percent);
         }
     }
 
-    public void  setOnPreparedListener(MediaPlayer.OnPreparedListener preparedListener) {
+    public void setOnPreparedListener(MediaPlayer.OnPreparedListener preparedListener) {
         this.preparedListener = preparedListener;
     }
 
@@ -264,30 +193,30 @@ public class AndroidVideoView
     }
 
     public void onPause() {
-        if (mMediaPlayer!=null){
+        if (mMediaPlayer != null) {
             currentVideoPercent = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.pause();
-            System.out.println("currentVideoPercent save"+ currentVideoPercent);
+            System.out.println("currentVideoPercent save" + currentVideoPercent);
         }
     }
 
     public void onResume() {
-        if (mMediaPlayer!=null){
-            if (isPlaying())return;
+        if (mMediaPlayer != null) {
+            if (isPlaying()) return;
             openVideo();
-            System.out.println("currentVideoPercent  read"+currentVideoPercent);
+            System.out.println("currentVideoPercent  read" + currentVideoPercent);
         }
 
     }
 
     public void onDestroy() {
-        if (mMediaPlayer!=null){
+        if (mMediaPlayer != null) {
             release();
         }
     }
 
-    public void release(){
-        if (mMediaPlayer==null)return;
+    public void release() {
+        if (mMediaPlayer == null) return;
         mMediaPlayer.pause();
         mMediaPlayer.stop();
         mMediaPlayer.reset();
@@ -298,7 +227,7 @@ public class AndroidVideoView
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.stop();
                 onDestroy();
@@ -319,35 +248,35 @@ public class AndroidVideoView
         return 0;
     }
 
-    @Override
-    public void startFullScreen() {
-
-    }
-
-    @Override
-    public void stopFullScreen() {
-
-    }
-
-    @Override
-    public boolean isFullScreen() {
-        return false;
-    }
-
-    @Override
-    public void setMute(boolean isMute) {
-
-    }
-
-    @Override
-    public boolean isMute() {
-        return false;
-    }
-
-    @Override
-    public void setScreenScaleType(int screenScaleType) {
-
-    }
+//    @Override
+//    public void startFullScreen() {
+//
+//    }
+//
+//    @Override
+//    public void stopFullScreen() {
+//
+//    }
+//
+//    @Override
+//    public boolean isFullScreen() {
+//        return false;
+//    }
+//
+//    @Override
+//    public void setMute(boolean isMute) {
+//
+//    }
+//
+//    @Override
+//    public boolean isMute() {
+//        return false;
+//    }
+//
+//    @Override
+//    public void setScreenScaleType(int screenScaleType) {
+//
+//    }
 
     /**
      * 设置渲染视频的View,主要用于TextureView
@@ -385,7 +314,7 @@ public class AndroidVideoView
      */
     @Override
     public void setVolume(float v1, float v2) {
-        mMediaPlayer.setVolume(v1,v2);
+        mMediaPlayer.setVolume(v1, v2);
     }
 
     /**
@@ -446,40 +375,40 @@ public class AndroidVideoView
         return 0;
     }
 
-    @Override
-    public void replay(boolean resetPosition) {
+//    @Override
+//    public void replay(boolean resetPosition) {
+//
+//    }
+//
+//    @Override
+//    public void setMirrorRotation(boolean enable) {
+//
+//    }
+//
+//    @Override
+//    public Bitmap doScreenShot() {
+//        return null;
+//    }
+//
+//    @Override
+//    public int[] getVideoSize() {
+//        return new int[]{mVideoWidth, mVideoHeight};
+//    }
+//
+//    @Override
+//    public void startTinyScreen() {
+//
+//    }
 
-    }
-
-    @Override
-    public void setMirrorRotation(boolean enable) {
-
-    }
-
-    @Override
-    public Bitmap doScreenShot() {
-        return null;
-    }
-
-    @Override
-    public int[] getVideoSize() {
-        return new int[]{mVideoWidth,mVideoHeight};
-    }
-
-    @Override
-    public void startTinyScreen() {
-
-    }
-
-    @Override
-    public void stopTinyScreen() {
-
-    }
-
-    @Override
-    public boolean isTinyScreen() {
-        return false;
-    }
+//    @Override
+//    public void stopTinyScreen() {
+//
+//    }
+//
+//    @Override
+//    public boolean isTinyScreen() {
+//        return false;
+//    }
 
     @Override
     public boolean isPlaying() {
@@ -493,7 +422,7 @@ public class AndroidVideoView
      */
     @Override
     public void seekTo(long time) {
-        seekTo((int)time);
+        seekTo((int) time);
     }
 
     @Override
@@ -507,7 +436,7 @@ public class AndroidVideoView
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         mMediaPlayer.pause();
     }
 

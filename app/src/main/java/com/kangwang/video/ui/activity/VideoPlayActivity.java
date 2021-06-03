@@ -1,9 +1,7 @@
  package com.kangwang.video.ui.activity;
 
-import android.content.ContentQueryMap;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,32 +11,27 @@ import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.RequiresApi;
 
-import com.kangwang.androidmediaplayer.AndroidVideoView;
+import com.kangwang.androidmediaplayer.AndroidVideo;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.utils.LogUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
     private static final int MSG_UPDATE_TIME = 2;
-    private AndroidVideoView videoView;
+    private AndroidVideo videoView;
     private ImageView btnPlayer;
     private SeekBar sb_volum;
     private ImageView mute;
@@ -351,8 +344,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     };
 
     class VideoPreparedListener implements MediaPlayer.OnPreparedListener {
-        private AndroidVideoView videoView;
-        public VideoPreparedListener(AndroidVideoView videoView){
+        private AndroidVideo videoView;
+        public VideoPreparedListener(AndroidVideo videoView){
             this.videoView = videoView;
         }
 
