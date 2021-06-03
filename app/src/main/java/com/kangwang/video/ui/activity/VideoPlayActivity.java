@@ -24,6 +24,7 @@ import android.widget.VideoView;
 
 import androidx.annotation.RequiresApi;
 
+import com.kangwang.androidmediaplayer.AndroidVideoView;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.utils.LogUtils;
@@ -37,7 +38,7 @@ import java.util.TimerTask;
 public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
     private static final int MSG_UPDATE_TIME = 2;
-    private VideoView videoView;
+    private AndroidVideoView videoView;
     private ImageView btnPlayer;
     private SeekBar sb_volum;
     private ImageView mute;
@@ -238,6 +239,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getTitle());
         videoView.setVideoURI(Uri.parse(bean.getData()));
+
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
 //        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
 //        videoView.setVideoPath(
@@ -252,7 +254,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.play_pause:
                 if (videoView.isPlaying()){
-                    videoView.pause();
+                    videoView.stop();
                 }else {
                     videoView.start();
                 }
@@ -349,8 +351,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     };
 
     class VideoPreparedListener implements MediaPlayer.OnPreparedListener {
-        private VideoView videoView;
-        public VideoPreparedListener(VideoView videoView){
+        private AndroidVideoView videoView;
+        public VideoPreparedListener(AndroidVideoView videoView){
             this.videoView = videoView;
         }
 
@@ -358,7 +360,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         public void onPrepared(MediaPlayer mp) {
             seekBar.setMax(mp.getDuration());
             startUpdateVideoPosition();
-            videoView.start();
+
             //初始化亿播放时间
             ll_loading.setVisibility(View.GONE);
 //            mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
@@ -404,10 +406,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("resume====");
         if (videoView!=null){
             videoView.resume();
-            videoView.seekTo(pausePoaition);
         }
     }
 
@@ -439,5 +439,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             topLinear.animate().translationY(0).start();
             bottomLinear.animate().translationY(0).start();
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        videoView.onDestroy();
     }
 }

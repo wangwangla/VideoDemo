@@ -11,7 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-    </com.kangwang.androidmediaplayer.AndroidVideoView>
+        </com.kangwang.androidmediaplayer.AndroidVideoView>
+    <!--    <VideoView-->
+<!--        android:id="@+id/vv"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--    </VideoView>-->
 
     <include layout="@layout/video_top"
         android:id="@+id/video_top"
