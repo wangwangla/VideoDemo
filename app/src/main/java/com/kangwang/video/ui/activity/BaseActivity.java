@@ -1,12 +1,11 @@
 package com.kangwang.video.ui.activity;
 
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import com.kangwang.video.ui.UIInterface;
+import com.kangwang.video.ui.base.UIInterface;
 
 /**
  * 基类   规范结构

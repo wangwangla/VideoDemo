@@ -1,9 +1,7 @@
  package com.kangwang.video.ui.activity;
 
-import android.content.ContentQueryMap;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,31 +11,27 @@ import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.RequiresApi;
 
+import com.kangwang.androidmediaplayer.AndroidVideo;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.utils.LogUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
     private static final int MSG_UPDATE_TIME = 2;
-    private VideoView videoView;
+    private AndroidVideo videoView;
     private ImageView btnPlayer;
     private SeekBar sb_volum;
     private ImageView mute;
@@ -238,6 +232,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getTitle());
         videoView.setVideoURI(Uri.parse(bean.getData()));
+
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
 //        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
 //        videoView.setVideoPath(
@@ -252,7 +247,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.play_pause:
                 if (videoView.isPlaying()){
-                    videoView.pause();
+                    videoView.stop();
                 }else {
                     videoView.start();
                 }
@@ -349,8 +344,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     };
 
     class VideoPreparedListener implements MediaPlayer.OnPreparedListener {
-        private VideoView videoView;
-        public VideoPreparedListener(VideoView videoView){
+        private AndroidVideo videoView;
+        public VideoPreparedListener(AndroidVideo videoView){
             this.videoView = videoView;
         }
 
@@ -358,7 +353,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         public void onPrepared(MediaPlayer mp) {
             seekBar.setMax(mp.getDuration());
             startUpdateVideoPosition();
-            videoView.start();
+
             //初始化亿播放时间
             ll_loading.setVisibility(View.GONE);
 //            mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
@@ -404,10 +399,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("resume====");
         if (videoView!=null){
             videoView.resume();
-            videoView.seekTo(pausePoaition);
         }
     }
 
@@ -439,5 +432,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             topLinear.animate().translationY(0).start();
             bottomLinear.animate().translationY(0).start();
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        videoView.onDestroy();
     }
 }

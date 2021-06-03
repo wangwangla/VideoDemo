@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kangwang.video">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
@@ -48,20 +49,16 @@
         </activity>
         <activity android:name=".ui.activity.AudioPlayActivity">
 
+
+        </activity>
+        <activity
+            android:name=".ui.activity.AndoridVideoViewActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            tools:ignore="LockedOrientationActivity">
+
         </activity>
         <service android:name=".service.AudioService"></service>
-
-
-
-
-
-
-
-
-
-
-
-
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.kangwang.video.R;
 import com.kangwang.video.adapter.VideoListAdapter;
 import com.kangwang.video.bean.VideoBean;
+import com.kangwang.video.ui.activity.AndoridVideoViewActivity;
 import com.kangwang.video.ui.activity.VideoPlayActivity;
 import com.kangwang.video.utils.LogUtils;
 
@@ -53,6 +54,7 @@ public class VideoFragment extends BaseFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
+//                Intent intent = new Intent(getActivity(), AndoridVideoViewActivity.class);
                 ArrayList<VideoBean> videoBean = VideoBean.getVideoBean(query);
                 intent.putExtra("bean",videoBean);//接收端需要变化
                 intent.putExtra("position",position);
