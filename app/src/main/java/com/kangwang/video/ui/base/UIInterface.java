@@ -1,4 +1,4 @@
-package com.kangwang.video.ui;
+package com.kangwang.video.ui.base;
 
 public interface UIInterface {
     /**

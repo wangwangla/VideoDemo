@@ -1,84 +1,84 @@
 package com.kangwang.androidmediaplayer;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 
+import com.kangwang.androidmediaplayer.base.AbstractPlayer;
+import com.kangwang.androidmediaplayer.base.UIContoller;
+
 import java.util.Map;
 
 public class AndroidVideoView
-        extends SurfaceView
+        extends AbstractPlayer
         implements MediaPlayer.OnPreparedListener,
         MediaPlayer.OnVideoSizeChangedListener,
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnInfoListener,
-        MediaPlayer.OnBufferingUpdateListener{
-    private final String TAG = getClass().getName();
+        MediaPlayer.OnBufferingUpdateListener,
+        UIContoller {
+
     private MediaPlayer mMediaPlayer;
-    private SurfaceHolder surfaceHolder;
-    private Uri mUri;
     private Map<String, String> mHeaders;
-    private Context context;
     private MediaPlayer.OnPreparedListener preparedListener;
     private MediaPlayer.OnCompletionListener completionListener;
     private MediaPlayer.OnErrorListener errorListener;
     private MediaPlayer.OnInfoListener infoListener;
     private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener;
-    private int mCurrentBufferPercentage = 0;
     private int currentVideoPercent = 0;
     private int mVideoWidth;
     private int mVideoHeight;
-    private final int PAUSE = 1;
-    private final int PLAY = 2;
-    private int current = 0;
+
 
     public AndroidVideoView(Context context) {
         super(context);
-        init(context);
     }
 
     public AndroidVideoView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
-    public AndroidVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
+    /**
+     * 初始化播放器实例
+     */
+    @Override
+    public void initPlayer() {
+
     }
 
-    private void init(Context context) {
-        this.context = context;
-        getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(@NonNull SurfaceHolder holder) {
-                surfaceHolder = holder;
-                if (current == PAUSE)return;
-                holder.getSurface();
-            }
+    /**
+     * 设置播放地址
+     *
+     * @param path    播放地址
+     * @param headers 播放地址请求头
+     */
+    @Override
+    public void setDataSource(String path, Map<String, String> headers) {
+        setVideoURI(Uri.parse(path), null);
+    }
 
-            @Override
-            public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-                surfaceHolder = holder;
-                if (current == PAUSE)return;
-                openVideo();
-            }
+    /**
+     * 用于播放raw和asset里面的视频文件
+     *
+     * @param fd
+     */
+    @Override
+    public void setDataSource(AssetFileDescriptor fd) {
 
-            @Override
-            public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-            }
-        });
-        getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
     /**
@@ -93,17 +93,13 @@ public class AndroidVideoView
     public void setVideoURI(Uri uri, Map<String, String> headers) {
         mUri = uri;
         mHeaders = headers;
-        open();
     }
 
-    private void open() {
-        openVideo();
-        requestLayout();
-        invalidate();
-    }
+//    openVideo();
+//    requestLayout();
+//    invalidate();
 
-    private void openVideo() {
-        System.out.println("open video");
+    public void openVideo() {
         if (mUri == null || surfaceHolder == null) {
             return;
         }
@@ -116,7 +112,6 @@ public class AndroidVideoView
             mMediaPlayer.setOnErrorListener(this::onError);
             mMediaPlayer.setOnInfoListener(this::onError);
             mMediaPlayer.setOnBufferingUpdateListener(this::onBufferingUpdate);
-            mCurrentBufferPercentage = 0;
             mMediaPlayer.setDataSource(context, mUri, mHeaders);
             mMediaPlayer.setDisplay(surfaceHolder);
 //            mMediaPlayer.setAudioAttributes(mAudioAttributes);
@@ -136,7 +131,6 @@ public class AndroidVideoView
         }
         if (!mMediaPlayer.isPlaying()) {
             mMediaPlayer.start();
-            current = PLAY;
         }
         if (currentVideoPercent != 0){
             mMediaPlayer.seekTo(currentVideoPercent);
@@ -270,7 +264,6 @@ public class AndroidVideoView
     }
 
     public void onPause() {
-        current = PAUSE;
         if (mMediaPlayer!=null){
             currentVideoPercent = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.pause();
@@ -314,24 +307,224 @@ public class AndroidVideoView
         return super.onKeyDown(keyCode, event);
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return mMediaPlayer.getDuration();
     }
 
+    /**
+     * 获取缓冲百分比
+     */
+    @Override
+    public int getBufferedPercentage() {
+        return 0;
+    }
+
+    @Override
+    public void startFullScreen() {
+
+    }
+
+    @Override
+    public void stopFullScreen() {
+
+    }
+
+    @Override
+    public boolean isFullScreen() {
+        return false;
+    }
+
+    @Override
+    public void setMute(boolean isMute) {
+
+    }
+
+    @Override
+    public boolean isMute() {
+        return false;
+    }
+
+    @Override
+    public void setScreenScaleType(int screenScaleType) {
+
+    }
+
+    /**
+     * 设置渲染视频的View,主要用于TextureView
+     *
+     * @param surface
+     */
+    @Override
+    public void setSurface(Surface surface) {
+        try {
+            mMediaPlayer.setSurface(surface);
+        } catch (Exception e) {
+            mPlayerEventListener.onError();
+        }
+    }
+
+    /**
+     * 设置渲染视频的View,主要用于SurfaceView
+     *
+     * @param holder
+     */
+    @Override
+    public void setDisplay(SurfaceHolder holder) {
+        try {
+            mMediaPlayer.setDisplay(holder);
+        } catch (Exception e) {
+            mPlayerEventListener.onError();
+        }
+    }
+
+    /**
+     * 设置音量
+     *
+     * @param v1
+     * @param v2
+     */
+    @Override
+    public void setVolume(float v1, float v2) {
+        mMediaPlayer.setVolume(v1,v2);
+    }
+
+    /**
+     * 设置是否循环播放
+     *
+     * @param isLooping
+     */
+    @Override
+    public void setLooping(boolean isLooping) {
+        mMediaPlayer.setLooping(isLooping);
+    }
+
+    /**
+     * 设置其他播放配置
+     */
+    @Override
+    public void setOptions() {
+
+    }
+
+    /**
+     * 设置播放速度
+     *
+     * @param speed
+     */
+    @Override
+    public void setSpeed(float speed) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                mMediaPlayer.setPlaybackParams(mMediaPlayer.getPlaybackParams().setSpeed(speed));
+            } catch (Exception e) {
+                mPlayerEventListener.onError();
+            }
+        }
+    }
+
+    /**
+     * 获取播放速度
+     */
+    @Override
+    public float getSpeed() {
+        // only support above Android M
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                return mMediaPlayer.getPlaybackParams().getSpeed();
+            } catch (Exception e) {
+                mPlayerEventListener.onError();
+            }
+        }
+        return 1f;
+    }
+
+    /**
+     * 获取当前缓冲的网速
+     */
+    @Override
+    public long getTcpSpeed() {
+        return 0;
+    }
+
+    @Override
+    public void replay(boolean resetPosition) {
+
+    }
+
+    @Override
+    public void setMirrorRotation(boolean enable) {
+
+    }
+
+    @Override
+    public Bitmap doScreenShot() {
+        return null;
+    }
+
+    @Override
+    public int[] getVideoSize() {
+        return new int[]{mVideoWidth,mVideoHeight};
+    }
+
+    @Override
+    public void startTinyScreen() {
+
+    }
+
+    @Override
+    public void stopTinyScreen() {
+
+    }
+
+    @Override
+    public boolean isTinyScreen() {
+        return false;
+    }
+
+    @Override
     public boolean isPlaying() {
         return mMediaPlayer.isPlaying();
     }
 
-    public int getCurrentPosition() {
+    /**
+     * 调整进度
+     *
+     * @param time
+     */
+    @Override
+    public void seekTo(long time) {
+        seekTo((int)time);
+    }
+
+    @Override
+    public long getCurrentPosition() {
         return mMediaPlayer.getCurrentPosition();
     }
 
+    @Override
     public void pause() {
         onResume();
     }
 
+    @Override
     public void stop(){
         mMediaPlayer.pause();
+    }
+
+    /**
+     * 准备开始播放（异步）
+     */
+    @Override
+    public void prepareAsync() {
+        mMediaPlayer.prepareAsync();
+    }
+
+    /**
+     * 重置播放器
+     */
+    @Override
+    public void reset() {
+        mMediaPlayer.reset();
     }
 
     public void resume() {
