@@ -16,6 +16,9 @@ import java.util.Map;
 
 public abstract class AbstractPlayer extends SurfaceView implements Callback {
     public Context context;
+    /**
+     * size
+     */
     protected int mVideoWidth;
     protected int mVideoHeight;
     /**
@@ -30,25 +33,46 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
      * surholder
      */
     protected SurfaceHolder surfaceHolder;
-    /**
-     * 开始渲染视频画面
-     */
-    public static final int MEDIA_INFO_VIDEO_RENDERING_START = 3;
+    protected int currentStatus;
 
     /**
-     * 缓冲开始
+     * fanhui
      */
-    public static final int MEDIA_INFO_BUFFERING_START = 701;
+    public static final int RESUME = 3;
 
     /**
-     * 缓冲结束
+     * 暂停
      */
-    public static final int MEDIA_INFO_BUFFERING_END = 702;
+    public static final int PAUSE = 2;
 
     /**
-     * 视频旋转信息
+     * bofang
      */
-    public static final int MEDIA_INFO_VIDEO_ROTATION_CHANGED = 10001;
+    public static final int PLAY = 1;
+
+    /**
+     * 准备好
+     */
+    public static final int IDEA = 0;
+//    /**
+//     * 开始渲染视频画面
+//     */
+//    public static final int MEDIA_INFO_VIDEO_RENDERING_START = 3;
+//
+//    /**
+//     * 缓冲开始
+//     */
+//    public static final int MEDIA_INFO_BUFFERING_START = 701;
+//
+//    /**
+//     * 缓冲结束
+//     */
+//    public static final int MEDIA_INFO_BUFFERING_END = 702;
+//
+//    /**
+//     * 视频旋转信息
+//     */
+//    public static final int MEDIA_INFO_VIDEO_ROTATION_CHANGED = 10001;
 
     /**
      * TAG
@@ -80,11 +104,7 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
         getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
-    /**
-     * 初始化播放器实例
-     */
-    public abstract void initPlayer();
-
+    public abstract void setVideoURI(Uri parse);
     /**
      * 设置播放地址
      *
@@ -98,6 +118,10 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
      */
     public abstract void setDataSource(AssetFileDescriptor fd);
 
+    /**
+     * 初始化播放器实例
+     */
+    public abstract void initPlayer();
     /**
      * 播放
      */
@@ -132,11 +156,6 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
      * 调整进度
      */
     public abstract void seekTo(long time);
-
-    /**
-     * 释放播放器
-     */
-    public abstract void release();
 
     /**
      * 获取当前播放的位置
@@ -208,7 +227,11 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+        System.out.println("------surfaceChanged");
         this.surfaceHolder = holder;
+        if (currentStatus == PAUSE) {
+            return;
+        }
         openVideo();
     }
 
@@ -225,9 +248,31 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
      */
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
+        onDestroy();
     }
 
+    public abstract void onDestroy();
+
+    public abstract void resume();
+
+    /**
+     * 释放播放器
+     */
+    public abstract void release();
+
+
+    public interface PlayerEventListener {
+
+        void onError();
+
+        void onCompletion();
+
+        void onInfo(int what, int extra);
+
+        void onPrepared(MediaPlayer mp);
+
+        void onVideoSizeChanged(int width, int height);
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -286,26 +331,9 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
             // no size yet, just adopt the given spec sizes
         }
         setMeasuredDimension(width, height);
-    }
-
-    public abstract void onDestroy();
-
-    public abstract void resume();
-
-    public abstract void setVideoURI(Uri parse);
-
-    public interface PlayerEventListener {
-
-        void onError();
-
-        void onCompletion();
-
-        void onInfo(int what, int extra);
-
-        void onPrepared(MediaPlayer mp);
-
-        void onVideoSizeChanged(int width, int height);
-
+        if (mPlayerEventListener!=null){
+            mPlayerEventListener.onVideoSizeChanged(width,height);
+        }
     }
 
 }

@@ -144,19 +144,14 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             public void onPrepared(MediaPlayer mp) {
                 seekBar.setMax(mp.getDuration());
                 startUpdateVideoPosition();
-
                 //初始化亿播放时间
                 ll_loading.setVisibility(View.GONE);
-//            mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
-
-
                 Timer timer = new Timer();
                 TimerTask timerTask = new TimerTask() {
                     @Override
                     public void run() {
-                        dd = dd +4000;
-                        seekBar.setSecondaryProgress(dd);
-                        System.out.println(dd);
+                        seekBar.setSecondaryProgress(videoView.getBufferedPercentage());
+                        System.out.println("----------------"+videoView.getBufferedPercentage());
                     }
                 };
                 timer.schedule(timerTask,0,1000);
@@ -394,48 +389,14 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         };
     };
 
-    class VideoPreparedListener implements MediaPlayer.OnPreparedListener {
-        private AndroidVideoPlayer videoView;
-        public VideoPreparedListener(AndroidVideoPlayer videoView){
-            this.videoView = videoView;
-        }
-
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            seekBar.setMax(mp.getDuration());
-            startUpdateVideoPosition();
-
-            //初始化亿播放时间
-            ll_loading.setVisibility(View.GONE);
-//            mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
-
-
-            Timer timer = new Timer();
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    dd = dd +4000;
-                    seekBar.setSecondaryProgress(dd);
-                    System.out.println(dd);
-                }
-            };
-            timer.schedule(timerTask,0,1000);
-
-        }
-    }
-    private int dd = 50000;
-
     public void updateSecond(){
         int duration = (int) videoView.getDuration();
         float pre = duration  /100f;
         int sp = (int) (pre * duration);
-
 //        int bufferPercentage = videoView.getBufferPercentage();
         seekBar.setSecondaryProgress(20);
         int secondaryProgress = seekBar.getSecondaryProgress();
         System.out.println(secondaryProgress);
-
-        System.out.println("更新第二进度！");
         mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
     }
 
@@ -483,6 +444,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             bottomLinear.animate().translationY(0).start();
         }
     }
+
+
 
     @Override
     public void finish() {

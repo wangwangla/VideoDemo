@@ -22,7 +22,7 @@ public class AndroidVideoPlayer
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnInfoListener,
-        MediaPlayer.OnBufferingUpdateListener{
+        MediaPlayer.OnBufferingUpdateListener {
 
     private MediaPlayer mMediaPlayer;
     private Map<String, String> mHeaders;
@@ -32,6 +32,7 @@ public class AndroidVideoPlayer
     private MediaPlayer.OnInfoListener infoListener;
     private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener;
     private int currentVideoPercent = 0;
+    private int mBufferedPercent = 100;
 
     public AndroidVideoPlayer(Context context) {
         super(context);
@@ -71,7 +72,11 @@ public class AndroidVideoPlayer
      */
     @Override
     public void setDataSource(AssetFileDescriptor fd) {
-
+        try {
+            mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+        } catch (Exception e) {
+            mPlayerEventListener.onError();
+        }
     }
 
     /**
@@ -95,22 +100,26 @@ public class AndroidVideoPlayer
         release();
         try {
             mMediaPlayer = new MediaPlayer();
-            mMediaPlayer.setOnPreparedListener(this::onPrepared);
-            mMediaPlayer.setOnVideoSizeChangedListener(this::onVideoSizeChanged);
-            mMediaPlayer.setOnCompletionListener(this::onCompletion);
-            mMediaPlayer.setOnErrorListener(this::onError);
-            mMediaPlayer.setOnInfoListener(this::onError);
-            mMediaPlayer.setOnBufferingUpdateListener(this::onBufferingUpdate);
+            setInitListener();
             mMediaPlayer.setDataSource(context, mUri, mHeaders);
             mMediaPlayer.setDisplay(surfaceHolder);
 //            mMediaPlayer.setAudioAttributes(mAudioAttributes);
             mMediaPlayer.setScreenOnWhilePlaying(true);
-            mMediaPlayer.prepareAsync();
+            prepareAsync();
         } catch (Exception ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             return;
         } finally {
         }
+    }
+
+    private void setInitListener() {
+        mMediaPlayer.setOnPreparedListener(this::onPrepared);
+        mMediaPlayer.setOnVideoSizeChangedListener(this::onVideoSizeChanged);
+        mMediaPlayer.setOnCompletionListener(this::onCompletion);
+        mMediaPlayer.setOnErrorListener(this::onError);
+        mMediaPlayer.setOnInfoListener(this::onInfo);
+        mMediaPlayer.setOnBufferingUpdateListener(this::onBufferingUpdate);
     }
 
     @Override
@@ -121,12 +130,13 @@ public class AndroidVideoPlayer
         if (!mMediaPlayer.isPlaying()) {
             mMediaPlayer.start();
         }
-        if (mPlayerEventListener!=null){
+        if (mPlayerEventListener != null) {
             mPlayerEventListener.onPrepared(mp);
         }
         if (currentVideoPercent != 0) {
             mMediaPlayer.seekTo(currentVideoPercent);
         }
+        setSpeed(2);
     }
 
     @Override
@@ -145,7 +155,7 @@ public class AndroidVideoPlayer
         if (completionListener != null) {
             completionListener.onCompletion(mp);
         }
-        if (mPlayerEventListener!=null){
+        if (mPlayerEventListener != null) {
             mPlayerEventListener.onCompletion();
         }
         Log.i(TAG, "play complete");
@@ -156,7 +166,7 @@ public class AndroidVideoPlayer
         if (errorListener != null) {
             errorListener.onError(mp, what, extra);
         }
-        if (mPlayerEventListener!=null){
+        if (mPlayerEventListener != null) {
             mPlayerEventListener.onError();
         }
         Log.i(TAG, "video error");
@@ -168,18 +178,23 @@ public class AndroidVideoPlayer
         if (infoListener != null) {
             infoListener.onInfo(mp, what, extra);
         }
-        if (mPlayerEventListener!=null){
-            mPlayerEventListener.onInfo(what,extra);
+        if (mPlayerEventListener != null) {
+            mPlayerEventListener.onInfo(what, extra);
         }
         return false;
     }
 
+    /**
+     * 仅仅在播放网络资源的时候调用
+     * @param mp
+     * @param percent
+     */
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         if (bufferingUpdateListener != null) {
             bufferingUpdateListener.onBufferingUpdate(mp, percent);
         }
-
+        mBufferedPercent = percent;
     }
 
     public void setOnPreparedListener(MediaPlayer.OnPreparedListener preparedListener) {
@@ -208,6 +223,8 @@ public class AndroidVideoPlayer
     }
 
     public void onPause() {
+        System.out.println("------PAUSEsssss");
+        currentStatus = PAUSE;
         if (mMediaPlayer != null) {
             currentVideoPercent = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.pause();
@@ -216,6 +233,7 @@ public class AndroidVideoPlayer
     }
 
     public void onResume() {
+        currentStatus = RESUME;
         if (mMediaPlayer != null) {
             if (isPlaying()) return;
             openVideo();
@@ -260,7 +278,7 @@ public class AndroidVideoPlayer
      */
     @Override
     public int getBufferedPercentage() {
-        return 0;
+        return mBufferedPercent;
     }
 
     /**
@@ -357,6 +375,7 @@ public class AndroidVideoPlayer
      */
     @Override
     public long getTcpSpeed() {
+        //not support
         return 0;
     }
 
@@ -377,17 +396,28 @@ public class AndroidVideoPlayer
 
     @Override
     public int getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
+        if (mMediaPlayer!=null) {
+            return mMediaPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
+
+    public void seekTo(int pausePoaition) {
+        mMediaPlayer.seekTo(pausePoaition);
+    }
+
+    public void start() {
+        mMediaPlayer.start();
     }
 
     @Override
     public void pause() {
-        onResume();
+        onPause();
     }
 
     @Override
     public void stop() {
-        mMediaPlayer.pause();
+        mMediaPlayer.stop();
     }
 
     /**
@@ -408,14 +438,6 @@ public class AndroidVideoPlayer
 
     public void resume() {
         onResume();
-    }
-
-    public void seekTo(int pausePoaition) {
-        mMediaPlayer.seekTo(pausePoaition);
-    }
-
-    public void start() {
-        mMediaPlayer.start();
     }
 
     public void setOnInfoListener(MediaPlayer.OnInfoListener onInfoListener) {
