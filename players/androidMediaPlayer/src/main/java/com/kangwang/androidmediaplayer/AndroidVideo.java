@@ -13,7 +13,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import com.kangwang.androidmediaplayer.base.AbstractPlayer;
-import com.kangwang.androidmediaplayer.base.UIContoller;
 
 import java.util.Map;
 
@@ -81,10 +80,6 @@ public class AndroidVideo
         mUri = uri;
         mHeaders = headers;
     }
-
-//    openVideo();
-//    requestLayout();
-//    invalidate();
 
     public void openVideo() {
         if (mUri == null || surfaceHolder == null) {
@@ -248,36 +243,6 @@ public class AndroidVideo
         return 0;
     }
 
-//    @Override
-//    public void startFullScreen() {
-//
-//    }
-//
-//    @Override
-//    public void stopFullScreen() {
-//
-//    }
-//
-//    @Override
-//    public boolean isFullScreen() {
-//        return false;
-//    }
-//
-//    @Override
-//    public void setMute(boolean isMute) {
-//
-//    }
-//
-//    @Override
-//    public boolean isMute() {
-//        return false;
-//    }
-//
-//    @Override
-//    public void setScreenScaleType(int screenScaleType) {
-//
-//    }
-
     /**
      * 设置渲染视频的View,主要用于TextureView
      *
@@ -374,41 +339,6 @@ public class AndroidVideo
     public long getTcpSpeed() {
         return 0;
     }
-
-//    @Override
-//    public void replay(boolean resetPosition) {
-//
-//    }
-//
-//    @Override
-//    public void setMirrorRotation(boolean enable) {
-//
-//    }
-//
-//    @Override
-//    public Bitmap doScreenShot() {
-//        return null;
-//    }
-//
-//    @Override
-//    public int[] getVideoSize() {
-//        return new int[]{mVideoWidth, mVideoHeight};
-//    }
-//
-//    @Override
-//    public void startTinyScreen() {
-//
-//    }
-
-//    @Override
-//    public void stopTinyScreen() {
-//
-//    }
-//
-//    @Override
-//    public boolean isTinyScreen() {
-//        return false;
-//    }
 
     @Override
     public boolean isPlaying() {

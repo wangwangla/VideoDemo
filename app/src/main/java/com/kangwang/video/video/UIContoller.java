@@ -1,4 +1,4 @@
-package com.kangwang.androidmediaplayer.base;
+package com.kangwang.video.video;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
