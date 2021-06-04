@@ -3,14 +3,14 @@ package com.kangwang.video.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.kangwang.androidmediaplayer.AndroidVideo;
+import com.kangwang.androidmediaplayer.AndroidVideoPlayer;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 
 import java.util.ArrayList;
 
 public class AndoridVideoViewActivity extends BaseActivity {
-    private AndroidVideo videoView;
+    private AndroidVideoPlayer videoView;
 
     /**
      * 加载布局

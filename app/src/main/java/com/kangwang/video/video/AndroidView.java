@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.kangwang.androidmediaplayer.AndroidVideo;
 import com.kangwang.androidmediaplayer.base.AbstractPlayer;
 import com.kangwang.video.factory.AndroidPlayFactory;
 import com.kangwang.video.factory.PlayerFactory;
@@ -43,6 +42,8 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
     public void setUri(String path){
         this.uri = Uri.parse(path);
     }
+
+
 
     @Override
     public void start() {

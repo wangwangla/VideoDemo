@@ -2,18 +2,17 @@ package com.kangwang.video.factory;
 
 import android.content.Context;
 
-import com.kangwang.androidmediaplayer.AndroidVideo;
+import com.kangwang.androidmediaplayer.AndroidVideoPlayer;
 import com.kangwang.androidmediaplayer.base.AbstractPlayer;
-import com.kangwang.video.video.IjkPlayer;
 import com.kangwang.video.video.VideoMeidePlayer;
 
-public class AndroidPlayFactory<T extends AbstractPlayer> extends PlayerFactory<AndroidVideo>{
+public class AndroidPlayFactory<T extends AbstractPlayer> extends PlayerFactory<AndroidVideoPlayer>{
     public static VideoMeidePlayer getVideoPlayer(){
         return new VideoMeidePlayer();
     }
 
     @Override
-    public AndroidVideo createPlayer(Context context) {
-        return new AndroidVideo(context);
+    public AndroidVideoPlayer createPlayer(Context context) {
+        return new AndroidVideoPlayer(context);
     }
 }

@@ -19,7 +19,8 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.kangwang.androidmediaplayer.AndroidVideo;
+import com.kangwang.androidmediaplayer.AndroidVideoPlayer;
+import com.kangwang.androidmediaplayer.base.AbstractPlayer;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.utils.LogUtils;
@@ -31,7 +32,7 @@ import java.util.TimerTask;
 public class VideoPlayActivity extends BaseActivity implements View.OnClickListener{
     private static final int MSG_UPDATE = 1;
     private static final int MSG_UPDATE_TIME = 2;
-    private AndroidVideo videoView;
+    private AbstractPlayer videoView;
     private ImageView btnPlayer;
     private SeekBar sb_volum;
     private ImageView mute;
@@ -45,8 +46,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout topLinear;
     private LinearLayout bottomLinear;
     private LinearLayout ll_loading;
+    private ArrayList<VideoBean> beanList;
+    private int position;
     private static final int UPDATE_SECOND = 5;
-
+    private float screenHight;
+    private AudioManager manager;
     @Override
     public int getLayout() {
         return R.layout.video_play;
@@ -55,28 +59,21 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void initView() {
         videoView = findViewById(R.id.vv);
-
         btnPlayer = findViewById(R.id.play_pause);
         btnPlayer.setOnClickListener(this);
         sb_volum = findViewById(R.id.sb_volum);
         mute = findViewById(R.id.mute);
         seekBar = findViewById(R.id.pro_bar);
-
         btn_back = findViewById(R.id.btn_back);
         btn_pre = findViewById(R.id.btn_pre);
         btn_next = findViewById(R.id.btn_next);
-
         title = findViewById(R.id.v_title);
         zongshijian = findViewById(R.id.zongshijian);
-
         topLinear = findViewById(R.id.video_top);
         bottomLinear = findViewById(R.id.video_bottom);
-
         ll_loading = findViewById(R.id.ll_loading);
         ll_loading.setVisibility(View.VISIBLE);
     }
-
-    private float screenHight;
 
     @Override
     public void initData() {
@@ -89,9 +86,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         sb_volum.setMax(streamMaxVolume);
         int streamVolume = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
         sb_volum.setProgress(streamVolume);
-
     }
-    AudioManager manager;
+
     private int getCurrentVolumn(){
         manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int streamVolume = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -102,9 +98,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         int streamMaxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         return streamMaxVolume;
     }
-
-    private ArrayList<VideoBean> beanList;
-    private int position;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -118,10 +111,14 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         }else {
 //            videoView.setVideoURI();
         }
-        videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        videoView.setPlayerEventListener(new AbstractPlayer.PlayerEventListener() {
             @Override
-            public void onCompletion(MediaPlayer mp) {
+            public void onError() {
+
+            }
+
+            @Override
+            public void onCompletion() {
                 //移除更新播放消息
                 mHandler.removeMessages(MSG_UPDATE_TIME);
                 //修改按钮状态
@@ -129,7 +126,59 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 //更新时间为最大值
                 startUpdateVideoPosition();
             }
+
+            @Override
+            public void onInfo(int what, int extra) {
+                switch (what){
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                        ll_loading.setVisibility(View.VISIBLE);
+                        break;
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                        ll_loading.setVisibility(View.GONE);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                seekBar.setMax(mp.getDuration());
+                startUpdateVideoPosition();
+
+                //初始化亿播放时间
+                ll_loading.setVisibility(View.GONE);
+//            mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
+
+
+                Timer timer = new Timer();
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        dd = dd +4000;
+                        seekBar.setSecondaryProgress(dd);
+                        System.out.println(dd);
+                    }
+                };
+                timer.schedule(timerTask,0,1000);
+            }
+
+            @Override
+            public void onVideoSizeChanged(int width, int height) {
+
+            }
         });
+//        videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
+//        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                //移除更新播放消息
+//                mHandler.removeMessages(MSG_UPDATE_TIME);
+//                //修改按钮状态
+//                //暂停的时候移除消息，   播放 的时候发送消息
+//                //更新时间为最大值
+//                startUpdateVideoPosition();
+//            }
+//        });
         sb_volum.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -167,20 +216,21 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         });
 
         //拖東之後的監聽
-        videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                switch (what){
-                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-                        ll_loading.setVisibility(View.VISIBLE);
-                        break;
-                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        ll_loading.setVisibility(View.GONE);
-                        break;
-                }
-                return false;
-            }
-        });
+//        videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+//            @Override
+//            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+//                switch (what){
+//                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+//                        ll_loading.setVisibility(View.VISIBLE);
+//                        break;
+//                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+//                        ll_loading.setVisibility(View.GONE);
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+
 
         mute.setOnClickListener(this);
 
@@ -214,7 +264,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 if (videoView.isPlaying()){
-                    pausePoaition = videoView.getCurrentPosition();
+                    pausePoaition = (int) videoView.getCurrentPosition();
                     videoView.pause();
                 }else {
                     videoView.resume();
@@ -232,6 +282,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getTitle());
         videoView.setVideoURI(Uri.parse(bean.getData()));
+        videoView.initPlayer();
 
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
 //        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
@@ -344,8 +395,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     };
 
     class VideoPreparedListener implements MediaPlayer.OnPreparedListener {
-        private AndroidVideo videoView;
-        public VideoPreparedListener(AndroidVideo videoView){
+        private AndroidVideoPlayer videoView;
+        public VideoPreparedListener(AndroidVideoPlayer videoView){
             this.videoView = videoView;
         }
 
@@ -375,7 +426,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private int dd = 50000;
 
     public void updateSecond(){
-        int duration = videoView.getDuration();
+        int duration = (int) videoView.getDuration();
         float pre = duration  /100f;
         int sp = (int) (pre * duration);
 
@@ -409,10 +460,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        System.out.println("============pause");
         if (videoView!=null){
             videoView.pause();
-            pausePoaition = videoView.getCurrentPosition();
+            pausePoaition = (int) videoView.getCurrentPosition();
         }
     }
 

@@ -2,6 +2,7 @@ package com.kangwang.androidmediaplayer.base;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.Surface;
@@ -60,20 +61,20 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
 
     public AbstractPlayer(Context context) {
         super(context);
-        init(context);
+        this.context = context;
     }
 
     public AbstractPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        this.context = context;
     }
 
     public AbstractPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        this.context = context;
     }
 
-    private void init(Context context) {
+    public void init(Context context) {
         this.context = context;
         getHolder().addCallback(this);
         getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -139,8 +140,9 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
 
     /**
      * 获取当前播放的位置
+     * @return
      */
-    public abstract long getCurrentPosition();
+    public abstract int getCurrentPosition();
 
     /**
      * 获取视频总时长
@@ -286,6 +288,12 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
         setMeasuredDimension(width, height);
     }
 
+    public abstract void onDestroy();
+
+    public abstract void resume();
+
+    public abstract void setVideoURI(Uri parse);
+
     public interface PlayerEventListener {
 
         void onError();
@@ -294,7 +302,7 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
 
         void onInfo(int what, int extra);
 
-        void onPrepared();
+        void onPrepared(MediaPlayer mp);
 
         void onVideoSizeChanged(int width, int height);
 

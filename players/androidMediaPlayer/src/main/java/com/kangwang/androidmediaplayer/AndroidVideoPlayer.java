@@ -2,7 +2,6 @@ package com.kangwang.androidmediaplayer;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -16,7 +15,7 @@ import com.kangwang.androidmediaplayer.base.AbstractPlayer;
 
 import java.util.Map;
 
-public class AndroidVideo
+public class AndroidVideoPlayer
         extends AbstractPlayer
         implements MediaPlayer.OnPreparedListener,
         MediaPlayer.OnVideoSizeChangedListener,
@@ -34,8 +33,16 @@ public class AndroidVideo
     private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener;
     private int currentVideoPercent = 0;
 
-    public AndroidVideo(Context context) {
+    public AndroidVideoPlayer(Context context) {
         super(context);
+    }
+
+    public AndroidVideoPlayer(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public AndroidVideoPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     /**
@@ -43,7 +50,7 @@ public class AndroidVideo
      */
     @Override
     public void initPlayer() {
-
+        init(context);
     }
 
     /**
@@ -114,6 +121,9 @@ public class AndroidVideo
         if (!mMediaPlayer.isPlaying()) {
             mMediaPlayer.start();
         }
+        if (mPlayerEventListener!=null){
+            mPlayerEventListener.onPrepared(mp);
+        }
         if (currentVideoPercent != 0) {
             mMediaPlayer.seekTo(currentVideoPercent);
         }
@@ -135,6 +145,9 @@ public class AndroidVideo
         if (completionListener != null) {
             completionListener.onCompletion(mp);
         }
+        if (mPlayerEventListener!=null){
+            mPlayerEventListener.onCompletion();
+        }
         Log.i(TAG, "play complete");
     }
 
@@ -142,6 +155,9 @@ public class AndroidVideo
     public boolean onError(MediaPlayer mp, int what, int extra) {
         if (errorListener != null) {
             errorListener.onError(mp, what, extra);
+        }
+        if (mPlayerEventListener!=null){
+            mPlayerEventListener.onError();
         }
         Log.i(TAG, "video error");
         return false;
@@ -152,6 +168,9 @@ public class AndroidVideo
         if (infoListener != null) {
             infoListener.onInfo(mp, what, extra);
         }
+        if (mPlayerEventListener!=null){
+            mPlayerEventListener.onInfo(what,extra);
+        }
         return false;
     }
 
@@ -160,6 +179,7 @@ public class AndroidVideo
         if (bufferingUpdateListener != null) {
             bufferingUpdateListener.onBufferingUpdate(mp, percent);
         }
+
     }
 
     public void setOnPreparedListener(MediaPlayer.OnPreparedListener preparedListener) {
@@ -356,7 +376,7 @@ public class AndroidVideo
     }
 
     @Override
-    public long getCurrentPosition() {
+    public int getCurrentPosition() {
         return mMediaPlayer.getCurrentPosition();
     }
 
