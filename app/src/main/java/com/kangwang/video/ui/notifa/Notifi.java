@@ -1,4 +1,4 @@
-package com.kangwang.video.ui.activity;
+package com.kangwang.video.ui.notifa;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,8 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.kangwang.video.R;
+import com.kangwang.video.ui.activity.base.BaseActivity;
 
-public class Notifi extends BaseActivity{
+public class Notifi extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

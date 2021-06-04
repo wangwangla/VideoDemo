@@ -1,4 +1,4 @@
-package com.kangwang.androidmediaplayer.base;
+package com.example.player_base;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -57,22 +57,22 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
 //    /**
 //     * 开始渲染视频画面
 //     */
-//    public static final int MEDIA_INFO_VIDEO_RENDERING_START = 3;
+    public static final int MEDIA_INFO_VIDEO_RENDERING_START = 3;
 //
 //    /**
 //     * 缓冲开始
 //     */
-//    public static final int MEDIA_INFO_BUFFERING_START = 701;
+    public static final int MEDIA_INFO_BUFFERING_START = 701;
 //
 //    /**
 //     * 缓冲结束
 //     */
-//    public static final int MEDIA_INFO_BUFFERING_END = 702;
+    public static final int MEDIA_INFO_BUFFERING_END = 702;
 //
 //    /**
 //     * 视频旋转信息
 //     */
-//    public static final int MEDIA_INFO_VIDEO_ROTATION_CHANGED = 10001;
+    public static final int MEDIA_INFO_VIDEO_ROTATION_CHANGED = 10001;
 
     /**
      * TAG

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
+import com.kangwang.video.utils.StringUtils;
 
 /**
  * 视频数据列表的适配器
@@ -31,8 +32,8 @@ public class VideoListAdapter extends CursorAdapter {
         VideoHolder holder =(VideoHolder) view.getTag();
         VideoBean bean = VideoBean.getInstance(cursor);
         holder.tvTitle.setText(bean.getTitle());
-        holder.tvSize.setText(String.valueOf(bean.getSize()));
-        holder.tvTime.setText(String.valueOf(bean.getTime()));
+        holder.tvSize.setText(StringUtils.formatSize(bean.getSize()));
+        holder.tvTime.setText(StringUtils.formatTime(bean.getTime()));
     }
 
     class VideoHolder{

@@ -1,4 +1,4 @@
-package com.kangwang.video.ui.activity;
+package com.kangwang.video.ui.activity.base;
 
 import android.os.Bundle;
 

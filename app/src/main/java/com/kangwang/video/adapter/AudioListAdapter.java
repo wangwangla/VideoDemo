@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.Mp3Bean;
 import com.kangwang.video.bean.VideoBean;
+import com.kangwang.video.utils.StringUtils;
 
 public class AudioListAdapter extends CursorAdapter {
     private View mView;
@@ -30,8 +31,8 @@ public class AudioListAdapter extends CursorAdapter {
         AudioHolder holder =(AudioHolder) view.getTag();
         Mp3Bean bean = Mp3Bean.getInstance(cursor);
         holder.tvTitle.setText(bean.getTitle());
-        holder.tvSize.setText(String.valueOf(bean.getSize()));
-        holder.tvTime.setText(String.valueOf(bean.getTime()));
+        holder.tvSize.setText(StringUtils.formatSize(bean.getSize()));
+        holder.tvTime.setText(StringUtils.formatTime(bean.getTime()));
     }
 
     class AudioHolder{

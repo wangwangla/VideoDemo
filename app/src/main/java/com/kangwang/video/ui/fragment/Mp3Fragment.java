@@ -1,15 +1,12 @@
 package com.kangwang.video.ui.fragment;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.RequiresApi;
@@ -17,9 +14,7 @@ import androidx.annotation.RequiresApi;
 import com.kangwang.video.R;
 import com.kangwang.video.adapter.AudioListAdapter;
 import com.kangwang.video.bean.Mp3Bean;
-import com.kangwang.video.bean.VideoBean;
-import com.kangwang.video.ui.activity.AudioPlayActivity;
-import com.kangwang.video.utils.LogUtils;
+import com.kangwang.video.ui.activity.play.AudioPlayActivity;
 
 import java.util.ArrayList;
 

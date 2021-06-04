@@ -19,6 +19,8 @@
             <option value="$PROJECT_DIR$/players/androidMediaPlayer" />
             <option value="$PROJECT_DIR$/players/exo" />
             <option value="$PROJECT_DIR$/players/ijk" />
+            <option value="$PROJECT_DIR$/players/mediaextractor" />
+            <option value="$PROJECT_DIR$/players/player-base" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

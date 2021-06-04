@@ -10,8 +10,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.ViewGroup;
 
-import com.kangwang.androidmediaplayer.base.AbstractPlayer;
+import com.example.player_base.AbstractPlayer;
 
 import java.util.Map;
 
@@ -447,4 +448,6 @@ public class AndroidVideoPlayer
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         setCompletionListener(onCompletionListener);
     }
+
+
 }

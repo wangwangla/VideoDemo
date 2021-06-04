@@ -1,24 +1,11 @@
 package com.kangwang.video.ui.fragment;
 
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
-import android.provider.MediaStore;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import androidx.annotation.RequiresApi;
 
 import com.kangwang.video.R;
-import com.kangwang.video.adapter.AudioListAdapter;
-import com.kangwang.video.bean.Mp3Bean;
-import com.kangwang.video.ui.activity.AudioPlayActivity;
-
-import java.util.ArrayList;
 
 public class ZhiBoFragment extends BaseFragment{
     private ListView listView;

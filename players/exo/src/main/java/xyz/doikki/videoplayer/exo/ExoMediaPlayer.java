@@ -2,10 +2,12 @@ package xyz.doikki.videoplayer.exo;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.net.Uri;
 import android.os.Handler;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
+import com.example.player_base.AbstractPlayer;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -21,17 +23,12 @@ import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.util.Clock;
-import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.video.VideoSize;
 
 import java.util.Map;
-
-import xyz.doikki.videoplayer.player.AbstractPlayer;
-import xyz.doikki.videoplayer.player.VideoViewManager;
 
 
 public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, MediaSourceEventListener {
@@ -52,8 +49,14 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
     private TrackSelector mTrackSelector;
 
     public ExoMediaPlayer(Context context) {
+        super(context);
         mAppContext = context.getApplicationContext();
         mMediaSourceHelper = ExoMediaSourceHelper.getInstance(context);
+    }
+
+    @Override
+    public void setVideoURI(Uri parse) {
+
     }
 
     @Override
@@ -70,9 +73,9 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
         setOptions();
 
         //播放器日志
-        if (VideoViewManager.getConfig().mIsEnableLog && mTrackSelector instanceof MappingTrackSelector) {
-            mInternalPlayer.addAnalyticsListener(new EventLogger((MappingTrackSelector) mTrackSelector, "ExoPlayer"));
-        }
+//        if (VideoViewManager.getConfig().mIsEnableLog && mTrackSelector instanceof MappingTrackSelector) {
+//            mInternalPlayer.addAnalyticsListener(new EventLogger((MappingTrackSelector) mTrackSelector, "ExoPlayer"));
+//        }
 
         mInternalPlayer.addListener(this);
         mInternalPlayer.addVideoListener(this);
@@ -185,10 +188,10 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
     }
 
     @Override
-    public long getCurrentPosition() {
+    public int getCurrentPosition() {
         if (mInternalPlayer == null)
             return 0;
-        return mInternalPlayer.getCurrentPosition();
+        return (int) mInternalPlayer.getCurrentPosition();
     }
 
     @Override
@@ -260,10 +263,25 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
     }
 
     @Override
+    protected void openVideo() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
     public void onLoadCompleted(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId,
                                 LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
         if (mPlayerEventListener != null && mIsPreparing) {
-            mPlayerEventListener.onPrepared();
+            mPlayerEventListener.onPrepared(null);
         }
     }
 

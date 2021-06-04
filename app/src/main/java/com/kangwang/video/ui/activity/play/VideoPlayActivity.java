@@ -1,6 +1,8 @@
- package com.kangwang.video.ui.activity;
+ package com.kangwang.video.ui.activity.play;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -11,6 +13,7 @@ import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,10 +22,10 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.kangwang.androidmediaplayer.AndroidVideoPlayer;
-import com.kangwang.androidmediaplayer.base.AbstractPlayer;
+import com.example.player_base.AbstractPlayer;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
+import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -253,7 +256,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             public void onLongPress(MotionEvent e) {
                 super.onLongPress(e);
                 //快进
-
+                enterTinyScreen();
             }
 
             @Override
@@ -350,6 +353,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 float changVolumn = -(percent * getMaxVolumn());
                 int finalVolumn =(int) (startVolumn + changVolumn);
                 setSystemVolumn(finalVolumn);
+
+//                videoView.setX(event.getX());
+//                videoView.setY(event.getY());
                 break;
         }
         return super.onTouchEvent(event);
@@ -445,11 +451,40 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
-
     @Override
     public void finish() {
         super.finish();
         videoView.onDestroy();
+    }
+
+
+    public void enterTinyScreen() {
+        ViewGroup.LayoutParams layoutParams = videoView.getLayoutParams();
+        layoutParams.width = 300;
+        layoutParams.height = 300;
+        videoView.setLayoutParams(layoutParams);
+    }
+
+    public static Activity scanForActivity(Context context) {
+        if (context == null) return null;
+        if (context instanceof Activity) {
+            return (Activity) context;
+        } else if (context instanceof ContextWrapper) {
+            return scanForActivity(((ContextWrapper) context).getBaseContext());
+        }
+        return null;
+    }
+    /**
+     *  获取屏幕宽度
+     */
+    public static int getScreenWidth(Context context){
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     *  获取屏幕高
+     */
+    public static int getScreenHeight(Context context){
+        return context.getResources().getDisplayMetrics().heightPixels;
     }
 }

@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.kangwang.video.R;
+import com.kangwang.video.ui.activity.base.BaseActivity;
 
 /**
  * 显示logo
  *  初始化数据
  *  展示广告
  */
-public class SplashActivity extends BaseActivity{
+public class SplashActivity extends BaseActivity {
 
     @Override
     public int getLayout() {

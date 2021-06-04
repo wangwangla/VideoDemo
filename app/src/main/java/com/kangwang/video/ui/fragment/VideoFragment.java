@@ -11,9 +11,7 @@ import android.widget.ListView;
 import com.kangwang.video.R;
 import com.kangwang.video.adapter.VideoListAdapter;
 import com.kangwang.video.bean.VideoBean;
-import com.kangwang.video.ui.activity.AndoridVideoViewActivity;
-import com.kangwang.video.ui.activity.VideoPlayActivity;
-import com.kangwang.video.utils.LogUtils;
+import com.kangwang.video.ui.activity.play.VideoPlayActivity;
 
 import java.util.ArrayList;
 

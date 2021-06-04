@@ -9,9 +9,9 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.kangwang.androidmediaplayer.base.AbstractPlayer;
+import com.example.player_base.AbstractPlayer;
 import com.kangwang.video.factory.AndroidPlayFactory;
-import com.kangwang.video.factory.PlayerFactory;
+import com.example.player_base.PlayerFactory;
 
 public class AndroidView <P extends AbstractPlayer> extends FrameLayout implements UIContoller{
     private PlayerFactory<P> playerFactory;

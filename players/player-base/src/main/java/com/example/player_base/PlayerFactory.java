@@ -1,8 +1,8 @@
-package com.kangwang.video.factory;
+package com.example.player_base;
 
 import android.content.Context;
 
-import com.kangwang.androidmediaplayer.base.AbstractPlayer;
+import com.example.player_base.AbstractPlayer;
 
 public abstract class PlayerFactory<T extends AbstractPlayer> {
 

@@ -2,7 +2,7 @@ package xyz.doikki.videoplayer.exo;
 
 import android.content.Context;
 
-import xyz.doikki.videoplayer.player.PlayerFactory;
+import com.example.player_base.PlayerFactory;
 
 public class ExoMediaPlayerFactory extends PlayerFactory<ExoMediaPlayer> {
 

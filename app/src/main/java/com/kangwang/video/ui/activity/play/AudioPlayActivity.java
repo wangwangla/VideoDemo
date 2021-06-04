@@ -1,4 +1,4 @@
-package com.kangwang.video.ui.activity;
+package com.kangwang.video.ui.activity.play;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -6,13 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,13 +21,7 @@ import com.kangwang.video.bean.Mp3Bean;
 import com.kangwang.video.lyirc.LyricView;
 import com.kangwang.video.service.AudioService;
 import com.kangwang.video.service.IAudioService;
-
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.jar.JarInputStream;
+import com.kangwang.video.ui.activity.base.BaseActivity;
 
 public class AudioPlayActivity extends BaseActivity implements View.OnClickListener{
     private ImageView zanting ;
