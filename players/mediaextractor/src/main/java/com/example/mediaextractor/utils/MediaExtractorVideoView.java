@@ -1,4 +1,4 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.utils;
 
 import android.annotation.SuppressLint;
 import android.media.MediaExtractor;

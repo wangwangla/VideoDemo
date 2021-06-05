@@ -5,7 +5,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.mediaextractor.MediaExtractorVideoView;
+import com.example.mediaextractor.utils.MediaExtractorVideoView;
 
 import java.nio.ByteBuffer;
 

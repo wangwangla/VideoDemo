@@ -1,6 +1,9 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.decoder;
 
 import android.media.MediaFormat;
+
+import com.example.mediaextractor.base.IDecoderProgress;
+import com.example.mediaextractor.base.IDecoderStateListener;
 
 /**
  * 操作是一个费时操作，所以放入线程来操作
@@ -76,22 +79,18 @@ public interface IDecoder extends Runnable {
      * 获取视频旋转角度
      */
     int getRotationAngle();
-
     /**
      * 获取音视频对应的格式参数
      */
     MediaFormat getMediaFormat();
-
     /**
      * 获取音视频对应的媒体轨道
      */
     int getTrack();
-
     /**
      * 获取解码的文件路径
      */
     String getFilePath();
-
     /**
      * 无需音视频同步
      */

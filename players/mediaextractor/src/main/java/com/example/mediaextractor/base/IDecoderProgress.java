@@ -1,4 +1,4 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.base;
 
 public interface IDecoderProgress {
     /**

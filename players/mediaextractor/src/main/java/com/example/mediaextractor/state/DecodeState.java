@@ -1,4 +1,4 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.state;
 
 public enum  DecodeState {
     /**开始状态*/

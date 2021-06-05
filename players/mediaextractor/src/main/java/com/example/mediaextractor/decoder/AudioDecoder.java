@@ -6,10 +6,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.mediaextractor.Frame;
-import com.example.mediaextractor.IDecoder;
-import com.example.mediaextractor.IDecoderProgress;
-import com.example.mediaextractor.IDecoderStateListener;
+import com.example.mediaextractor.frame.Frame;
+import com.example.mediaextractor.base.IDecoderProgress;
+import com.example.mediaextractor.base.IDecoderStateListener;
 import com.example.mediaextractor.extractor.AudioExtractor;
 import com.example.mediaextractor.extractor.IExtractor;
 

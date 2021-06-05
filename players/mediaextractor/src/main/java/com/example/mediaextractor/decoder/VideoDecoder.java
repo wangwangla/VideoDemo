@@ -11,10 +11,9 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.example.mediaextractor.Frame;
-import com.example.mediaextractor.IDecoder;
-import com.example.mediaextractor.IDecoderProgress;
-import com.example.mediaextractor.IDecoderStateListener;
+import com.example.mediaextractor.frame.Frame;
+import com.example.mediaextractor.base.IDecoderProgress;
+import com.example.mediaextractor.base.IDecoderStateListener;
 import com.example.mediaextractor.extractor.IExtractor;
 import com.example.mediaextractor.extractor.VideoExtractor;
 
@@ -107,10 +106,6 @@ public class VideoDecoder extends BaseDecoder {
     @Override
     protected void initSpecParams(MediaFormat format) {
 
-    }
-
-    IExtractor initExtractor(){
-        return new VideoExtractor(mFilePath);
     }
 
     @SuppressLint("NewApi")

@@ -1,7 +1,6 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.muxer;
 
 import android.annotation.SuppressLint;
-import android.media.MediaCodec;
 import android.media.MediaFormat;
 import android.os.Build;
 
@@ -9,8 +8,6 @@ import androidx.annotation.RequiresApi;
 
 import com.example.mediaextractor.extractor.AudioExtractor;
 import com.example.mediaextractor.extractor.VideoExtractor;
-
-import java.nio.ByteBuffer;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MP4Repack{

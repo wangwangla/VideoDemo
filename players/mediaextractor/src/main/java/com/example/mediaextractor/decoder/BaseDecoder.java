@@ -7,9 +7,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.mediaextractor.DecodeState;
-import com.example.mediaextractor.IDecoder;
-import com.example.mediaextractor.IDecoderStateListener;
+import com.example.mediaextractor.state.DecodeState;
+import com.example.mediaextractor.base.IDecoderStateListener;
 import com.example.mediaextractor.extractor.IExtractor;
 
 import java.io.File;
@@ -25,23 +24,19 @@ public abstract class BaseDecoder implements IDecoder {
      * 解码器是否在运行
      */
     private boolean mIsRunning = true;
-
     /**
      * 线程等待锁
      */
     private Object mLock = new Object();
-
     /**
      * 是否可以进入解码
      */
     private boolean mReadyForDecode = false;
-
     //---------------解码相关-----------------------
     /**
      * 音视频解码器
      */
     protected MediaCodec mCodec = null;
-
     /**
      * 音视频数据读取器
      */
@@ -79,7 +74,6 @@ public abstract class BaseDecoder implements IDecoder {
     private long mStartPos = 0;
 
     private long mEndPos = 0;
-
     /**
      * 开始解码时间，用于音视频同步
      */
@@ -95,7 +89,6 @@ public abstract class BaseDecoder implements IDecoder {
             mState = DecodeState.START;
         }
         mStateListener.decoderPrepare(this);
-
         //【解码步骤：1. 初始化，并启动解码器】
         if (!init()) return;
 
@@ -161,8 +154,8 @@ public abstract class BaseDecoder implements IDecoder {
     /**
      * 渲染
      */
-    abstract void render(ByteBuffer outputBuffer,
-                        MediaCodec.BufferInfo bufferInfo);
+    abstract void render(ByteBuffer outputBuffer,MediaCodec.BufferInfo bufferInfo);
+
     private boolean init() {
         if (mFilePath.isEmpty() || !new File(mFilePath).exists()) {
 //            Log.w(TAG, "文件路径为空")

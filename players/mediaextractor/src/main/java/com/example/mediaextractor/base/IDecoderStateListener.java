@@ -1,6 +1,7 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.base;
 
 import com.example.mediaextractor.decoder.BaseDecoder;
+import com.example.mediaextractor.frame.Frame;
 
 public interface IDecoderStateListener {
     void decoderPrepare(BaseDecoder baseDecoder);

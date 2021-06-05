@@ -1,4 +1,4 @@
-package com.example.mediaextractor;
+package com.example.mediaextractor.frame;
 
 import android.media.MediaCodec;
 import android.os.Build;
@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class Frame {
-    ByteBuffer buffer;
+
     MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void setBufferInfo(MediaCodec.BufferInfo info) {
