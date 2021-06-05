@@ -11,7 +11,7 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Video">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.DemoActivty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

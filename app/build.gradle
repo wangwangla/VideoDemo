@@ -34,6 +34,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation project(path: ':players:androidMediaPlayer')
     implementation project(path: ':players:player-base')
+    implementation project(path: ':players:mediaextractor')
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
