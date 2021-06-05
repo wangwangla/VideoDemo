@@ -29,42 +29,42 @@ public class VideoDecoder extends BaseDecoder {
         setStateListener(new IDecoderStateListener() {
             @Override
             public void decoderPrepare(BaseDecoder baseDecoder) {
-                System.out.println("========"+"pepare");
+
             }
 
             @Override
             public void decoderReady(BaseDecoder decoder) {
-                System.out.println("========"+"Ready");
+
             }
 
             @Override
             public void decoderRunning(BaseDecoder decoder) {
-                System.out.println("========"+"decoder");
+
             }
 
             @Override
             public void decoderPause(BaseDecoder decoder) {
-                System.out.println("========"+"pause");
+
             }
 
             @Override
             public void decodeOneFrame(BaseDecoder baseDecoder, Frame frame) {
-                System.out.println("========"+"decodeoneframe");
+
             }
 
             @Override
             public void decoderFinish(BaseDecoder decodeJob) {
-                System.out.println("========"+"finsh");
+
             }
 
             @Override
             public void decoderDestroy(BaseDecoder decodeJob) {
-                System.out.println("========"+"destory");
+
             }
 
             @Override
             public void decoderError(BaseDecoder baseDecoder, String msg) {
-                System.out.println("========"+"error");
+
             }
         });
     }

@@ -227,7 +227,6 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        System.out.println("------surfaceChanged");
         this.surfaceHolder = holder;
         if (currentStatus == PAUSE) {
             return;

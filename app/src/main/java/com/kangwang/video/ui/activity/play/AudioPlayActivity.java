@@ -87,7 +87,6 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                System.out.println("------broad cast");
                 //更新  按钮
                 updatePlayButton();
                 Mp3Bean bean = (Mp3Bean) intent.getSerializableExtra("bean");
