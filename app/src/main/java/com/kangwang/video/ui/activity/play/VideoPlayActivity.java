@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import com.example.player_base.AbstractPlayer;
 import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
+import com.kangwang.video.bean.Zhibo;
 import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.utils.LogUtils;
 
@@ -49,7 +50,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout topLinear;
     private LinearLayout bottomLinear;
     private LinearLayout ll_loading;
-    private ArrayList<VideoBean> beanList;
+    private ArrayList<Zhibo> beanList;
     private int position;
     private static final int UPDATE_SECOND = 5;
     private float screenHight;
@@ -108,7 +109,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data == null){
-            beanList = (ArrayList<VideoBean>) intent.getSerializableExtra("bean");
+            beanList = (ArrayList<Zhibo>) intent.getSerializableExtra("bean");
             position = intent.getIntExtra("position", -1);
             playPointVideo(position);
         }else {
@@ -276,12 +277,12 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private void playPointVideo(int position){
         btn_pre.setEnabled(position!=0);
         btn_next.setEnabled(position!=beanList.size()-1);
-        VideoBean bean = beanList.get(position);
+        Zhibo bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
-        title.setText(bean.getTitle());
-//        videoView.setVideoURI(Uri.parse(bean.getData()));
+        title.setText(bean.getName());
+        videoView.setVideoURI(Uri.parse(bean.getUri()));
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
-        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8"));
+//        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225508/index.m3u8"));
         videoView.initPlayer();
 
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
