@@ -112,7 +112,6 @@ public abstract class BaseDecoder implements IDecoder {
                 mIsRunning = false;
                 break;
             }
-
             if (mStartTimeForSync == -1L) {
                 mStartTimeForSync = System.currentTimeMillis();
             }

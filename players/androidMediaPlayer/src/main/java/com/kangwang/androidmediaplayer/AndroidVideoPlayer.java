@@ -137,7 +137,7 @@ public class AndroidVideoPlayer
         if (currentVideoPercent != 0) {
             mMediaPlayer.seekTo(currentVideoPercent);
         }
-        setSpeed(2);
+        setSpeed(1);
     }
 
     @Override
@@ -224,12 +224,10 @@ public class AndroidVideoPlayer
     }
 
     public void onPause() {
-        System.out.println("------PAUSEsssss");
         currentStatus = PAUSE;
         if (mMediaPlayer != null) {
             currentVideoPercent = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.pause();
-            System.out.println("currentVideoPercent save" + currentVideoPercent);
         }
     }
 
@@ -238,7 +236,6 @@ public class AndroidVideoPlayer
         if (mMediaPlayer != null) {
             if (isPlaying()) return;
             openVideo();
-            System.out.println("currentVideoPercent  read" + currentVideoPercent);
         }
 
     }
@@ -418,7 +415,7 @@ public class AndroidVideoPlayer
 
     @Override
     public void stop() {
-        mMediaPlayer.stop();
+        mMediaPlayer.pause();
     }
 
     /**

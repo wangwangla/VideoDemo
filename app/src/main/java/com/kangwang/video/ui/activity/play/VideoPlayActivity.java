@@ -154,7 +154,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         seekBar.setSecondaryProgress(videoView.getBufferedPercentage());
-                        System.out.println("----------------"+videoView.getBufferedPercentage());
+
                     }
                 };
                 timer.schedule(timerTask,0,1000);
@@ -279,7 +279,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         VideoBean bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getTitle());
-        videoView.setVideoURI(Uri.parse(bean.getData()));
+//        videoView.setVideoURI(Uri.parse(bean.getData()));
+//        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
+        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8"));
         videoView.initPlayer();
 
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
@@ -402,7 +404,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //        int bufferPercentage = videoView.getBufferPercentage();
         seekBar.setSecondaryProgress(20);
         int secondaryProgress = seekBar.getSecondaryProgress();
-        System.out.println(secondaryProgress);
+
         mHandler.sendEmptyMessageDelayed(UPDATE_SECOND,1000);
     }
 
@@ -436,14 +438,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private boolean isShowBottomAndTop = true;
     private void topAndBottomCtrl(){
         if (isShowBottomAndTop) {
-            System.out.println("不显示");
-            System.out.println();
             //隐藏
             isShowBottomAndTop = false;
             topLinear.animate().translationY(-topLinear.getHeight()).start();
             bottomLinear.animate().translationY(bottomLinear.getHeight()).start();
         }else {
-            System.out.println("xianshi");
             isShowBottomAndTop = true;
             //出现
             topLinear.animate().translationY(0).start();
