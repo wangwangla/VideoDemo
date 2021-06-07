@@ -268,7 +268,9 @@ public class AndroidVideoPlayer
     }
 
     public long getDuration() {
+        if (mMediaPlayer!=null)
         return mMediaPlayer.getDuration();
+        return 0;
     }
 
     /**

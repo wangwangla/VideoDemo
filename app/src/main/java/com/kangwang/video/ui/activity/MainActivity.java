@@ -18,6 +18,7 @@ import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.ui.fragment.BaseFragment;
 import com.kangwang.video.ui.fragment.Mp3Fragment;
 import com.kangwang.video.ui.fragment.VideoFragment;
+import com.kangwang.video.ui.fragment.ZhiBoFragment;
 import com.kangwang.video.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -51,13 +52,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void initData() {
         updataTextColor(0);
-        FileUtils.readFile(this);
     }
 
     @Override
     public void initListener() {
         List<BaseFragment> list = new ArrayList<>();
-        list.add(new VideoFragment());
+        list.add(new ZhiBoFragment());
         list.add(new Mp3Fragment());
         viewPager.setAdapter(new PlayerListAdapter(getSupportFragmentManager(),list));
         audioView.setOnClickListener(this);
