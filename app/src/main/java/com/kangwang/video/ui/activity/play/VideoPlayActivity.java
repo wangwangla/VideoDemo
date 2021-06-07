@@ -54,6 +54,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private static final int UPDATE_SECOND = 5;
     private float screenHight;
     private AudioManager manager;
+    private TextView vSpeed;
     @Override
     public int getLayout() {
         return R.layout.video_play;
@@ -76,6 +77,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         bottomLinear = findViewById(R.id.video_bottom);
         ll_loading = findViewById(R.id.ll_loading);
         ll_loading.setVisibility(View.VISIBLE);
+        vSpeed = findViewById(R.id.xxxxx);
     }
 
     @Override
@@ -235,6 +237,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_next.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
+        vSpeed.setOnClickListener(this::onClick);
 
 //        topLinear.setOnClickListener(this);
 //        bottomLinear.setOnClickListener(this::onClick);
@@ -328,15 +331,36 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 }
                 playPointVideo(position);
                 break;
-//            case R.id.full_screen:
-//                finish();
-//                break;
+            case R.id.xxxxx:
+                switchSpeed();
+                break;
 
             default:
                 break;
         }
     }
 
+    private void switchSpeed(){
+        CharSequence text = vSpeed.getText();
+        float speed = 1.0f;
+        if (text==null){
+            vSpeed.setText("1.0x");
+            setVideoSpeed(speed);
+            return;
+        }
+        if (text.equals("1.0x")){
+            vSpeed.setText("2.0x");
+            speed = 2.0f;
+        }else if (text.equals("2.0x")){
+            vSpeed.setText("1.0x");
+            speed = 1.0f;
+        }
+        setVideoSpeed(speed);
+    }
+
+    private void setVideoSpeed(float speed){
+        videoView.setSpeed(speed);
+    }
     float startVolumn = 0;
     float startY = 0;
     @Override

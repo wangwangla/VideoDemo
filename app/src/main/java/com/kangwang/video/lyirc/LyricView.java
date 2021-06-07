@@ -14,7 +14,7 @@ import com.kangwang.video.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LyricView extends TextView{
+public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
 
     private Paint paint;
     private int mHalfVieW;
