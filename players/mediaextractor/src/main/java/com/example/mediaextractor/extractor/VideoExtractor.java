@@ -6,6 +6,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.mediaextractor.base.IExtractor;
 import com.example.mediaextractor.utils.MediaExtractorVideoView;
 
 import java.nio.ByteBuffer;
@@ -16,7 +17,7 @@ public class VideoExtractor implements IExtractor {
     public VideoExtractor(String path){
         this.path = path;
         mMediaExtractor = new MediaExtractorVideoView(path);
-
+        System.out.println("============================");
     }
     @SuppressLint("NewApi")
     private MediaExtractorVideoView mMediaExtractor ;

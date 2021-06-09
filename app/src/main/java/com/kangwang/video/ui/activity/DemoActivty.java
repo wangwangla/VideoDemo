@@ -26,7 +26,8 @@ public class DemoActivty extends BaseActivity {
     @Override
     public void initView() {
         SurfaceView sfv = findViewById(R.id.sfv);
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mvtest.mp4";
+//        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mvtest.mp4";
+        String path = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
         //创建线程池
         ExecutorService threadPool = Executors.newFixedThreadPool(2);
         //创建视频解码器
@@ -34,12 +35,12 @@ public class DemoActivty extends BaseActivity {
         threadPool.execute(videoDecoder);
 
         //创建音频解码器
-        AudioDecoder audioDecoder = new AudioDecoder(path);
-        threadPool.execute(audioDecoder);
+//        AudioDecoder audioDecoder = new AudioDecoder(path);
+//        threadPool.execute(audioDecoder);
 
         //开启播放
         videoDecoder.goOn();
-        audioDecoder.goOn();
+//        audioDecoder.goOn();
     }
 
     /**

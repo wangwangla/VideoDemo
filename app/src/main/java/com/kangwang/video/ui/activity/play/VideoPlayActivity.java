@@ -257,7 +257,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             public void onLongPress(MotionEvent e) {
                 super.onLongPress(e);
                 //快进
-                enterTinyScreen();
+//                enterTinyScreen();
+                videoView.setSpeed(3);
             }
 
             @Override
@@ -359,6 +360,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
 //                videoView.setX(event.getX());
 //                videoView.setY(event.getY());
+                break;
+            case MotionEvent.ACTION_UP:
+                videoView.setSpeed(1);
                 break;
         }
         return super.onTouchEvent(event);

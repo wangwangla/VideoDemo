@@ -7,9 +7,10 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.mediaextractor.base.IDecoder;
 import com.example.mediaextractor.state.DecodeState;
 import com.example.mediaextractor.base.IDecoderStateListener;
-import com.example.mediaextractor.extractor.IExtractor;
+import com.example.mediaextractor.base.IExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,6 +92,7 @@ public abstract class BaseDecoder implements IDecoder {
         mStateListener.decoderPrepare(this);
         //【解码步骤：1. 初始化，并启动解码器】
         if (!init()) return;
+        System.out.println("innitsss");
 
 //                Log.i(TAG, "开始解码");
 
@@ -156,16 +158,22 @@ public abstract class BaseDecoder implements IDecoder {
     abstract void render(ByteBuffer outputBuffer,MediaCodec.BufferInfo bufferInfo);
 
     private boolean init() {
-        if (mFilePath.isEmpty() || !new File(mFilePath).exists()) {
+        if (mFilePath.isEmpty()) {
+            if (!mFilePath.startsWith("http")) {
+                if (!new File(mFilePath).exists()) {
 //            Log.w(TAG, "文件路径为空")
-            mStateListener.decoderError(this, "文件路径为空");
-            return false;
+                    mStateListener.decoderError(this, "文件路径为空");
+
+                    return false;
+                }
+            }
         }
 
         if (!check()) return false;
 
         //初始化数据提取器
         mExtractor = initExtractor(mFilePath);
+        System.out.println(mExtractor+"+===================");
         if (mExtractor == null ||
                 mExtractor.getFormat() == null) {
 //            Log.w(TAG, "无法解析文件")
@@ -174,10 +182,11 @@ public abstract class BaseDecoder implements IDecoder {
 
         //初始化参数
         if (!initParams()) return false;
-
+        System.out.println("initParams");
         //初始化渲染器
         if (!initRender()) return false;
 
+        System.out.println("iniRender");
         //初始化解码器
         if (!initCodec()) return false;
         return true;
@@ -194,9 +203,11 @@ public abstract class BaseDecoder implements IDecoder {
         try {
             MediaFormat format = mExtractor.getFormat();
             mDuration = format.getLong(MediaFormat.KEY_DURATION) / 1000;
+            System.out.println("dfhdfhdhfd");
             if (mEndPos == 0L) mEndPos = mDuration;
             initSpecParams(mExtractor.getFormat());
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -213,14 +224,19 @@ public abstract class BaseDecoder implements IDecoder {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
             if (!configCodec(mCodec, mExtractor.getFormat())) {
-                waitDecode();
+                System.out.println("222222222222222222222222222");
+//                waitDecode();
             }
             mCodec.start();
+
+            System.out.println("33333333333333333333333");
 
             mInputBuffers = mCodec.getInputBuffers();
             mOutputBuffers = mCodec.getOutputBuffers();
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -290,16 +306,16 @@ public abstract class BaseDecoder implements IDecoder {
      * 解码线程进入等待
      */
     private void waitDecode() {
-        try {
-            if (mState == DecodeState.PAUSE) {
-                mStateListener.decoderPause(this);
-            }
-            synchronized(mLock) {
-                mLock.wait();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (mState == DecodeState.PAUSE) {
+//                mStateListener.decoderPause(this);
+//            }
+//            synchronized(mLock) {
+//                mLock.wait();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

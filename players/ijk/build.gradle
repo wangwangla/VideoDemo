@@ -13,6 +13,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':players:player-base')
 }
 
 ext {

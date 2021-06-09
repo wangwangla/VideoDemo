@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/players" />
             <option value="$PROJECT_DIR$/players/androidMediaPlayer" />
             <option value="$PROJECT_DIR$/players/exo" />
+            <option value="$PROJECT_DIR$/players/ffmpeg" />
             <option value="$PROJECT_DIR$/players/ijk" />
             <option value="$PROJECT_DIR$/players/mediaextractor" />
             <option value="$PROJECT_DIR$/players/player-base" />

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import com.kangwang.ffmpeglibrary.play.FFmepegVideo;
 import com.kangwang.video.R;
 import com.kangwang.video.adapter.PlayerListAdapter;
 import com.kangwang.video.ui.activity.base.BaseActivity;
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public int getLayout() {
+        FFmepegVideo fFmepegVideo = new FFmepegVideo();
         return R.layout.activity_main;
     }
 

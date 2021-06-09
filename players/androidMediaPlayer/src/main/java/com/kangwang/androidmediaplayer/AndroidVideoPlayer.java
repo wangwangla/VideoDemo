@@ -137,7 +137,6 @@ public class AndroidVideoPlayer
         if (currentVideoPercent != 0) {
             mMediaPlayer.seekTo(currentVideoPercent);
         }
-        setSpeed(1);
     }
 
     @Override

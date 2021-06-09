@@ -10,8 +10,7 @@ import android.text.TextUtils;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import xyz.doikki.videoplayer.player.AbstractPlayer;
-import xyz.doikki.videoplayer.player.VideoViewManager;
+import com.example.player_base.AbstractPlayer;
 
 import java.util.Map;
 
@@ -28,7 +27,13 @@ public class IjkPlayer extends AbstractPlayer implements IMediaPlayer.OnErrorLis
     private final Context mAppContext;
 
     public IjkPlayer(Context context) {
+        super(context);
         mAppContext = context;
+    }
+
+    @Override
+    public void setVideoURI(Uri parse) {
+
     }
 
     @Override
@@ -161,8 +166,8 @@ public class IjkPlayer extends AbstractPlayer implements IMediaPlayer.OnErrorLis
     }
 
     @Override
-    public long getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
+    public int getCurrentPosition() {
+        return (int)mMediaPlayer.getCurrentPosition();
     }
 
     @Override
@@ -211,6 +216,21 @@ public class IjkPlayer extends AbstractPlayer implements IMediaPlayer.OnErrorLis
     }
 
     @Override
+    protected void openVideo() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
     public boolean onError(IMediaPlayer mp, int what, int extra) {
         mPlayerEventListener.onError();
         return true;
@@ -234,7 +254,7 @@ public class IjkPlayer extends AbstractPlayer implements IMediaPlayer.OnErrorLis
 
     @Override
     public void onPrepared(IMediaPlayer mp) {
-        mPlayerEventListener.onPrepared();
+//        mPlayerEventListener.onPrepared(mp);
     }
 
     @Override
