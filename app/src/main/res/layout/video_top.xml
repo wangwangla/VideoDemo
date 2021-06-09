@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bgBhui">
+    android:background="@drawable/player_mask_top">
     <LinearLayout
-
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="20dp">
@@ -13,7 +12,7 @@
         <com.kangwang.video.utils.MarqueeTextView
             android:id="@+id/v_title"
             android:gravity="left"
-            android:text="标题jafjsdjfhjfhhdshhfdshdsfhdfhskfh"
+            android:text="标"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:ellipsize="marquee"
