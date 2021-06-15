@@ -2,6 +2,7 @@ package com.kangwang.androidmediaplayer;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -52,6 +53,13 @@ public class AndroidVideoPlayer
      */
     @Override
     public void initPlayer() {
+
+
+        if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
         init(context);
     }
 

@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public int getLayout() {
-        FFmepegVideo fFmepegVideo = new FFmepegVideo();
+//        FFmepegVideo fFmepegVideo = new FFmepegVideo();
         return R.layout.activity_main;
     }
 

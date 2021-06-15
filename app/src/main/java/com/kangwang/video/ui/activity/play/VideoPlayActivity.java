@@ -14,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +59,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private TextView vSpeed;
     @Override
     public int getLayout() {
+        // 无title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         return R.layout.video_play;
     }
 
@@ -117,57 +122,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         }else {
 //            videoView.setVideoURI();
         }
-        videoView.setPlayerEventListener(new AbstractPlayer.PlayerEventListener() {
-            @Override
-            public void onError() {
 
-            }
-
-            @Override
-            public void onCompletion() {
-                //移除更新播放消息
-                mHandler.removeMessages(MSG_UPDATE_TIME);
-                //修改按钮状态
-                //暂停的时候移除消息，   播放 的时候发送消息
-                //更新时间为最大值
-                startUpdateVideoPosition();
-            }
-
-            @Override
-            public void onInfo(int what, int extra) {
-                switch (what){
-                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-                        ll_loading.setVisibility(View.VISIBLE);
-                        break;
-                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        ll_loading.setVisibility(View.GONE);
-                        break;
-                }
-
-            }
-
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                seekBar.setMax(mp.getDuration());
-                startUpdateVideoPosition();
-                //初始化亿播放时间
-                ll_loading.setVisibility(View.GONE);
-                Timer timer = new Timer();
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        seekBar.setSecondaryProgress(videoView.getBufferedPercentage());
-
-                    }
-                };
-                timer.schedule(timerTask,0,1000);
-            }
-
-            @Override
-            public void onVideoSizeChanged(int width, int height) {
-
-            }
-        });
 //        videoView.setOnPreparedListener(new VideoPreparedListener(videoView));
 //        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 //            @Override
@@ -278,13 +233,15 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
+    public static final String SAMPLE_URL = "http://vfx.mtime.cn/Video/2019/03/14/mp4/190314223540373995.mp4";
+
     private void playPointVideo(int position){
         btn_pre.setEnabled(position!=0);
         btn_next.setEnabled(position!=beanList.size()-1);
         Zhibo bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getName());
-        videoView.setVideoURI(Uri.parse(bean.getUri()));
+        videoView.setVideoURI(Uri.parse(SAMPLE_URL));
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
 //        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225508/index.m3u8"));
         videoView.initPlayer();
@@ -294,6 +251,57 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //        videoView.setVideoPath(
 //                "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"
 //        );
+        videoView.setPlayerEventListener(new AbstractPlayer.PlayerEventListener() {
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onCompletion() {
+                //移除更新播放消息
+                mHandler.removeMessages(MSG_UPDATE_TIME);
+                //修改按钮状态
+                //暂停的时候移除消息，   播放 的时候发送消息
+                //更新时间为最大值
+                startUpdateVideoPosition();
+            }
+
+            @Override
+            public void onInfo(int what, int extra) {
+                switch (what){
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                        ll_loading.setVisibility(View.VISIBLE);
+                        break;
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                        ll_loading.setVisibility(View.GONE);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                seekBar.setMax(mp.getDuration());
+                startUpdateVideoPosition();
+                //初始化亿播放时间
+                ll_loading.setVisibility(View.GONE);
+                Timer timer = new Timer();
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        seekBar.setSecondaryProgress(videoView.getBufferedPercentage());
+
+                    }
+                };
+                timer.schedule(timerTask,0,1000);
+            }
+
+            @Override
+            public void onVideoSizeChanged(int width, int height) {
+
+            }
+        });
     }
     int currentVolumn = 0;
 
@@ -442,8 +450,12 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
         seekBar.setProgress(videoView.getCurrentPosition());
         zongshijian.setText(videoView.getCurrentPosition() +" /" + videoView.getDuration());
-
     }
+
+
+
+
+
 
     @Override
     protected void onResume() {
