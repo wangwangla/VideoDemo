@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.ViewGroup;
+import android.widget.VideoView;
 
 import com.example.player_base.AbstractPlayer;
 
@@ -35,6 +36,7 @@ public class AndroidVideoPlayer
     private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener;
     private int currentVideoPercent = 0;
     private int mBufferedPercent = 100;
+    private boolean mScreenOnWhilePlaying;
 
     public AndroidVideoPlayer(Context context) {
         super(context);
@@ -53,8 +55,6 @@ public class AndroidVideoPlayer
      */
     @Override
     public void initPlayer() {
-
-
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
             mMediaPlayer.release();
@@ -133,6 +133,7 @@ public class AndroidVideoPlayer
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        mScreenOnWhilePlaying = true;
         if (preparedListener != null) {
             preparedListener.onPrepared(mp);
         }
@@ -415,7 +416,25 @@ public class AndroidVideoPlayer
 
     public void start() {
         mMediaPlayer.start();
+        setScreenOnWhilePlaying(true);
     }
+
+    public void setScreenOnWhilePlaying(boolean screenOn) {
+        if (mScreenOnWhilePlaying != screenOn) {
+            if (screenOn && surfaceHolder == null) {
+                Log.w(TAG, "setScreenOnWhilePlaying(true) is ineffective without a SurfaceHolder");
+            }
+            mScreenOnWhilePlaying = screenOn;
+            updateSurfaceScreenOn();   //#
+        }
+    }
+
+    private void updateSurfaceScreenOn() {
+        if (surfaceHolder != null) {
+            surfaceHolder.setKeepScreenOn(mScreenOnWhilePlaying);   //#
+        }
+    }
+
 
     @Override
     public void pause() {
@@ -454,6 +473,4 @@ public class AndroidVideoPlayer
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         setCompletionListener(onCompletionListener);
     }
-
-
 }

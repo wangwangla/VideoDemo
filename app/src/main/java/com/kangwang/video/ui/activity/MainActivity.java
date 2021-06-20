@@ -11,8 +11,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.TextView;
-
-import com.kangwang.ffmpeglibrary.play.FFmepegVideo;
 import com.kangwang.video.R;
 import com.kangwang.video.adapter.PlayerListAdapter;
 import com.kangwang.video.ui.activity.base.BaseActivity;
