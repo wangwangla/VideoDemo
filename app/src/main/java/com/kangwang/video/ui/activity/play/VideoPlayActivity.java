@@ -58,12 +58,15 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private float screenHight;
     private AudioManager manager;
     private TextView vSpeed;
+
     @Override
     public int getLayout() {
         // 无title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         return R.layout.video_play;
     }
 
@@ -243,9 +246,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         Zhibo bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getName());
-        videoView.setVideoURI(Uri.parse(SAMPLE_URL));
+//        videoView.setVideoURI(Uri.parse(SAMPLE_URL));
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
-//        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225508/index.m3u8"));
+        videoView.setVideoURI(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
         videoView.initPlayer();
 
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
@@ -297,6 +300,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                     }
                 };
                 timer.schedule(timerTask,0,1000);
+
             }
 
             @Override
@@ -508,23 +512,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         videoView.onDestroy();
     }
 
-
-    public void enterTinyScreen() {
-        ViewGroup.LayoutParams layoutParams = videoView.getLayoutParams();
-        layoutParams.width = 300;
-        layoutParams.height = 300;
-        videoView.setLayoutParams(layoutParams);
-    }
-
-    public static Activity scanForActivity(Context context) {
-        if (context == null) return null;
-        if (context instanceof Activity) {
-            return (Activity) context;
-        } else if (context instanceof ContextWrapper) {
-            return scanForActivity(((ContextWrapper) context).getBaseContext());
-        }
-        return null;
-    }
     /**
      *  获取屏幕宽度
      */
