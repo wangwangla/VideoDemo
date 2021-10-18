@@ -46,7 +46,7 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
     public static final int PAUSE = 2;
 
     /**
-     * bofang
+     * 播放
      */
     public static final int PLAY = 1;
 

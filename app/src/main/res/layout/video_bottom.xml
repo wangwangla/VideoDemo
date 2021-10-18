@@ -82,5 +82,12 @@
             android:layout_height="wrap_content">
 
         </TextView>
+        <ImageView
+            android:id="@+id/xuanfu"
+            android:src="@drawable/ic_play_btn_next"
+            android:layout_width="30dp"
+            android:layout_height="30dp">
+
+        </ImageView>
     </LinearLayout>
 </LinearLayout>

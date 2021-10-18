@@ -12,9 +12,9 @@ include_directories(
         include
         play
         utils
-        play/decor
-        play/decor/base
         ${CMAKE_SOURCE_DIR}/util
+        ${CMAKE_SOURCE_DIR}/playvideo/PlayFFmpeg.c
+        ${CMAKE_SOURCE_DIR}/playvideo/PlayFFmpeg.h
 )
 
 link_directories(
@@ -22,15 +22,10 @@ link_directories(
 
 #编译那些文件
 file(GLOB src-files
-        ${CMAKE_SOURCE_DIR}/*.cpp
-        ${CMAKE_SOURCE_DIR}/play/*.cpp
-        ${CMAKE_SOURCE_DIR}/play/*.h
         ${CMAKE_SOURCE_DIR}/utils/*.cpp
         ${CMAKE_SOURCE_DIR}/utils/*.h
-        ${CMAKE_SOURCE_DIR}/play/decor/*.cpp
-        ${CMAKE_SOURCE_DIR}/play/decor/*.h
-        ${CMAKE_SOURCE_DIR}/play/decor/base/*.cpp
-        ${CMAKE_SOURCE_DIR}/play/decor/base/*.h
+        ${CMAKE_SOURCE_DIR}/playvideo/PlayFFmpeg.h
+        ${CMAKE_SOURCE_DIR}/playvideo/PlayFFmpeg.c
         )
 
 add_library( # Sets the name of the library.

@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.ViewGroup;
+import android.widget.VideoView;
 
 import com.example.player_base.AbstractPlayer;
 
@@ -53,8 +54,6 @@ public class AndroidVideoPlayer
      */
     @Override
     public void initPlayer() {
-
-
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
             mMediaPlayer.release();
@@ -98,8 +97,8 @@ public class AndroidVideoPlayer
     }
 
     public void setVideoURI(Uri uri, Map<String, String> headers) {
-        mUri = uri;
-        mHeaders = headers;
+        this.mUri = uri;
+        this.mHeaders = headers;
     }
 
     public void openVideo() {
@@ -109,12 +108,12 @@ public class AndroidVideoPlayer
         release();
         try {
             mMediaPlayer = new MediaPlayer();
-            setInitListener();
             mMediaPlayer.setDataSource(context, mUri, mHeaders);
             mMediaPlayer.setDisplay(surfaceHolder);
 //            mMediaPlayer.setAudioAttributes(mAudioAttributes);
             mMediaPlayer.setScreenOnWhilePlaying(true);
             prepareAsync();
+            setInitListener();
         } catch (Exception ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             return;
@@ -454,6 +453,4 @@ public class AndroidVideoPlayer
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         setCompletionListener(onCompletionListener);
     }
-
-
 }

@@ -51,6 +51,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout topLinear;
     private LinearLayout bottomLinear;
     private LinearLayout ll_loading;
+    private ImageView xuanfu;
     private ArrayList<Zhibo> beanList;
     private int position;
     private static final int UPDATE_SECOND = 5;
@@ -84,6 +85,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         ll_loading = findViewById(R.id.ll_loading);
         ll_loading.setVisibility(View.VISIBLE);
         vSpeed = findViewById(R.id.xxxxx);
+        xuanfu = findViewById(R.id.xuanfu);
     }
 
     @Override
@@ -194,7 +196,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
         vSpeed.setOnClickListener(this::onClick);
-
+        xuanfu.setOnClickListener(this::onClick);
 //        topLinear.setOnClickListener(this);
 //        bottomLinear.setOnClickListener(this::onClick);
 //
@@ -344,10 +346,19 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             case R.id.xxxxx:
                 switchSpeed();
                 break;
-
+            case R.id.xuanfu:
+                xunfu();
+                break;
             default:
                 break;
         }
+    }
+
+    private void xunfu() {
+        ViewGroup.LayoutParams layoutParams = videoView.getLayoutParams();
+        layoutParams.width = 100;
+        layoutParams.height = 50;
+        videoView.setLayoutParams(layoutParams);
     }
 
     private void switchSpeed(){
@@ -390,8 +401,8 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 int finalVolumn =(int) (startVolumn + changVolumn);
                 setSystemVolumn(finalVolumn);
 
-//                videoView.setX(event.getX());
-//                videoView.setY(event.getY());
+                videoView.setX(event.getX());
+                videoView.setY(event.getY());
                 break;
             case MotionEvent.ACTION_UP:
                 videoView.setSpeed(1);

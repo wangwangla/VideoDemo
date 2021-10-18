@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kangwang.video">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,48 +13,53 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Video">
+        <activity
+            android:name=".FFmpegActivity"
+            android:exported="true" />
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!--横竖屏切换会重新进行声明周期的执行-->
-        <activity android:name=".ui.activity.play.VideoPlayActivity"
-            android:screenOrientation="landscape"
+        </activity> <!-- 横竖屏切换会重新进行声明周期的执行 -->
+        <activity
+            android:name=".ui.activity.play.VideoPlayActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="rtsp"></data>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="rtsp" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="video/*"/>
-                <data android:mimeType="application/sdp"/>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+                <data android:mimeType="application/sdp" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <category android:name="android.intent.category.BROWSABLE"></category>
-                <data android:scheme="http"></data>
-                <data android:mimeType="video/mp4"></data>
-                <data android:mimeType="video/3gp"></data>
-                <data android:mimeType="video/3gpp"></data>
-                <data android:mimeType="video/3gpp2"></data>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:mimeType="video/mp4" />
+                <data android:mimeType="video/3gp" />
+                <data android:mimeType="video/3gpp" />
+                <data android:mimeType="video/3gpp2" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.play.AudioPlayActivity">
+        <activity android:name=".ui.activity.play.AudioPlayActivity"></activity>
 
-
-        </activity>
-
-        <service android:name=".service.AudioService"></service>
+        <service android:name=".service.AudioService" />
     </application>
 
 </manifest>

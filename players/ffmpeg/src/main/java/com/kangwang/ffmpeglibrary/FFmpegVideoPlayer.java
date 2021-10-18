@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.Map;
 
 public class FFmpegVideoPlayer extends AbstractPlayer {
+    static {
+        System.loadLibrary("play");
+    }
     private FFmepegVideo fFmepegVideo;
     public FFmpegVideoPlayer(Context context) {
         super(context);

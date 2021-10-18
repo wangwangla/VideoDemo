@@ -49,3 +49,10 @@ Java_com_kangwang_ffmpeglibrary_play_FFmepegVideo_native_1version(
     LOGCATE("GetFFmpegVersion\n%s", strBuffer);
     return env->NewStringUTF(strBuffer);
 }
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_kangwang_ffmpeglibrary_play_FFmepegVideo_prepare(JNIEnv *env, jobject thiz,
+                                                          jstring video_path) {
+
+
+}

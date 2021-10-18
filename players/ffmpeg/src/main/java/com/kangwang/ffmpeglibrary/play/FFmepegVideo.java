@@ -10,4 +10,6 @@ public class FFmepegVideo {
 
     private native String native_version();
 
+    public native void prepare(String videoPath);
+
 }
