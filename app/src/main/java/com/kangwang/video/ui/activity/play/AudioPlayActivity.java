@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.kangwang.video.R;
 import com.kangwang.video.bean.Mp3Bean;
+import com.kangwang.video.lyirc.LyricUtils;
 import com.kangwang.video.lyirc.LyricView;
 import com.kangwang.video.service.AudioService;
 import com.kangwang.video.service.IAudioService;
@@ -66,12 +67,16 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
          intent.setClass(this, AudioService.class);
          startService(intent); //会执行服务的start ff
          //activity 和 service的连接通道
-        serviceConnection = new ServiceConnection() {
+         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 IAudioService music = (IAudioService)service;
                 auidoService = music.getAuidoService();
                 seekBar.setMax(auidoService.getDuring());
+                LyricUtils utils = new LyricUtils();
+                String audioPath = music.getAudioPath();
+                System.out.println(audioPath);
+//                audioPath.indexOf()
             }
 
             @Override

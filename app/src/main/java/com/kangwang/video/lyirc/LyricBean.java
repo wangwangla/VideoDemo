@@ -1,12 +1,21 @@
 package com.kangwang.video.lyirc;
 
 public class LyricBean {
-    private int startTime;
+    private long startTime;
     private String content;
+    private long sleepTime;
 
-    public LyricBean(int startTime, String content) {
+    public LyricBean(long startTime, String content) {
         this.startTime = startTime;
         this.content = content;
+    }
+
+    public long getSleepTime() {
+        return sleepTime;
+    }
+
+    public void setSleepTime(long sleepTime) {
+        this.sleepTime = sleepTime;
     }
 
     @Override
@@ -17,7 +26,7 @@ public class LyricBean {
                 '}';
     }
 
-    public int getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 

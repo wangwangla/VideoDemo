@@ -1,4 +1,4 @@
-include ':players:ffmpeg'
+//include ':players:ffmpeg'
 include ':players:androidMediaPlayer'
 include ':players'
 include ':ffmpeglibrary'

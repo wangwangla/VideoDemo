@@ -27,12 +27,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager viewPager;
     private TextView audioView;
     private TextView videoView;
+    private TextView zhiBoView;
     private final int TAB_VIDEO = 0;
     private final int TAB_AUDIO = 1;
+    private final int TAB_ZHIBO = 2;
 
     @Override
     public int getLayout() {
-//        FFmepegVideo fFmepegVideo = new FFmepegVideo();
         return R.layout.activity_main;
     }
 
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         viewPager = findViewById(R.id.vp);
         audioView = findViewById(R.id.audio_id);
         videoView = findViewById(R.id.video_id);
+        zhiBoView = findViewById(R.id.zhibo_id);
     }
 
     private RemoteViews getContentView() {
@@ -59,9 +61,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         List<BaseFragment> list = new ArrayList<>();
         list.add(new ZhiBoFragment());
         list.add(new Mp3Fragment());
+        list.add(new VideoFragment());
         viewPager.setAdapter(new PlayerListAdapter(getSupportFragmentManager(),list));
         audioView.setOnClickListener(this);
         videoView.setOnClickListener(this);
+        zhiBoView.setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +76,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.video_id:
                 switchTabs(TAB_VIDEO);
+                break;
+            case R.id.zhibo_id:
+                switchTabs(TAB_ZHIBO);
                 break;
             default:
                 break;
@@ -90,9 +97,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (position == TAB_AUDIO){
             audioView.setTextColor(Color.BLUE);
             videoView.setTextColor(Color.GRAY);
-        }else {
+        }else if (position == TAB_VIDEO){
             videoView.setTextColor(Color.BLUE);
             audioView.setTextColor(Color.GRAY);
+        }else {
+
         }
     }
 

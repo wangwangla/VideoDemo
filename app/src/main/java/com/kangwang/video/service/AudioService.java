@@ -45,11 +45,20 @@ public class AudioService extends Service {
     }
 
     private class Music extends Binder implements IAudioService{
-
+        private AudioService service = AudioService.this;
         @Override
         public AudioService getAuidoService() {
             return AudioService.this;
         }
+
+        @Override
+        public String getAudioPath() {
+            return service.getAudioPath();
+        }
+    }
+
+    private String getAudioPath() {
+        return bean1.getData();
     }
 
     @Override
@@ -61,10 +70,11 @@ public class AudioService extends Service {
         }
         beanlIst = (ArrayList<Mp3Bean>)intent.getSerializableExtra("bean");
         position = intent.getIntExtra("position", -1);
-
         playItem();
         return super.onStartCommand(intent, flags, startId);
     }
+
+    Mp3Bean bean1;
 
     private void playItem() {
         if(mediaPlayer!=null){
@@ -73,8 +83,9 @@ public class AudioService extends Service {
             mediaPlayer = new MediaPlayer();
         }
         try {
-            Mp3Bean bean1 = beanlIst.get(position);
+            bean1 = beanlIst.get(position);
             mediaPlayer.setDataSource(bean1.getData());
+
             mediaPlayer.prepare();
             mediaPlayer.start();
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

@@ -49,6 +49,8 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
         paint.setTextSize(mHightSize);
         paint.setAntiAlias(true);
 
+
+
         lyricBeans = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             lyricBeans.add(new LyricBean(i*2000,"这是第"+i+"条数据"));
@@ -108,7 +110,7 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
 
     public void roll(int currentTime,int totalTime){
         for (int i = 0; i < lyricBeans.size(); i++) {
-            int nextPoint;
+            long nextPoint;
             if (i == lyricBeans.size() - 1){
                 nextPoint = totalTime;
             }else {
@@ -116,7 +118,7 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
                 nextPoint = lyricBeans.get(i+1).getStartTime();
             }
 
-            int startTime = lyricBeans.get(i).getStartTime();
+            long startTime = lyricBeans.get(i).getStartTime();
             if (currentTime >= startTime && currentTime<nextPoint){
                 currentLine = i;
                 break;
