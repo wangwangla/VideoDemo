@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
-
     private Paint paint;
     private int mHalfVieW;
     private int mHalfVieH;
@@ -63,7 +62,9 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawMult(canvas);
+        if (lyricBeans!=null) {
+            drawMult(canvas);
+        }
     }
 
     private void drawMult(Canvas canvas) {
@@ -109,6 +110,7 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
 
 
     public void roll(int currentTime,int totalTime){
+        if (lyricBeans==null)return;
         for (int i = 0; i < lyricBeans.size(); i++) {
             long nextPoint;
             if (i == lyricBeans.size() - 1){
@@ -125,5 +127,9 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView{
             }
         }
         invalidate();
+    }
+
+    public void setLyricBeans(List<LyricBean> lyricBeans) {
+        this.lyricBeans = lyricBeans;
     }
 }

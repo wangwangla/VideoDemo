@@ -13,6 +13,11 @@ import java.util.Comparator;
 
 public class LyricUtils {
     private ArrayList<LyricBean> lyrics;
+
+    public ArrayList<LyricBean> getLyrics() {
+        return lyrics;
+    }
+
     public void readLyricFile(File file){
         if (file == null || !file.exists()){
             lyrics = null;
@@ -25,7 +30,7 @@ public class LyricUtils {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
                 String line = null;
                 while ((line = reader.readLine())!=null){
-                    line = parseLyric(line);
+                    parseLyric(line);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -33,7 +38,7 @@ public class LyricUtils {
         }
     }
 
-    private String parseLyric(String line){
+    private void parseLyric(String line){
         int pos1 = line.indexOf("[");
         int pos2 = line.indexOf("]");
         if (pos1 == 0 & pos2 !=-1){
@@ -41,7 +46,7 @@ public class LyricUtils {
             String startTime  = line.substring(pos1+1,pos2);
             timePoints[0] = strtime2long(startTime);
             if (timePoints[0]==-1){
-                return "";
+                return;
             }
             int i = 1;
             String content = line;
@@ -53,7 +58,7 @@ public class LyricUtils {
                     startTime = content.substring(pos1+1,pos2);
                     timePoints[i] = strtime2long(startTime);
                     if (timePoints[i] == -1){
-                        return "";
+                        return;
                     }
                     i++;
                 }
@@ -75,7 +80,6 @@ public class LyricUtils {
                 }
             }
         }
-        return null;
     }
 
     class Sort implements Comparator<LyricBean>{

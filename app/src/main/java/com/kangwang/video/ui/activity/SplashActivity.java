@@ -1,7 +1,11 @@
 package com.kangwang.video.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Handler;
+import android.view.Display;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.kangwang.video.R;
 import com.kangwang.video.ui.activity.base.BaseActivity;
@@ -21,6 +25,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView() {
 
+
     }
 
     @Override
@@ -34,7 +39,7 @@ public class SplashActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-        },3000);
+        },2000);
     }
 
     @Override

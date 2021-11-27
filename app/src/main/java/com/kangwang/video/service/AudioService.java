@@ -57,7 +57,7 @@ public class AudioService extends Service {
         }
     }
 
-    private String getAudioPath() {
+    public String getAudioPath() {
         return bean1.getData();
     }
 

@@ -18,11 +18,15 @@ import androidx.annotation.NonNull;
 
 import com.kangwang.video.R;
 import com.kangwang.video.bean.Mp3Bean;
+import com.kangwang.video.lyirc.LyricBean;
 import com.kangwang.video.lyirc.LyricUtils;
 import com.kangwang.video.lyirc.LyricView;
 import com.kangwang.video.service.AudioService;
 import com.kangwang.video.service.IAudioService;
 import com.kangwang.video.ui.activity.base.BaseActivity;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class AudioPlayActivity extends BaseActivity implements View.OnClickListener{
     private ImageView zanting ;
@@ -74,8 +78,18 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
                 auidoService = music.getAuidoService();
                 seekBar.setMax(auidoService.getDuring());
                 LyricUtils utils = new LyricUtils();
-                String audioPath = music.getAudioPath();
-                System.out.println(audioPath);
+                String audioPath = auidoService.getAudioPath();
+                String lyricPath = getLyricPath(audioPath);
+                if (lyricPath!=null){
+                    File file = new File(lyricPath+".lrc");
+                    if (!file.exists()){
+                        file = new File(lyricPath+".txt");
+                    }
+                    utils.readLyricFile(file);
+                    ArrayList<LyricBean> lyrics = utils.getLyrics();
+                    lyricView.setLyricBeans(lyrics);
+                }
+
 //                audioPath.indexOf()
             }
 
@@ -109,6 +123,23 @@ public class AudioPlayActivity extends BaseActivity implements View.OnClickListe
         };
         registerReceiver(broadcastReceiver,filter);
 
+    }
+
+    public String getLyricPath(String musicNamePath){
+        try {
+            int i = musicNamePath.lastIndexOf("/");
+            String musicRootPath = musicNamePath.substring(0, i);
+            String musicName = musicNamePath.substring(i+1,musicNamePath.length());
+            int i1 = musicName.lastIndexOf(".");
+            String name = musicName.substring(0, i1);
+            i = musicRootPath.lastIndexOf("/");
+            musicRootPath = musicRootPath.substring(0, i)+"/lyric/";
+            System.out.println(musicRootPath+name+".lyric");
+            return musicRootPath+name;
+        }catch (Exception e) {
+
+        }
+        return null;
     }
 
     private void roll(int currentTime, int during) {

@@ -250,7 +250,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
 //        videoView.setVideoURI(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
         videoView.initPlayer();
-
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
 //        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
 //        videoView.setVideoPath(

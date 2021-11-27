@@ -3,8 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/drawable/video_back_selector.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/activity_ffmpeg.xml" value="0.22056159420289856" />
         <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/activity_main.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/activity_splash.xml" value="0.22056159420289856" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/adapter_video_item.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/audio_play.xml" value="0.5071851225697379" />
         <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/mp3_list_fragment.xml" value="0.22864583333333333" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/zhibo_list.xml" value="0.2671875" />
+        <entry key="..\:/Users/28188/Desktop/VideoDemo/app/src/main/res/layout/zhobo_item.xml" value="0.2671875" />
         <entry key="..\:/work/VideoDemo/app/src/main/res/layout/activity_ffmpeg.xml" value="0.1595744680851064" />
         <entry key="..\:/work/VideoDemo/app/src/main/res/layout/activity_main.xml" value="0.26145833333333335" />
       </map>
