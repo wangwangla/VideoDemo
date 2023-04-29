@@ -28,6 +28,7 @@ import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.bean.Zhibo;
 import com.kangwang.video.ui.activity.base.BaseActivity;
+import com.kangwang.video.utils.AndroidUtils;
 import com.kangwang.video.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -39,56 +40,37 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private static final int MSG_UPDATE_TIME = 2;
     private AbstractPlayer videoView;
     private ImageView btnPlayer;
-    private SeekBar sb_volum;
-    private ImageView mute;
     private SeekBar seekBar;
     private ImageView btn_back;
     private ImageView btn_pre;
     private ImageView btn_next;
-    private TextView title;
-    private TextView zongshijian;
     private GestureDetector detector;
     private LinearLayout topLinear;
     private LinearLayout bottomLinear;
-    private LinearLayout ll_loading;
-    private ImageView xuanfu;
     private ArrayList<Zhibo> beanList;
     private int position;
     private static final int UPDATE_SECOND = 5;
     private float screenHight;
     private AudioManager manager;
-    private TextView vSpeed;
 
     @Override
     public int getLayout() {
-        // 无title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // 全屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        AndroidUtils.noTitle(this);
+        AndroidUtils.fullScreen(this);
         return R.layout.video_play;
     }
 
     @Override
     public void initView() {
-        videoView = findViewById(R.id.vv);
+        videoView = findViewById(R.id.video_player);
         btnPlayer = findViewById(R.id.play_pause);
         btnPlayer.setOnClickListener(this);
-        sb_volum = findViewById(R.id.sb_volum);
-        mute = findViewById(R.id.mute);
         seekBar = findViewById(R.id.pro_bar);
         btn_back = findViewById(R.id.btn_back);
         btn_pre = findViewById(R.id.btn_pre);
         btn_next = findViewById(R.id.btn_next);
-        title = findViewById(R.id.v_title);
-        zongshijian = findViewById(R.id.zongshijian);
         topLinear = findViewById(R.id.video_top);
         bottomLinear = findViewById(R.id.video_bottom);
-        ll_loading = findViewById(R.id.ll_loading);
-        ll_loading.setVisibility(View.VISIBLE);
-        vSpeed = findViewById(R.id.xxxxx);
-        xuanfu = findViewById(R.id.xuanfu);
     }
 
     @Override
@@ -98,10 +80,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         updateSystemTime();
         manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //得到最大的音量
-        int streamMaxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        sb_volum.setMax(streamMaxVolume);
-        int streamVolume = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        sb_volum.setProgress(streamVolume);
+//        int streamMaxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+//        sb_volum.setMax(streamMaxVolume);
+//        int streamVolume = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
+//        sb_volum.setProgress(streamVolume);
     }
 
     private int getCurrentVolumn(){
@@ -139,23 +121,23 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //                startUpdateVideoPosition();
 //            }
 //        });
-        sb_volum.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //第三个参数就是是不是用户在波动进度条 1.显示系统的   0，不显示
-                manager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+//        sb_volum.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                //第三个参数就是是不是用户在波动进度条 1.显示系统的   0，不显示
+//                manager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -192,13 +174,11 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //        });
 
 
-        mute.setOnClickListener(this);
+//        mute.setOnClickListener(this);
 
         btn_next.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
-        vSpeed.setOnClickListener(this::onClick);
-        xuanfu.setOnClickListener(this::onClick);
 //        topLinear.setOnClickListener(this);
 //        bottomLinear.setOnClickListener(this::onClick);
 //
@@ -244,11 +224,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_next.setEnabled(position!=beanList.size()-1);
         Zhibo bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
-        title.setText(bean.getName());
-        videoView.setDataSource(bean.getUri(),null);
+//        videoView.setDataSource(bean.getUri(),null);
 //        videoView.setVideoURI(Uri.parse(SAMPLE_URL));
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
-//        videoView.setVideoURI(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
+        videoView.setVideoURI(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
         videoView.initPlayer();
 //        videoView.setVideoURI(Uri.parse("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
 //        videoView.setVideoPath("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8");
@@ -275,10 +254,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             public void onInfo(int what, int extra) {
                 switch (what){
                     case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-                        ll_loading.setVisibility(View.VISIBLE);
+
                         break;
                     case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        ll_loading.setVisibility(View.GONE);
+//                        ll_loading.setVisibility(View.GONE);
                         break;
                 }
 
@@ -288,8 +267,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
             public void onPrepared(MediaPlayer mp) {
                 seekBar.setMax(mp.getDuration());
                 startUpdateVideoPosition();
-                //初始化亿播放时间
-                ll_loading.setVisibility(View.GONE);
                 Timer timer = new Timer();
                 TimerTask timerTask = new TimerTask() {
                     @Override
@@ -322,15 +299,15 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 }
                 updateButtonStatus();
                 break;
-            case R.id.mute:
-                int current = getCurrentVolumn();
-                if(current == 0){
-                    setSystemVolumn(currentVolumn);
-                }else {
-                    currentVolumn = getCurrentVolumn();
-                    setSystemVolumn(0);
-                }
-                break;
+//            case R.id.mute:
+//                int current = getCurrentVolumn();
+//                if(current == 0){
+//                    setSystemVolumn(currentVolumn);
+//                }else {
+//                    currentVolumn = getCurrentVolumn();
+//                    setSystemVolumn(0);
+//                }
+//                break;
             case R.id.btn_back:
                 finish();
                 break;
@@ -346,12 +323,12 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 }
                 playPointVideo(position);
                 break;
-            case R.id.xxxxx:
-                switchSpeed();
-                break;
-            case R.id.xuanfu:
-                xunfu();
-                break;
+//            case R.id.xxxxx:
+//                switchSpeed();
+//                break;
+//            case R.id.xuanfu:
+//                xunfu();
+//                break;
             default:
                 break;
         }
@@ -365,21 +342,22 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void switchSpeed(){
-        CharSequence text = vSpeed.getText();
-        float speed = 1.0f;
-        if (text==null){
-            vSpeed.setText("1.0x");
-            setVideoSpeed(speed);
-            return;
-        }
-        if (text.equals("1.0x")){
-            vSpeed.setText("2.0x");
-            speed = 2.0f;
-        }else if (text.equals("2.0x")){
-            vSpeed.setText("1.0x");
-            speed = 1.0f;
-        }
-        setVideoSpeed(speed);
+//
+//        CharSequence text = vSpeed.getText();
+//        float speed = 1.0f;
+//        if (text==null){
+//            vSpeed.setText("1.0x");
+//            setVideoSpeed(speed);
+//            return;
+//        }
+//        if (text.equals("1.0x")){
+//            vSpeed.setText("2.0x");
+//            speed = 2.0f;
+//        }else if (text.equals("2.0x")){
+//            vSpeed.setText("1.0x");
+//            speed = 1.0f;
+//        }
+//        setVideoSpeed(speed);
     }
 
     private void setVideoSpeed(float speed){
@@ -416,7 +394,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
     private void setSystemVolumn(int volumn){
         manager.setStreamVolume(AudioManager.STREAM_MUSIC,volumn,0);
-        sb_volum.setProgress(volumn );
+//        sb_volum.setProgress(volumn );
     }
 
     private void updateButtonStatus() {
@@ -463,7 +441,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //        ready_play_time.setText(videoView.getCurrentPosition()+"");
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME,500);
         seekBar.setProgress(videoView.getCurrentPosition());
-        zongshijian.setText(videoView.getCurrentPosition() +" /" + videoView.getDuration());
+//        zongshijian.setText(videoView.getCurrentPosition() +" /" + videoView.getDuration());
     }
 
 

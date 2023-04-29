@@ -21,4 +21,19 @@ public abstract class BaseActivity extends FragmentActivity implements UIInterfa
         initData();
         initListener();
     }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
 }

@@ -23,12 +23,6 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
-
-
-    }
-
-    @Override
     public void initData() {
         //延迟跳转
         Handler handler = new Handler();
@@ -40,10 +34,5 @@ public class SplashActivity extends BaseActivity {
                 finish();
             }
         },2000);
-    }
-
-    @Override
-    public void initListener() {
-
     }
 }

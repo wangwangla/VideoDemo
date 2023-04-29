@@ -16,17 +16,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <ImageView
-            android:padding="10dp"
-            android:src="@drawable/goback_2"
-            android:id="@+id/btn_back"
-            android:layout_margin="3dp"
-            android:text="BACK"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
-
-        </ImageView>
-        <ImageView
+         <ImageView
             android:padding="10dp"
             android:src="@drawable/ic_play_btn_prev"
             android:id="@+id/btn_pre"
@@ -58,22 +48,15 @@
 
         </ImageView>
 
-        <TextView
-            android:id="@+id/zongshijian"
-            android:text=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
-
         <ImageView
             android:src="@drawable/ic_player_enlarge"
-            android:layout_width="30dp"
-            android:layout_height="30dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
         </ImageView>
         <TextView
-            android:id="@+id/xxxxx"
+            android:id="@+id/speed"
             android:textColor="@color/white"
             android:layout_gravity="center"
             android:textSize="19sp"
@@ -82,12 +65,5 @@
             android:layout_height="wrap_content">
 
         </TextView>
-        <ImageView
-            android:id="@+id/xuanfu"
-            android:src="@drawable/ic_play_btn_next"
-            android:layout_width="30dp"
-            android:layout_height="30dp">
-
-        </ImageView>
     </LinearLayout>
 </LinearLayout>
