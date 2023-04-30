@@ -280,7 +280,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         Zhibo bean = beanList.get(position);
         LogUtils.v("xxx",bean.toString());
         title.setText(bean.getName());
-        videoView.setVideoURI(Uri.parse(bean.getUri()));
+        videoView.setVideoURI(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
 //        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225508/index.m3u8"));
         videoView.initPlayer();
