@@ -24,8 +24,6 @@ import androidx.annotation.RequiresApi;
 
 import com.example.player_base.AbstractPlayer;
 import com.kangwang.video.R;
-import com.kangwang.video.bean.VideoBean;
-import com.kangwang.video.bean.Zhibo;
 import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.utils.LogUtils;
 
@@ -50,7 +48,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout topLinear;
     private LinearLayout bottomLinear;
     private LinearLayout ll_loading;
-    private ArrayList<Zhibo> beanList;
     private int position;
     private static final int UPDATE_SECOND = 5;
     private float screenHight;
@@ -109,7 +106,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data == null){
-            beanList = (ArrayList<Zhibo>) intent.getSerializableExtra("bean");
             position = intent.getIntExtra("position", -1);
             playPointVideo(position);
         }else {
@@ -236,15 +232,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         btn_next.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         btn_pre.setOnClickListener(this);
-
-//        topLinear.setOnClickListener(this);
-//        bottomLinear.setOnClickListener(this::onClick);
-//
-
-        //第二缓冲进度
-
-
-
         //设置手势的监听
         detector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
             @Override
@@ -276,10 +263,6 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
     private void playPointVideo(int position){
         btn_pre.setEnabled(position!=0);
-        btn_next.setEnabled(position!=beanList.size()-1);
-        Zhibo bean = beanList.get(position);
-        LogUtils.v("xxx",bean.toString());
-        title.setText(bean.getName());
         videoView.setVideoURI(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
 //        http://39.134.168.76/PLTV/1/224/3221225556/index.m3u8
 //        videoView.setVideoURI(Uri.parse("http://39.134.168.76/PLTV/1/224/3221225508/index.m3u8"));
@@ -324,9 +307,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 playPointVideo(position);
                 break;
             case R.id.btn_next:
-                if (position!=beanList.size()-1){
-                    position++;
-                }
+
                 playPointVideo(position);
                 break;
 //            case R.id.full_screen:
