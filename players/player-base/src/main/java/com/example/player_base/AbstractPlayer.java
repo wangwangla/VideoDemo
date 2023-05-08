@@ -334,6 +334,5 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
             mPlayerEventListener.onVideoSizeChanged(width,height);
         }
     }
-
 }
 

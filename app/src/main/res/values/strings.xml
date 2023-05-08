@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Video</string>
+    <string name="oneS">1x</string>
+    <string name="twoS">twoS</string>
+    <string name="fourS">4x</string>
+    <string name="threeS">3x</string>
 </resources>

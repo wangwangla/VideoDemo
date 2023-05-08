@@ -4,7 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/github/VideoDemo/app/src/main/res/layout/activity_main.xml" value="0.35597826086956524" />
-        <entry key="..\:/github/VideoDemo/app/src/main/res/layout/video_play.xml" value="0.2971014492753623" />
+        <entry key="..\:/github/VideoDemo/app/src/main/res/layout/activity_splash.xml" value="0.2921195652173913" />
+        <entry key="..\:/github/VideoDemo/app/src/main/res/layout/adapter_video_item.xml" value="0.13994565217391305" />
+        <entry key="..\:/github/VideoDemo/app/src/main/res/layout/video_item.xml" value="0.21" />
+        <entry key="..\:/github/VideoDemo/app/src/main/res/layout/video_play.xml" value="0.1" />
+        <entry key="..\:/github/VideoDemo/app/src/main/res/menu/popup_song.xml" value="0.22135416666666666" />
       </map>
     </option>
   </component>

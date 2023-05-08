@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import com.example.player_base.AbstractPlayer;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -50,6 +52,12 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
 
     public ExoMediaPlayer(Context context) {
         super(context);
+        mAppContext = context.getApplicationContext();
+        mMediaSourceHelper = ExoMediaSourceHelper.getInstance(context);
+    }
+
+    public ExoMediaPlayer(Context context, AttributeSet attributeSet) {
+        super(context,attributeSet);
         mAppContext = context.getApplicationContext();
         mMediaSourceHelper = ExoMediaSourceHelper.getInstance(context);
     }

@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.player_base.AbstractPlayer;
 
@@ -121,6 +121,10 @@ public class AndroidVideoPlayer
         mMediaPlayer.setOnErrorListener(this::onError);
         mMediaPlayer.setOnInfoListener(this::onInfo);
         mMediaPlayer.setOnBufferingUpdateListener(this::onBufferingUpdate);
+    }
+
+    public MediaPlayer getmMediaPlayer() {
+        return mMediaPlayer;
     }
 
     @Override
@@ -351,6 +355,9 @@ public class AndroidVideoPlayer
             } catch (Exception e) {
                 mPlayerEventListener.onError();
             }
+        }else {
+            Toast.makeText(context, "不支持！", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"不支持!".toString(),Toast.LENGTH_LONG).show();
         }
     }
 
@@ -381,7 +388,10 @@ public class AndroidVideoPlayer
 
     @Override
     public boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
+        if (mMediaPlayer!=null){
+            return mMediaPlayer.isPlaying();
+        }
+        return false;
     }
 
     /**
@@ -447,6 +457,4 @@ public class AndroidVideoPlayer
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         setCompletionListener(onCompletionListener);
     }
-
-
 }

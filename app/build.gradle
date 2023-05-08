@@ -35,6 +35,7 @@ dependencies {
     implementation project(path: ':players:androidMediaPlayer')
     implementation project(path: ':players:player-base')
     implementation project(path: ':players:mediaextractor')
+    implementation project(path: ':players:exo')
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
