@@ -146,4 +146,10 @@ public class PlayActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        androidVideoPlayer.release();
+    }
 }

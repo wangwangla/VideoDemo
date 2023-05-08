@@ -5,10 +5,12 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    packagingOptions {
+        exclude 'META-INF/beans.xml'
+    }
     defaultConfig {
         applicationId "com.kangwang.video"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -40,4 +42,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//    compileOnly 'javax.enterprise:cdi-api:2.0'
+//    implementation 'com.github.yanbo469:VideoDlnaScreen:v1.0'
+    api 'com.github.devin1014.DLNA-Cast:dlna-dmc:V1.0.0'
 }

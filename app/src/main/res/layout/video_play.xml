@@ -3,13 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
-    <com.kangwang.androidmediaplayer.AndroidVideoPlayer
+<!--    <com.kangwang.androidmediaplayer.AndroidVideoPlayer-->
+<!--        android:id="@+id/android_player"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--    </com.kangwang.androidmediaplayer.AndroidVideoPlayer>-->
+
+    <xyz.doikki.videoplayer.exo.ExoMediaPlayer
         android:id="@+id/android_player"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.kangwang.androidmediaplayer.AndroidVideoPlayer>
+    </xyz.doikki.videoplayer.exo.ExoMediaPlayer>
+
 
     <LinearLayout
         android:layout_width="match_parent"

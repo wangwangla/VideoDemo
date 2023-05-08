@@ -1,7 +1,9 @@
 package com.kangwang.video.ui.activity;
 
+import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,9 +15,16 @@ import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.utils.PermissionUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView videoListRV;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public int getLayout() {
         return R.layout.activity_main;

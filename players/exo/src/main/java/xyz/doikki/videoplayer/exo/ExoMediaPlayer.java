@@ -24,9 +24,11 @@ import com.google.android.exoplayer2.source.LoadEventInfo;
 import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Clock;
 import com.google.android.exoplayer2.video.VideoSize;
 
@@ -69,24 +71,13 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
 
     @Override
     public void initPlayer() {
-        mInternalPlayer = new SimpleExoPlayer.Builder(
-                mAppContext,
-                mRenderersFactory == null ? mRenderersFactory = new DefaultRenderersFactory(mAppContext) : mRenderersFactory,
-                mTrackSelector == null ? mTrackSelector = new DefaultTrackSelector(mAppContext) : mTrackSelector,
-                new DefaultMediaSourceFactory(mAppContext),
-                mLoadControl == null ? mLoadControl = new DefaultLoadControl() : mLoadControl,
-                DefaultBandwidthMeter.getSingletonInstance(mAppContext),
-                new AnalyticsCollector(Clock.DEFAULT))
-                .build();
-        setOptions();
-
-        //播放器日志
-//        if (VideoViewManager.getConfig().mIsEnableLog && mTrackSelector instanceof MappingTrackSelector) {
-//            mInternalPlayer.addAnalyticsListener(new EventLogger((MappingTrackSelector) mTrackSelector, "ExoPlayer"));
-//        }
-
+        mInternalPlayer =  new SimpleExoPlayer.Builder(context, new DefaultRenderersFactory(context)).build();
+        mInternalPlayer.setMediaSource(mMediaSource);
+        mInternalPlayer.prepare();
+        mInternalPlayer.play();
         mInternalPlayer.addListener(this);
         mInternalPlayer.addVideoListener(this);
+        mInternalPlayer.setVideoSurfaceView(this);
     }
 
     public void setTrackSelector(TrackSelector trackSelector) {
@@ -331,6 +322,12 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
             if (videoSize.unappliedRotationDegrees > 0) {
                 mPlayerEventListener.onInfo(MEDIA_INFO_VIDEO_ROTATION_CHANGED, videoSize.unappliedRotationDegrees);
             }
+        }
+        mVideoWidth = videoSize.width;
+        mVideoHeight = videoSize.height;
+        if (mVideoWidth != 0 && mVideoHeight != 0) {
+            getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+            requestLayout();
         }
     }
 
