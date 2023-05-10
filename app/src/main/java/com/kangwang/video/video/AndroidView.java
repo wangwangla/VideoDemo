@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.player_base.AbstractPlayer;
 import com.kangwang.video.factory.AndroidPlayFactory;
@@ -16,34 +18,29 @@ import com.example.player_base.PlayerFactory;
 public class AndroidView <P extends AbstractPlayer> extends FrameLayout implements UIContoller{
     private PlayerFactory<P> playerFactory;
     private P player;
-    private Uri uri;
 
     public AndroidView(@NonNull Context context) {
-        super(context);
+        this(context,null);
     }
 
     public AndroidView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        super(context,attrs);
+        switchEngine(context);
     }
 
     public AndroidView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        switchEngine();
+        switchEngine(context);
     }
 
-    private void switchEngine(){
+    private void switchEngine(Context context){
         playerFactory = new AndroidPlayFactory();
+        player = playerFactory.createPlayer(context);
+        addView(player);
+        LayoutParams params = (LayoutParams) player.getLayoutParams();
+        params.gravity = Gravity.CENTER;
+        player.setLayoutParams(params);
     }
-
-    public void setUri(Uri uri) {
-        this.uri = uri;
-    }
-
-    public void setUri(String path){
-        this.uri = Uri.parse(path);
-    }
-
-
 
     @Override
     public void start() {
@@ -163,5 +160,16 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
     @Override
     public boolean isTinyScreen() {
         return false;
+    }
+
+    public void release() {
+    }
+
+    public void setDataSource(String path, Object o) {
+        player.setDataSource(path,null);
+    }
+
+    public void initPlayer() {
+        player.initPlayer();
     }
 }

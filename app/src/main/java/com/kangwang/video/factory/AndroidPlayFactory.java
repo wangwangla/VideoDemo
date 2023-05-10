@@ -7,9 +7,6 @@ import com.example.player_base.PlayerFactory;
 import com.kangwang.androidmediaplayer.AndroidVideoPlayer;
 
 public class AndroidPlayFactory<T extends AbstractPlayer> extends PlayerFactory<AndroidVideoPlayer> {
-//    public static VideoMeidePlayer getVideoPlayer(){
-//        return new VideoMeidePlayer();
-//    }
 
     @Override
     public AndroidVideoPlayer createPlayer(Context context) {

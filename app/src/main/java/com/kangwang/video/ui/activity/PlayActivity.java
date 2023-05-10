@@ -1,11 +1,15 @@
 package com.kangwang.video.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +21,7 @@ import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.load.FileLoader;
 import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.utils.VideoUtils;
+import com.kangwang.video.video.AndroidView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,8 +33,10 @@ import java.util.TimerTask;
 public class PlayActivity extends BaseActivity {
     private long videoId;
     private VideoBean videoInfo;
-    private AbstractPlayer androidVideoPlayer;
+    private AndroidView<AbstractPlayer> androidVideoPlayer;
     private SeekBar videoProcessSeekBar;
+
+    private Handler handler = new Handler();
     @Override
     public int getLayout() {
         return R.layout.video_play;
@@ -83,7 +90,7 @@ public class PlayActivity extends BaseActivity {
     @Override
     public void initListener() {
         View preVideo = findViewById(R.id.pre_video);
-        View playPause = findViewById(R.id.play_pause);
+        ImageView playPause = findViewById(R.id.play_pause);
         View nextVideo = findViewById(R.id.next_video);
         View speed = findViewById(R.id.speed);
         speed.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +150,31 @@ public class PlayActivity extends BaseActivity {
                 }else {
                     androidVideoPlayer.start();
                 }
+
+                updatePlayStatus();
             }
         });
+        updatePlayStatus();
+    }
+
+    private void updatePlayStatus() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updatePlayerIcon();
+            }
+        },300);
+    }
+
+    public void updatePlayerIcon(){
+        ImageView playPause = findViewById(R.id.play_pause);
+        if (androidVideoPlayer.isPlaying()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_button_pause);
+            playPause.setImageBitmap(bitmap);
+        }else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_button_play);
+            playPause.setImageBitmap(bitmap);
+        }
     }
 
     @Override

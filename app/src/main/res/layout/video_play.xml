@@ -2,22 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/play_parent_layout"
     android:background="@color/black">
-<!--    <com.kangwang.androidmediaplayer.AndroidVideoPlayer-->
+    <com.kangwang.video.video.AndroidView
+        android:id="@+id/android_player"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+       <com.kangwang.androidmediaplayer.AndroidVideoPlayer
+           android:layout_gravity="center"
+           android:layout_width="100dp"
+           android:layout_height="100dp">
+
+       </com.kangwang.androidmediaplayer.AndroidVideoPlayer>
+    </com.kangwang.video.video.AndroidView>
+
+<!--    <xyz.doikki.videoplayer.exo.ExoMediaPlayer-->
 <!--        android:id="@+id/android_player"-->
 <!--        android:layout_centerInParent="true"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent">-->
 
-<!--    </com.kangwang.androidmediaplayer.AndroidVideoPlayer>-->
-
-    <xyz.doikki.videoplayer.exo.ExoMediaPlayer
-        android:id="@+id/android_player"
-        android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </xyz.doikki.videoplayer.exo.ExoMediaPlayer>
+<!--    </xyz.doikki.videoplayer.exo.ExoMediaPlayer>-->
 
 
     <LinearLayout
@@ -48,7 +54,7 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -81,46 +87,46 @@
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
             <ImageView
                 android:id="@+id/pre_video"
                 android:layout_weight="1"
-                android:src="@drawable/ic_play_btn_prev"
+                android:src="@mipmap/ic_button_prev"
                 android:layout_gravity="center_vertical"
-                android:layout_width="20dp"
-                android:layout_height="20dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
             </ImageView>
             <ImageView
                 android:id="@+id/play_pause"
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_play_btn_play"
+                android:src="@mipmap/ic_button_pause"
                 android:layout_gravity="center_vertical"
-                android:layout_width="20dp"
-                android:layout_height="20dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
             </ImageView>
             <ImageView
                 android:id="@+id/next_video"
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_play_btn_next"
+                android:src="@mipmap/ic_button_next"
                 android:layout_gravity="center_vertical"
-                android:layout_width="20dp"
-                android:layout_height="20dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
             </ImageView>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/speed"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/default_splash_bg"
                 android:layout_width="20dp"
                 android:layout_height="20dp">
 
