@@ -41,7 +41,6 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
     protected SimpleExoPlayer mInternalPlayer;
     protected MediaSource mMediaSource;
     protected ExoMediaSourceHelper mMediaSourceHelper;
-
     private PlaybackParameters mSpeedPlaybackParameters;
 
     private int mLastReportedPlaybackState = Player.STATE_IDLE;
@@ -67,6 +66,21 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
     @Override
     public void setVideoURI(Uri parse) {
 
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+        // 当资源加载状态改变时调用
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        // 当播放器状态改变时调用
+        if (playbackState == Player.STATE_READY) {
+            // 当资源加载完成时调用
+            // 执行你的逻辑
+            mPlayerEventListener.onPrepared(null);
+        }
     }
 
     @Override

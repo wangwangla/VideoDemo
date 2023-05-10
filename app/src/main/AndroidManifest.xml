@@ -55,7 +55,8 @@
 <!--            </intent-filter>-->
 <!--        </activity>-->
 
-        <activity android:name=".ui.activity.PlayActivity">
+        <activity android:name=".ui.activity.PlayActivity"
+            android:configChanges="orientation|screenSize">
 
         </activity>
     </application>

@@ -129,9 +129,6 @@ public class AndroidVideoPlayer
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        if (preparedListener != null) {
-            preparedListener.onPrepared(mp);
-        }
         if (!mMediaPlayer.isPlaying()) {
             mMediaPlayer.start();
         }

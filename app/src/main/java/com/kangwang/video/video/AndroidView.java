@@ -2,8 +2,10 @@ package com.kangwang.video.video;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 
@@ -169,7 +171,33 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
         player.setDataSource(path,null);
     }
 
-    public void initPlayer() {
+    public void initPlayer(Runnable runnable) {
         player.initPlayer();
+        player.setPlayerEventListener(new AbstractPlayer.PlayerEventListener() {
+            @Override
+            public void onError() {
+                Log.d("play","error");
+            }
+
+            @Override
+            public void onCompletion() {
+
+            }
+
+            @Override
+            public void onInfo(int what, int extra) {
+
+            }
+
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                runnable.run();
+            }
+
+            @Override
+            public void onVideoSizeChanged(int width, int height) {
+
+            }
+        });
     }
 }

@@ -1,5 +1,7 @@
 package com.kangwang.video.ui.activity;
 
+import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -51,7 +53,12 @@ public class PlayActivity extends BaseActivity {
         androidVideoPlayer = findViewById(R.id.android_player);
         videoInfo = FileLoader.findByIdVideoPath(this, videoId + "");
         androidVideoPlayer.setDataSource(videoInfo.getPath(),null);
-        androidVideoPlayer.initPlayer();
+        androidVideoPlayer.initPlayer(new Runnable() {
+            @Override
+            public void run() {
+                updatePlayStatus();
+            }
+        });
         updateTime();
     }
 
@@ -150,12 +157,49 @@ public class PlayActivity extends BaseActivity {
                 }else {
                     androidVideoPlayer.start();
                 }
-
                 updatePlayStatus();
             }
         });
-        updatePlayStatus();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        },3000);
     }
+
+    /**
+     * 横竖屏切换
+     * @param lll
+     */
+    public void videoOri(int lll){
+        RelativeLayout.LayoutParams lp;
+        if (lll == 1){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 手动横屏
+            lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.MATCH_PARENT);
+        }else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // 手动横屏
+            lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
+        }
+        androidVideoPlayer.setLayoutParams(lp);
+    }
+
+
+    /**
+     * dp2px  动态设置视频的宽高
+     * @param context
+     * @param dpValue
+     * @return
+     */
+    public static int dp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+
+        return (int) (dpValue * scale + 0.5f);
+    }
+
 
     private void updatePlayStatus() {
         handler.postDelayed(new Runnable() {
@@ -163,7 +207,7 @@ public class PlayActivity extends BaseActivity {
             public void run() {
                 updatePlayerIcon();
             }
-        },300);
+        },100);
     }
 
     public void updatePlayerIcon(){
