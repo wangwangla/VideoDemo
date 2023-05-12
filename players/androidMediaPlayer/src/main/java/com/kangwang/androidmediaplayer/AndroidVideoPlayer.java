@@ -129,9 +129,6 @@ public class AndroidVideoPlayer
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        if (!mMediaPlayer.isPlaying()) {
-            mMediaPlayer.start();
-        }
         if (mPlayerEventListener != null) {
             mPlayerEventListener.onPrepared(mp);
         }
@@ -139,6 +136,9 @@ public class AndroidVideoPlayer
             mMediaPlayer.seekTo(currentVideoPercent);
         }
         setSpeed(1);
+        if (!mMediaPlayer.isPlaying()) {
+            mMediaPlayer.start();
+        }
     }
 
     @Override

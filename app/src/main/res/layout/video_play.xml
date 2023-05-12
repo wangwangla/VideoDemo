@@ -114,6 +114,15 @@
 
             </ImageView>
 
+            <ImageView
+                android:id="@+id/screen_control"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_button_pip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </ImageView>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

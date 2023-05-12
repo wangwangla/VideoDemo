@@ -24,6 +24,7 @@ import com.kangwang.video.load.FileLoader;
 import com.kangwang.video.ui.activity.base.BaseActivity;
 import com.kangwang.video.utils.VideoUtils;
 import com.kangwang.video.video.AndroidView;
+import com.kangwang.video.window.FloatingWindow;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -60,7 +61,61 @@ public class PlayActivity extends BaseActivity {
             }
         });
         updateTime();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showFloatingWindow();
+            }
+        },1000);
+
     }
+
+    private void showFloatingWindow() {
+        FloatingWindow mFloatingWindow = new FloatingWindow();
+        View view = findViewById(R.id.android_player);
+        mFloatingWindow.showFloatingWindowView(this, view);
+    }
+
+//    private View initFloatView() {
+//        View view = View.inflate(this, R.layout.view_floating_window, null);
+//        // 设置视频封面
+////        final ImageView mThumb = (ImageView) view.findViewById(R.id.thumb_floating_view);
+////        Glide.with(this).load(R.drawable.thumb).into(mThumb);
+//        // 悬浮窗关闭
+////        view.findViewById(R.id.close_floating_view).setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                mFloatingWindow.dismiss();
+////            }
+////        });
+//        // 返回前台页面
+////        view.findViewById(R.id.back_floating_view).setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                mFloatingWindow.setTopApp(FloatingWindowActivity.this);
+////            }
+////        });
+//        final VideoView videoView = view.findViewById(R.id.video_view);
+//        //视频内容设置
+//        videoView.setVideoPath("https://stream7.iqilu.com/10339/article/202002/18/2fca1c77730e54c7b500573c2437003f.mp4");
+//        // 视频准备完毕，隐藏正在加载封面，显示视频
+//        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                mThumb.setVisibility(View.GONE);
+//            }
+//        });
+//        // 循环播放
+//        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                videoView.start();
+//            }
+//        });
+//        // 开始播放视频
+//        videoView.start();
+//        return view;
+//    }
 
     public void updateTime(){
         Timer timer = new Timer();
@@ -99,6 +154,13 @@ public class PlayActivity extends BaseActivity {
         View preVideo = findViewById(R.id.pre_video);
         ImageView playPause = findViewById(R.id.play_pause);
         View nextVideo = findViewById(R.id.next_video);
+        View screenControl = findViewById(R.id.screen_control);
+        screenControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videoOri();
+            }
+        });
         View speed = findViewById(R.id.speed);
         speed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,13 +231,19 @@ public class PlayActivity extends BaseActivity {
         },3000);
     }
 
+    private int screenOri = 0;
+
     /**
      * 横竖屏切换
-     * @param lll
      */
-    public void videoOri(int lll){
+    public void videoOri(){
         RelativeLayout.LayoutParams lp;
-        if (lll == 1){
+        if (screenOri==0){
+            screenOri=1;
+        }else {
+            screenOri = 0;
+        }
+        if (screenOri == 1){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 手动横屏
             lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.MATCH_PARENT);

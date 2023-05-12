@@ -33,7 +33,7 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
      * surholder
      */
     protected SurfaceHolder surfaceHolder;
-    protected int currentStatus;
+    protected int currentStatus = 0;
 
     /**
      * fanhui
@@ -231,6 +231,7 @@ public abstract class AbstractPlayer extends SurfaceView implements Callback {
         if (currentStatus == PAUSE) {
             return;
         }
+        currentStatus = PAUSE;
         openVideo();
     }
 
