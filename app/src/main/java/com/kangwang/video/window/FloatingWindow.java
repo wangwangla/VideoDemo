@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.example.player_base.AbstractPlayer;
+import com.kangwang.androidmediaplayer.AndroidVideoPlayer;
 import com.kangwang.video.R;
+import com.kangwang.video.video.AndroidView;
 
 import java.util.List;
 
@@ -65,6 +68,8 @@ public class FloatingWindow {
 
     public void dismiss() {
         if (mWindowManager != null && mShowView != null && mShowView.isAttachedToWindow()) {
+            AndroidView abstractPlayer = mShowView.findViewById(R.id.small_window);
+            abstractPlayer.release();
             mWindowManager.removeView(mShowView);
         }
     }

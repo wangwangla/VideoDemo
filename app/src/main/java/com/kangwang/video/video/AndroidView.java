@@ -3,7 +3,6 @@ package com.kangwang.video.video;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,11 +10,12 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.example.player_base.AbstractPlayer;
-import com.kangwang.video.factory.AndroidPlayFactory;
+import com.kangwang.androidmediaplayer.AndroidPlayFactory;
 import com.example.player_base.PlayerFactory;
+import com.kangwang.video.factory.PlayFactoryUtils;
+import com.kangwang.video.type.PlayerType;
 
 public class AndroidView <P extends AbstractPlayer> extends FrameLayout implements UIContoller{
     private PlayerFactory<P> playerFactory;
@@ -36,7 +36,7 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
     }
 
     private void switchEngine(Context context){
-        playerFactory = new AndroidPlayFactory();
+        playerFactory = (PlayerFactory<P>) PlayFactoryUtils.playInstance(PlayerType.exo,context);
         player = playerFactory.createPlayer(context);
         addView(player);
         LayoutParams params = (LayoutParams) player.getLayoutParams();
@@ -165,6 +165,7 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
     }
 
     public void release() {
+        player.release();
     }
 
     public void setDataSource(String path, Object o) {

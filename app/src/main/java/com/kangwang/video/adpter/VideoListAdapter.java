@@ -18,6 +18,7 @@ import com.kangwang.video.R;
 import com.kangwang.video.bean.VideoBean;
 import com.kangwang.video.load.FileLoader;
 import com.kangwang.video.ui.activity.PlayActivity;
+import com.kangwang.video.utils.VideoUtils;
 
 import java.util.ArrayList;
 
@@ -48,8 +49,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Vide
         media.setDataSource(s);
         Bitmap frameAtTime = media.getFrameAtTime();
         holder.prePic.setImageBitmap(frameAtTime);
-        holder.zise.setText(bean.getSize()+"");
-        holder.duration.setText(bean.getDuration()+"");
+        holder.zise.setText(VideoUtils.kbToM(bean.getSize()));
+        holder.duration.setText(VideoUtils.longToTimeFormat(bean.getDuration()));
         holder.title.setText(bean.getName());
     }
 

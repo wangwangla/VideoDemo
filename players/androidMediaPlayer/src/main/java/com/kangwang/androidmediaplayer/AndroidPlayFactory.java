@@ -1,4 +1,4 @@
-package com.kangwang.video.factory;
+package com.kangwang.androidmediaplayer;
 
 import android.content.Context;
 

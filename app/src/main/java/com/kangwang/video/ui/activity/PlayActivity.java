@@ -41,8 +41,9 @@ public class PlayActivity extends BaseActivity {
     private VideoBean videoInfo;
     private AndroidView<AbstractPlayer> androidVideoPlayer;
     private SeekBar videoProcessSeekBar;
-
+    private boolean isSmallWindow;
     private Handler handler = new Handler();
+
     @Override
     public int getLayout() {
         return R.layout.video_play;
@@ -82,7 +83,6 @@ public class PlayActivity extends BaseActivity {
         });
     }
 
-    private boolean isSmallWindow;
 
     private void showFloatingWindow() {
         if (isSmallWindow)return;

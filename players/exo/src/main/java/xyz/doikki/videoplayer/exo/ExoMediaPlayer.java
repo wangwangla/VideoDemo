@@ -47,10 +47,6 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
     private boolean mIsPreparing;
     private boolean mIsBuffering;
 
-    private LoadControl mLoadControl;
-    private RenderersFactory mRenderersFactory;
-    private TrackSelector mTrackSelector;
-
     public ExoMediaPlayer(Context context) {
         super(context);
         mAppContext = context.getApplicationContext();
@@ -79,6 +75,7 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
         if (playbackState == Player.STATE_READY) {
             // 当资源加载完成时调用
             // 执行你的逻辑
+            System.out.println("------------prepare --------------------------------------");
             mPlayerEventListener.onPrepared(null);
         }
     }
@@ -94,17 +91,6 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
         mInternalPlayer.setVideoSurfaceView(this);
     }
 
-    public void setTrackSelector(TrackSelector trackSelector) {
-        mTrackSelector = trackSelector;
-    }
-
-    public void setRenderersFactory(RenderersFactory renderersFactory) {
-        mRenderersFactory = renderersFactory;
-    }
-
-    public void setLoadControl(LoadControl loadControl) {
-        mLoadControl = loadControl;
-    }
 
     @Override
     public void setDataSource(String path, Map<String, String> headers) {
@@ -121,13 +107,14 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener, M
         if (mInternalPlayer == null)
             return;
         mInternalPlayer.setPlayWhenReady(true);
+
     }
 
     @Override
     public void pause() {
         if (mInternalPlayer == null)
             return;
-        mInternalPlayer.setPlayWhenReady(false);
+        mInternalPlayer.pause();
     }
 
     @Override
