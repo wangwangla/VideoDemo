@@ -69,7 +69,8 @@ public class VideoBean {
     }
 
     public void setPath(String path) {
-        this.path = path;
+//        this.path = path;http://badong-live21.cjyun.org/10095/s10095-bdtv1.m3u8?auth_key=1672502399-0-0-fd35f4e44c5974d838a03d4165643e7d
+        this.path = "https://livedoc.cgtn.com/500d/prog_index.m3u8";
     }
 
     public String getPath() {

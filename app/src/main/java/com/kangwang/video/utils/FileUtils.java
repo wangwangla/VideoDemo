@@ -26,8 +26,6 @@ public class FileUtils {
             br.close();
             isr.close();
             inputStream.close();
-            System.out.println("============================");
-            System.out.println(sb.toString());
             return sb.toString();
         } catch (Exception e){
             e.printStackTrace();

@@ -15,7 +15,7 @@ public class VideoUtils {
         int seconds = (int) ((durationInMillis % (1000 * 60)) / 1000);
         // 格式化为时分秒格式
         String formattedDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        System.out.println(formattedDuration); // 输出结果：01:00:00
+//        System.out.println(formattedDuration); // 输出结果：01:00:00
         return formattedDuration;
     }
 

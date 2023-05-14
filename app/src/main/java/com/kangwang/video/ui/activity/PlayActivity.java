@@ -58,6 +58,7 @@ public class PlayActivity extends BaseActivity {
         androidVideoPlayer = findViewById(R.id.android_player);
         videoInfo = FileLoader.findByIdVideoPath(this, videoId + "");
         androidVideoPlayer.setDataSource(videoInfo.getPath(),null);
+//        androidVideoPlayer.
         androidVideoPlayer.initPlayer(new Runnable() {
             @Override
             public void run() {
