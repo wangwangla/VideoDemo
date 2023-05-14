@@ -64,6 +64,12 @@ public class PlayActivity extends BaseActivity {
                 updatePlayStatus();
             }
         });
+        androidVideoPlayer.setComplete(new Runnable() {
+            @Override
+            public void run() {
+                updatePlayStatus();
+            }
+        });
         updateTime();
         View smallWindowBtn = findViewById(R.id.small_window_btn);
         smallWindowBtn.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +100,10 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void run() {
 //                updatePlayStatus();
-                smallWindow.seekTo(androidVideoPlayer.getCurrentPosition());
             }
         });
 
+        smallWindow.seekTo(androidVideoPlayer.getCurrentPosition());
         androidVideoPlayer.pause();
         mFloatingWindow.showFloatingWindowView(this, view);
         View closeSmall = view.findViewById(R.id.close_small);

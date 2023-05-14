@@ -172,6 +172,12 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
         player.setDataSource(path,null);
     }
 
+    private Runnable complete;
+
+    public void setComplete(Runnable complete) {
+        this.complete = complete;
+    }
+
     public void initPlayer(Runnable runnable) {
         player.initPlayer();
         player.setPlayerEventListener(new AbstractPlayer.PlayerEventListener() {
@@ -182,7 +188,9 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
 
             @Override
             public void onCompletion() {
-
+                if (complete!=null){
+                    complete.run();
+                }
             }
 
             @Override
@@ -205,4 +213,6 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
     public void setCurrentPosition(long currentPosition) {
         player.seekTo(currentPosition);
     }
+
+
 }
