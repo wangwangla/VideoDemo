@@ -2,10 +2,14 @@ package com.kangwang.video.video;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Surface;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -213,6 +217,4 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
     public void setCurrentPosition(long currentPosition) {
         player.seekTo(currentPosition);
     }
-
-
 }

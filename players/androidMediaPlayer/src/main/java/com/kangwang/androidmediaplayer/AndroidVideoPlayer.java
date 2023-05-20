@@ -66,6 +66,7 @@ public class AndroidVideoPlayer
         setVideoURI(Uri.parse(path), null);
     }
 
+
     /**
      * 用于播放raw和asset里面的视频文件
      *
@@ -135,9 +136,15 @@ public class AndroidVideoPlayer
         if (currentVideoPercent != 0) {
             mMediaPlayer.seekTo(currentVideoPercent);
         }
+
         setSpeed(1);
         if (!mMediaPlayer.isPlaying()) {
             mMediaPlayer.start();
+        }       mVideoWidth = mp.getVideoWidth();
+        mVideoHeight = mp.getVideoHeight();
+        if (mVideoWidth != 0 && mVideoHeight != 0) {
+            getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+            requestLayout();
         }
     }
 
