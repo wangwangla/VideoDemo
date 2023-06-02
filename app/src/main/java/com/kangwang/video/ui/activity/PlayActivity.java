@@ -95,7 +95,6 @@ public class PlayActivity extends BaseActivity {
             public void run() {
 //                updatePlayStatus();
                 smallWindow.seekTo(androidVideoPlayer.getCurrentPosition());
-
             }
         });
 
