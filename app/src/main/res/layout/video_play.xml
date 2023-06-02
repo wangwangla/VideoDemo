@@ -85,6 +85,14 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
             <ImageView
+                android:id="@+id/small_window_btn"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/headset_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </ImageView>
+            <ImageView
                 android:id="@+id/pre_video"
                 android:layout_weight="1"
                 android:src="@mipmap/ic_button_prev"

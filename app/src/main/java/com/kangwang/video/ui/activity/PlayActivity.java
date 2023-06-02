@@ -1,12 +1,15 @@
 package com.kangwang.video.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,61 +64,62 @@ public class PlayActivity extends BaseActivity {
             }
         });
         updateTime();
-        handler.postDelayed(new Runnable() {
+        View smallWindowBtn = findViewById(R.id.small_window_btn);
+        smallWindowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                showFloatingWindow();
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                        !Settings.canDrawOverlays(PlayActivity.this)) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + PlayActivity.this.getPackageName()));
+                    PlayActivity.this.startActivity(intent);
+                } else {
+                    // 已经具有SYSTEM_ALERT_WINDOW权限，可以添加窗口
+                    // 在这里执行添加窗口的操作
+                    showFloatingWindow();
+                }
             }
-        },1000);
-
+        });
     }
+
+    private boolean isSmallWindow;
 
     private void showFloatingWindow() {
+        if (isSmallWindow)return;
+        this.isSmallWindow = true;
         FloatingWindow mFloatingWindow = new FloatingWindow();
-        View view = findViewById(R.id.android_player);
+        View view = initFloatView();
+        AndroidView smallWindow= view.findViewById(R.id.small_window);
+        smallWindow.initPlayer(new Runnable() {
+            @Override
+            public void run() {
+//                updatePlayStatus();
+                smallWindow.seekTo(androidVideoPlayer.getCurrentPosition());
+
+            }
+        });
+
+        androidVideoPlayer.pause();
         mFloatingWindow.showFloatingWindowView(this, view);
+        View closeSmall = view.findViewById(R.id.close_small);
+        closeSmall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currentPosition = smallWindow.getCurrentPosition();
+                androidVideoPlayer.setCurrentPosition(currentPosition);
+                mFloatingWindow.dismiss();
+                androidVideoPlayer.start();
+                PlayActivity.this.isSmallWindow = false;
+            }
+        });
     }
 
-//    private View initFloatView() {
-//        View view = View.inflate(this, R.layout.view_floating_window, null);
-//        // 设置视频封面
-////        final ImageView mThumb = (ImageView) view.findViewById(R.id.thumb_floating_view);
-////        Glide.with(this).load(R.drawable.thumb).into(mThumb);
-//        // 悬浮窗关闭
-////        view.findViewById(R.id.close_floating_view).setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                mFloatingWindow.dismiss();
-////            }
-////        });
-//        // 返回前台页面
-////        view.findViewById(R.id.back_floating_view).setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                mFloatingWindow.setTopApp(FloatingWindowActivity.this);
-////            }
-////        });
-//        final VideoView videoView = view.findViewById(R.id.video_view);
-//        //视频内容设置
-//        videoView.setVideoPath("https://stream7.iqilu.com/10339/article/202002/18/2fca1c77730e54c7b500573c2437003f.mp4");
-//        // 视频准备完毕，隐藏正在加载封面，显示视频
-//        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//            @Override
-//            public void onPrepared(MediaPlayer mp) {
-//                mThumb.setVisibility(View.GONE);
-//            }
-//        });
-//        // 循环播放
-//        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mp) {
-//                videoView.start();
-//            }
-//        });
-//        // 开始播放视频
-//        videoView.start();
-//        return view;
-//    }
+    private View initFloatView() {
+        View view = View.inflate(this, R.layout.view_floating_window, null);
+        AndroidView smallVideo = view.findViewById(R.id.small_window);
+        smallVideo.setDataSource(videoInfo.getPath(),null);
+        return view;
+    }
 
     public void updateTime(){
         Timer timer = new Timer();

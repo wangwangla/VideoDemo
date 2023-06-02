@@ -7,7 +7,10 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import com.kangwang.video.R;
 
 import java.util.List;
 
@@ -51,11 +54,11 @@ public class FloatingWindow {
         //设置悬浮窗口透明
         layoutParams.format = PixelFormat.TRANSLUCENT;
         //设置悬浮窗口长宽数据
-        layoutParams.width = 600;
-        layoutParams.height = 340;
+        layoutParams.width = 300;
+        layoutParams.height = 180;
         //设置悬浮窗显示位置
         layoutParams.gravity = Gravity.START | Gravity.TOP;
-        layoutParams.x = 100;
+        layoutParams.x = 0;
         layoutParams.y = 100;
         return layoutParams;
     }

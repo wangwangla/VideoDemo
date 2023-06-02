@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    tools:ignore="MissingDefaultResource">
+    android:background="@color/white"
+    android:id="@+id/window_play_root"
+    android:layout_width="300dp"
+    android:layout_height="180dp">
+    <com.kangwang.video.video.AndroidView
+        android:id="@+id/small_window"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+    </com.kangwang.video.video.AndroidView>
+
+    <ImageView
+        android:id="@+id/close_small"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/close_24_px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ImageView>
+</RelativeLayout>

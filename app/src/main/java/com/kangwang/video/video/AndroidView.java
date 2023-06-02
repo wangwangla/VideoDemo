@@ -200,4 +200,8 @@ public class AndroidView <P extends AbstractPlayer> extends FrameLayout implemen
             }
         });
     }
+
+    public void setCurrentPosition(long currentPosition) {
+        player.seekTo(currentPosition);
+    }
 }

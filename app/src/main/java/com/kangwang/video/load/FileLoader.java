@@ -24,29 +24,28 @@ public class FileLoader {
                     MediaStore.Video.DEFAULT_SORT_ORDER);
         if (cursor!=null&&cursor.moveToFirst()){
             do{
-                System.out.println("----------------------------------------------");
+//                System.out.println("----------------------------------------------");
                 long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)));
                 String disPlayName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE)));
                 long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.MIME_TYPE)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_ADDED)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.MIME_TYPE)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_ADDED)));
 //                System.out.println(cursor.getString(cursor.getColumnIndexOrT
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ARTIST)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ARTIST)));
                 long duration = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
 //                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.COMPOSER)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ALBUM)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ALBUM)));
 //                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.YEAR)));
-                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BOOKMARK)));
+//                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BOOKMARK)));
 //                System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ALBUM_ARTIST)));
-
-                System.out.println("==================================");
+//                System.out.println("==================================");
                 VideoBean bean = new VideoBean();
                 bean.setId(id);
                 bean.setName(disPlayName);
